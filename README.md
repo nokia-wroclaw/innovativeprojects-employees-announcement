@@ -1,12 +1,21 @@
 # innovativeprojects-employees-announcement
 
-If you want to start express server, enter server directory and write
+If you want to start express server:
+
+```
+cd server
+```
 
 ```
 npm start
 ```
 
-f you want to run react, enter client directory and write 
+If you want to run react:
+
+```
+cd client
+```
+
 
 ```
 npm start
