@@ -13,7 +13,7 @@ class Authors extends Component {
 componentDidMount(){
   fetch('/api/authors')
     .then(res => res.json())
-    .then(authors => this.setState({authors}, () => console.log('Authors fetched...',authors)));
+    .then(authors => this.setState({authors}));
 }
 
   render() {
