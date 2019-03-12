@@ -3,8 +3,7 @@ const app = express();
 
 const port = 5000;
 
-
-
+const dbURL = "localhost:27017/announcements";
 
 app.get('/api/authors', function(request, response) {
   const authors = [
@@ -20,3 +19,16 @@ app.get('/api/authors', function(request, response) {
 app.listen(port, function() {
   console.log(`Listening at Port ${port}`);
 });
+
+//sample db connection
+var monk = require('monk');
+var db = monk(dbURL);
+
+app.get('/authorsFromDB', function(reqest, resolution){
+  var db = request.db;
+  var collection = db.get('authors');
+
+  resolution.json(collection);
+});
+
+
