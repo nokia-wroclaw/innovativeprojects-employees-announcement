@@ -7,8 +7,9 @@
     "dev": "concurrently \"npm run server \" \"npm run client \" "
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "concurrently": "^4.0.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19"
   }
-
 }

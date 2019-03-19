@@ -1,37 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
-import Authors from './authors'
+import Authors from './authors';
+import Registration from './Registration';
 
 
 class App extends Component {
-state = {
-  showData: false
-}
-
-handleClick = () => {
-   this.setState({
-     showData: true
-   });
- }
 
   render() {
+      return (
+        <Router>
+        <div className="App">
 
-    const { showData } = this.state;
+          <Route exact path="/authors" component={Authors} />
+          <Route exact path="/registration" component={Registration} />
+        </div>
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className = "App-title">
-            Hello World :)
-          </h1>
-
-        </header>
-        <button onClick={this.handleClick}>Click me to show the authors</button>
-        { showData && <Authors />}
-
-      </div>
+        </Router>
     );
   }
 }
