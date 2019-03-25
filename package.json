@@ -9,6 +9,7 @@
   "dependencies": {
     "concurrently": "^4.0.1",
     "express": "^4.16.4",
+    "mongodb": "^3.2.2",
     "monk": "^6.0.6",
     "nodemon": "^1.18.10"
   }
