@@ -25,7 +25,7 @@ app.listen(port, function() {
 });
 
 db.then(() => {
-  console.log('Connected correctly to server')
+  console.log('Connected correctly to database')
 
 })
 
