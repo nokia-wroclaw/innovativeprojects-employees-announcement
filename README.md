@@ -2,7 +2,9 @@
 
 If you want to start express server:
 
-
+```
+cd server
+```
 
 ```
 npm start
@@ -17,11 +19,4 @@ cd client
 
 ```
 npm start
-```
-
-Run both:
-
-
-```
-npm run dev
 ```
