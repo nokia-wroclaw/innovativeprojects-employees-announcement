@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Image} from 'semantic-ui-react';
 import image404 from './images/404.jpg';
 
-class Path404 extends Component {
+class Page404 extends Component {
 
 
   render() {
@@ -16,4 +16,4 @@ class Path404 extends Component {
   }
 }
 
-export default Path404;
+export default Page404;

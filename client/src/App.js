@@ -4,9 +4,9 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
 import NavBar from './modules/NavBar';
 import Authors from './modules/authors';
-import Registration from './modules/Registration';
-import Login from './modules/Login';
-import Path404 from './modules/Path404';
+import RegistrationPage from './modules/RegistrationPage';
+import LoginPage from './modules/LoginPage';
+import Page404 from './modules/Page404';
 import HomePage from './modules/HomePage';
 import Footer from './modules/Footer';
 
@@ -23,9 +23,9 @@ class App extends Component {
             <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/authors" component={Authors} />
-            <Route exact path="/registration" component={Registration} />
-            <Route exact path="/login" component={Login}/>
-            <Route path="*" component={Path404} />
+            <Route exact path="/registration" component={RegistrationPage} />
+            <Route exact path="/login" component={LoginPage}/>
+            <Route path="*" component={Page404} />
             </Switch>
           </div>
         </div>
