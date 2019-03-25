@@ -3,8 +3,11 @@ const app = express();
 
 const port = 5000;
 
-
-
+//needed for db connection
+const mongo = require('mongodb');
+const monk = require('monk');
+const dbURL = "localhost:27017/announcements";
+const db = monk(dbURL);
 
 app.get('/api/authors', function(request, response) {
   const authors = [
@@ -20,3 +23,23 @@ app.get('/api/authors', function(request, response) {
 app.listen(port, function() {
   console.log(`Listening at Port ${port}`);
 });
+
+db.then(() => {
+  console.log('Connected correctly to database')
+
+})
+
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
+
+app.get('/authorsFromDB', function(req, res){
+  var collection = db.get('authors');
+  collection.find({},{limit:20},function(e,docs){
+    res.json(docs);
+  })
+});
+
+
+
