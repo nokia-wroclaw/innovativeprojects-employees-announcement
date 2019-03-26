@@ -6,8 +6,6 @@ import {Grid, Button, Header, Form, Segment} from 'semantic-ui-react';
 class RegistrationPage extends Component {
   constructor(){
       super();
-
-
       this.state = {
         first_name:'',
         last_name:'',
