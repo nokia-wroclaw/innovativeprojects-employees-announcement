@@ -4,10 +4,13 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server \" \"npm run client \" "
+    "dev": "concurrently \"npm run server \" \"npm run client \" ",
+    "server-install": "npm install",
+    "client-install": "cd ./client && npm install",
+    "dev-install": "concurrently \"npm run server-install \" \"npm run client-install \" "
   },
   "dependencies": {
-    "concurrently": "^4.0.1",
+    "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "mongodb": "^3.2.2",
     "monk": "^6.0.6",
