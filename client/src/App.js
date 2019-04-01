@@ -10,29 +10,31 @@ import Page404 from './modules/Page404';
 import HomePage from './modules/HomePage';
 import Footer from './modules/Footer';
 
+import { Provider } from "react-redux";
+import store from "./store";
 
 
 class App extends Component {
 
   render() {
       return (
-        <Router>
-        <div style={{ display:"flex", minHeight:"100vh", flexDirection:"column" }}>
-          <NavBar />
-          <div className="App" style={{ flex:1 }}>
-            <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/authors" component={Authors} />
-            <Route exact path="/registration" component={RegistrationPage} />
-            <Route exact path="/login" component={LoginPage}/>
-            <Route path="*" component={Page404} />
-            </Switch>
+        <Provider store={store}>
+          <Router>
+          <div style={{ display:"flex", minHeight:"100vh", flexDirection:"column" }}>
+            <NavBar />
+            <div className="App" style={{ flex:1 }}>
+              <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/authors" component={Authors} />
+              <Route exact path="/registration" component={RegistrationPage} />
+              <Route exact path="/login" component={LoginPage}/>
+              <Route path="*" component={Page404} />
+              </Switch>
+            </div>
           </div>
-        </div>
-            <Footer />
-
-
-        </Router>
+              <Footer />
+          </Router>
+        </Provider>
     );
   }
 }

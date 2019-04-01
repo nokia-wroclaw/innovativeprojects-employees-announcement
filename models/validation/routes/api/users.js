@@ -25,16 +25,17 @@ const { errors, isValid } = validateRegisterInput(req.body);
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then(user => {
-      if (user) {
-        return res.status(400).json({ email: "Email already exists" });
-      } else {
-        const newUser = new User({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          password: req.body.password
-  });
+User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      return res.status(400).json({ email: "Email already exists" });
+    }
+
+const newUser = new User({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: req.body.password
+      });
 
 // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
@@ -64,7 +65,7 @@ const { errors, isValid } = validateLoginInput(req.body);
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+const email = req.body.email;
   const password = req.body.password;
 
 // Find user by email
@@ -81,7 +82,7 @@ const { errors, isValid } = validateLoginInput(req.body);
         // Create JWT Payload
         const payload = {
           id: user.id,
-          first_name: user.first_name
+          name: user.name
         };
 
 // Sign token
