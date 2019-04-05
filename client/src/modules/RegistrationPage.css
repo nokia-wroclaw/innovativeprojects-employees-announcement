@@ -24,3 +24,8 @@
 .FormField__Input::placeholder {
   color: #616E7F;
 }
+
+.errorsColor
+{
+color:red;
+}
