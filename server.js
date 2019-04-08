@@ -1,13 +1,41 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
+const port = process.env.PORT || 5000; // process.env.port will be Heroku's port when we will deploy the app there
+const db = require("./config/keys").mongoURI;
+const passport = require("passport");
+const users = require("./routes/api/users");
 
-const port = 5000;
+// Bodyparser middleware
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 
-//needed for db connection
-const mongo = require('mongodb');
-const monk = require('monk');
-const dbURL = "localhost:27017/announcements";
-const db = monk(dbURL);
+app.use(bodyParser.json());
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected :)"))
+  .catch(err => console.log(err));
+
+
+  // Passport middleware
+  app.use(passport.initialize());
+
+  // Passport config
+  require("./config/passport")(passport);
+
+  // Routes
+  app.use("/api/users", users);
+
+
 
 app.get('/api/authors', function(request, response) {
   const authors = [
@@ -24,22 +52,26 @@ app.listen(port, function() {
   console.log(`Listening at Port ${port}`);
 });
 
-db.then(() => {
-  console.log('Connected correctly to database')
-
-})
-
 app.use(function(req,res,next){
   req.db = db;
   next();
 });
 
-app.get('/authorsFromDB', function(req, res){
-  var collection = db.get('authors');
-  collection.find({},{limit:20},function(e,docs){
-    res.json(docs);
-  })
+var authorsFromDbSchema = new mongoose.Schema({
+  _id: Number,
+  firstName: String,
+  lastName: String
 });
 
+var authorsFromDbModel = mongoose.model('authors', authorsFromDbSchema)
 
+app.get("/authorsFromDb", async (request, response) => {
+  try {
+      var result = await authorsFromDbModel.find().exec();
+      response.send(result);
+  } catch (error) {
+      response.status(500).send(error);
+
+  }
+});
 
