@@ -68,7 +68,6 @@ var authorsFromDbModel = mongoose.model('authors', authorsFromDbSchema)
 app.get("/authorsFromDb", async (request, response) => {
   try {
       var result = await authorsFromDbModel.find().exec();
-      console.log(result)
       response.send(result);
   } catch (error) {
       response.status(500).send(error);
