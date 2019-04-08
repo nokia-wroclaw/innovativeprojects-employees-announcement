@@ -19,9 +19,6 @@ class Dashboard extends Component {
         <p className="flow-text grey-text text-darken-1">
           You are logged in! :)
         </p>
-        <Button color="blue" size="large" onClick={this.onLogoutClick}>
-          Logout
-        </Button>
       </div>
     );
   }
