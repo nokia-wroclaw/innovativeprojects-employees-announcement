@@ -16,8 +16,6 @@ app.use(
 
 app.use(bodyParser.json());
 
-
-
 // Connect to MongoDB
 mongoose
   .connect(
@@ -53,3 +51,28 @@ app.get('/api/authors', function(request, response) {
 app.listen(port, function() {
   console.log(`Listening at Port ${port}`);
 });
+
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
+
+var authorsFromDbSchema = new mongoose.Schema({
+  _id: Number,
+  firstName: String,
+  lastName: String
+});
+
+var authorsFromDbModel = mongoose.model('authors', authorsFromDbSchema)
+
+app.get("/authorsFromDb", async (request, response) => {
+  try {
+      var result = await authorsFromDbModel.find().exec();
+      console.log(result)
+      response.send(result);
+  } catch (error) {
+      response.status(500).send(error);
+
+  }
+});
+
