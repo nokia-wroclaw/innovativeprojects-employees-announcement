@@ -2,7 +2,16 @@ import React, { Component } from "react";
 import { Menu, Image } from "semantic-ui-react";
 import logo from "./images/nokia.png";
 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+
 class NavBar extends Component {
+  onLogoutClick = e => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
+
   ChangeToHomePath() {
     window.location = "/";
   }
@@ -26,10 +35,16 @@ class NavBar extends Component {
             </Menu.Item>
           </Menu.Menu>
           <Menu.Menu position="right">
-            <Menu.Item onClick={this.ChangeToRegistrationPath}>
-              Registration
-            </Menu.Item>
-            <Menu.Item onClick={this.ChangeToLoginPath}>Login</Menu.Item>
+            {this.props.auth.isAuthenticated ? (
+              <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>
+            ) : (
+              <>
+                <Menu.Item onClick={this.ChangeToRegistrationPath}>
+                  Registration
+                </Menu.Item>
+                <Menu.Item onClick={this.ChangeToLoginPath}>Login</Menu.Item>
+              </>
+            )}
           </Menu.Menu>
         </Menu>
       </div>
@@ -37,4 +52,16 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(NavBar);
