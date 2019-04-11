@@ -6,6 +6,10 @@ const port = process.env.PORT || 5000; // process.env.port will be Heroku's port
 const db = require("./config/keys").mongoURI;
 const passport = require("passport");
 const users = require("./routes/api/users");
+const announcements = require("./routes/api/announcements");
+const topics = require("./routes/api/topics");
+const posts = require("./routes/api/comments");
+
 
 // Bodyparser middleware
 app.use(
@@ -36,7 +40,9 @@ mongoose
 
   // Routes
   app.use("/api/users", users);
-
+  app.use("/api/announcements", announcements);
+  app.use("/api/topics", topics);
+  app.use("/api/comments", posts);
 
 
 app.get('/api/authors', function(request, response) {

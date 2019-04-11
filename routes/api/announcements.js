@@ -56,14 +56,14 @@ announcementRoutes.route("/delete/:id").post(function(req, res) {
   Announcement.findById(req.params.id, function(err, announcement) {
     if (!announcement) res.status(404).send("data is not found");
     else
-    announcement
-      .delete()
-      .then(announcement => {
-        res.json("Announcement deleted");
-      })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
-      });
+      announcement
+        .delete()
+        .then(announcement => {
+          res.json("Announcement deleted");
+        })
+        .catch(err => {
+          res.status(400).send("Delete not possible");
+        });
   });
 });
 
