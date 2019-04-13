@@ -1,8 +1,5 @@
 const express = require("express");
-const router = express.Router();
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const keys = require("../../config/keys");
+const announcementRoutes = express.Router();
 
 
 // Load Announcement model
@@ -10,26 +7,51 @@ const Announcement = require("../../models/Announcement");
 
 
 
-router.post("/add", (req, res) => {
-    
-  
-  
-          const newAnnouncement = new Announcement({
-            title: req.body.title,  
-            description: req.body.description,
-            price: req.body.price,
-            user_id: req.body.user_id,
-    });
-  
-
-        
-            newAnnouncement
-              .save()
-              .then(Announcement => res.json(Announcement))
-              .catch(err => console.log(err));
-        
-        
+announcementRoutes.route("/").get(function(req, res) {
+  Announcement.find(function(err, announcements) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(announcements);
+    }
   });
+});
 
+announcementRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  Announcement.findById(id, function(err, announcement) {
+    res.json(announcement);
+  });
+});
 
-module.exports = router;
+announcementRoutes.route("/add").post(function(req, res) {
+  let announcement = new Announcement(req.body);
+  announcement
+    .save()
+    .then(announcement => {
+      res.status(200).json({ 'announcement': "Announcement added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("adding new Announcement failed");
+    });
+});
+
+announcementRoutes.route("/update/:id").post(function(req, res) {
+  Announcement.findById(req.params.id, function(err, announcement) {
+    if (!announcement) res.status(404).send("data is not found");
+    else announcement.title = req.body.title;
+    announcement.description = req.body.description;
+    announcement.price = req.body.price;
+    announcement.user_id = req.body.user_id;
+
+    announcement.save()
+      .then(announcement => {
+        res.json("Announcement updated");
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
+      });
+  });
+});
+
+module.exports = announcementRoutes;

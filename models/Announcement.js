@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 // Create Schema
 const AnnouncementSchema = new Schema({
   title: {
@@ -30,4 +29,7 @@ const AnnouncementSchema = new Schema({
   }
 });
 
-module.exports = Announcement = mongoose.model("Announcements", AnnouncementSchema);
+module.exports = Announcement = mongoose.model(
+  "Announcements",
+  AnnouncementSchema
+);

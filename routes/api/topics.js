@@ -1,8 +1,6 @@
 const express = require("express");
-const router = express.Router();
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const keys = require("../../config/keys");
+const topicRoutes = express.Router();
+
 
 
 // Load Topic model
@@ -10,25 +8,50 @@ const Topic = require("../../models/Topic");
 
 
 
-router.post("/add", (req, res) => {
-    
-  
-  
-          const newTopic = new Topic({
-            title: req.body.title,  
-            description: req.body.description,
-            user_id: req.body.user_id,
-    });
-  
-
-        
-            newTopic
-              .save()
-              .then(Topic => res.json(Topic))
-              .catch(err => console.log(err));
-        
-        
+topicRoutes.route("/").get(function(req, res) {
+  Topic.find(function(err, topics) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(topics);
+    }
   });
+});
 
+topicRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  Topic.findById(id, function(err, topic) {
+    res.json(topic);
+  });
+});
 
-module.exports = router;
+topicRoutes.route("/add").post(function(req, res) {
+  let topic = new Topic(req.body);
+  topic
+    .save()
+    .then(topic => {
+      res.status(200).json({ 'topic': "Topic added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("adding new Topic failed");
+    });
+});
+
+topicRoutes.route("/update/:id").post(function(req, res) {
+  Topic.findById(req.params.id, function(err, topic) {
+    if (!topic) res.status(404).send("data is not found");
+    else topic.title = req.body.title;
+    topic.description = req.body.description;
+    topic.user_id = req.body.user_id;
+
+    topic.save()
+      .then(topic => {
+        res.json("Topic updated");
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
+      });
+  });
+});
+
+module.exports = topicRoutes;

@@ -1,23 +1,56 @@
 const express = require("express");
-const router = express.Router();
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
-// const keys = require("../../config/keys");
+const commentRoutes = express.Router();
+
 
 // Load comment model
 const Comment = require("../../models/Comment");
 
-router.post("/add", (req, res) => {
-  const newComment = new Comment({
-    message: req.body.message,
-    user_id: req.body.user_id,
-    topic_id: req.body.topic_id
-  });
 
-  newComment
-    .save()
-    .then(Comment => res.json(Comment))
-    .catch(err => console.log(err));
+commentRoutes.route("/").get(function(req, res) {
+  Comment.find(function(err, comments) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(comments);
+    }
+  });
 });
 
-module.exports = router;
+commentRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  Comment.findById(id, function(err, comment) {
+    res.json(comment);
+  });
+});
+
+commentRoutes.route("/add").post(function(req, res) {
+  let comment = new Comment(req.body);
+  comment
+    .save()
+    .then(comment => {
+      res.status(200).json({ 'comment': "Comment added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("adding new Comment failed");
+    });
+});
+
+commentRoutes.route("/update/:id").post(function(req, res) {
+  Comment.findById(req.params.id, function(err, comment) {
+    if (!comment) res.status(404).send("data is not found");
+    else comment.message = req.body.message;
+    comment.user_id = req.body.user_id;
+    comment.topic_id = req.body.topic_id;
+    
+
+    comment.save()
+      .then(comment => {
+        res.json("Comment updated");
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
+      });
+  });
+});
+
+module.exports = commentRoutes;
