@@ -53,4 +53,19 @@ commentRoutes.route("/update/:id").post(function(req, res) {
   });
 });
 
+commentRoutes.route("/delete/:id").post(function(req, res) {
+  Comment.findById(req.params.id, function(err, comment) {
+    if (!comment) res.status(404).send("data is not found");
+    else
+    comment
+      .delete()
+      .then(comment => {
+        res.json("Comment deleted");
+      })
+      .catch(err => {
+        res.status(400).send("Delete not possible");
+      });
+  });
+});
+
 module.exports = commentRoutes;

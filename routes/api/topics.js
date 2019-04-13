@@ -54,4 +54,19 @@ topicRoutes.route("/update/:id").post(function(req, res) {
   });
 });
 
+topicRoutes.route("/delete/:id").post(function(req, res) {
+  Topic.findById(req.params.id, function(err, topic) {
+    if (!topic) res.status(404).send("data is not found");
+    else
+    topic
+      .delete()
+      .then(topic => {
+        res.json("Topic deleted");
+      })
+      .catch(err => {
+        res.status(400).send("Delete not possible");
+      });
+  });
+});
+
 module.exports = topicRoutes;
