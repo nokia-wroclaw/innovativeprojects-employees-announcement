@@ -60,17 +60,17 @@ class RegistrationPage extends Component {
       passwordConfirmationErrorEmpty: "",
       passwordConfirmationErrorMatch: ""
     };
-    if (this.state.first_name.trim() == "") {
+    if (this.state.first_name.trim() === "") {
       isError = true;
       errors.first_nameErrorEmpty = "First name cannot be empty";
     }
 
-    if (this.state.last_name.trim() == "") {
+    if (this.state.last_name.trim() === "") {
       isError = true;
       errors.last_nameErrorEmpty = "Last name cannot be empty";
     }
 
-    if (this.state.email.trim() == "") {
+    if (this.state.email.trim() === "") {
       isError = true;
       errors.emailErrorEmpty = "Email cannot be empty";
     }
@@ -83,7 +83,7 @@ class RegistrationPage extends Component {
         "Email needs to be from nokia domain, eg. example@nokia.com";
     }
 
-    if (this.state.password.trim() == "") {
+    if (this.state.password.trim() === "") {
       isError = true;
       errors.passwordErrorEmpty = "Password cannot be empty";
     }
@@ -93,7 +93,7 @@ class RegistrationPage extends Component {
       errors.passwordErrorLength = "Password must have at least 6 characters ";
     }
 
-    if (this.state.passwordConfirmation.trim() == "") {
+    if (this.state.passwordConfirmation.trim() === "") {
       isError = true;
       errors.passwordConfirmationErrorEmpty =
         "Password confirmation cannot be empty";
