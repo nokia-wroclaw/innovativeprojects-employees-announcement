@@ -120,7 +120,7 @@ class RegistrationPage extends Component {
       errors.passwordErrorWhitespaces = "Password cannot contain whitespaces";
     }
 
-    if (this.state.password.length < 7) {
+    if (this.state.password.length < 6) {
       isError = true;
       errors.passwordErrorLength = "Password must have at least 6 characters ";
     }
@@ -264,7 +264,9 @@ class RegistrationPage extends Component {
                 <div>
                   <span class="errorsColor">{this.state.emailErrorDomain}</span>
                 </div>
-
+                <div>
+                  <span class="errorsColor">{errors.email}</span>
+                </div>
                 <Form.Input
                   id="email"
                   name="email"

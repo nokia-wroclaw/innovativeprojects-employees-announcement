@@ -72,11 +72,9 @@ class LoginPage extends Component {
             </Header>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
-                <span class="errorsColor">
-                  {errors.email} {errors.emailnotfound}
-                </span>
+                <span class="errorsColor">{errors.emailnotfound}</span>
                 <Form.Input
-                  error={errors.email}
+                  error={errors.emailnotfound}
                   fluid
                   icon="mail"
                   iconPosition="left"
@@ -86,11 +84,9 @@ class LoginPage extends Component {
                   value={this.state.email}
                   onChange={this.onChange}
                 />
-                <span class="errorsColor">
-                  {errors.password} {errors.passwordincorrect}
-                </span>
+                <span class="errorsColor">{errors.passwordincorrect}</span>
                 <Form.Input
-                  error={errors.password}
+                  error={errors.passwordincorrect}
                   fluid
                   icon="lock"
                   iconPosition="left"

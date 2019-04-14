@@ -31,7 +31,7 @@ class NavBar extends Component {
           <Menu.Menu>
             <Menu.Item onClick={this.ChangeToHomePath}>
               <Image size="mini" src={logo} style={{ marginRight: "1.5em" }} />
-              Employee Announcements
+              Employees Announcements
             </Menu.Item>
           </Menu.Menu>
           <Menu.Menu position="right">
