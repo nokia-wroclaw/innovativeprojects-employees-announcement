@@ -17,15 +17,7 @@ class RegistrationPage extends Component {
       email: "",
       password: "",
       passwordConfirmation: "",
-      errors: {},
-      first_nameErrorEmpty: "",
-      last_nameErrorEmpty: "",
-      emailErrorEmpty: "",
-      emailErrorDomain: "",
-      passwordErrorEmpty: "",
-      passwordErrorLength: "",
-      passwordConfirmationErrorEmpty: "",
-      passwordConfirmationErrorMatch: ""
+      errors: {}
     };
   }
 
@@ -48,103 +40,18 @@ class RegistrationPage extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  validate = () => {
-    let isError = false;
-    const errors = {
-      first_nameErrorEmpty: "",
-      last_nameErrorEmpty: "",
-      emailErrorEmpty: "",
-      emailErrorDomain: "",
-      passwordErrorEmpty: "",
-      passwordErrorLength: "",
-      passwordConfirmationErrorEmpty: "",
-      passwordConfirmationErrorMatch: ""
-    };
-    if (this.state.first_name.trim() === "") {
-      isError = true;
-      errors.first_nameErrorEmpty = "First name cannot be empty";
-    }
-
-    if (this.state.last_name.trim() === "") {
-      isError = true;
-      errors.last_nameErrorEmpty = "Last name cannot be empty";
-    }
-
-    if (this.state.email.trim() === "") {
-      isError = true;
-      errors.emailErrorEmpty = "Email cannot be empty";
-    }
-
-    var emailRegex = /^[a-zA-Z0-9_.+-]+@nokia\.com$/;
-
-    if (!emailRegex.test(this.state.email)) {
-      isError = true;
-      errors.emailErrorDomain =
-        "Email needs to be from nokia domain, eg. example@nokia.com";
-    }
-
-    if (this.state.password.trim() === "") {
-      isError = true;
-      errors.passwordErrorEmpty = "Password cannot be empty";
-    }
-
-    if (this.state.password.length < 7) {
-      isError = true;
-      errors.passwordErrorLength = "Password must have at least 6 characters ";
-    }
-
-    if (this.state.passwordConfirmation.trim() === "") {
-      isError = true;
-      errors.passwordConfirmationErrorEmpty =
-        "Password confirmation cannot be empty";
-    }
-
-    if (this.state.password !== this.state.passwordConfirmation) {
-      isError = true;
-      errors.passwordConfirmationErrorMatch =
-        "Password and Password Confirmation must match";
-    }
-
-    if (isError) {
-      this.setState(errors);
-    }
-
-    return isError;
-  };
-
   onSubmit = e => {
     e.preventDefault();
 
-    const err = this.validate();
+    const newUser = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      email: this.state.email,
+      password: this.state.password,
+      passwordConfirmation: this.state.passwordConfirmation
+    };
 
-    if (!err) {
-      this.setState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        errors: {},
-        first_nameErrorEmpty: "",
-        last_nameErrorEmpty: "",
-        emailErrorEmpty: "",
-        emailErrorDomain: "",
-        passwordErrorEmpty: "",
-        passwordErrorLength: "",
-        passwordConfirmationErrorEmpty: "",
-        passwordConfirmationErrorMatch: ""
-      });
-
-      const newUser = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
-        email: this.state.email,
-        password: this.state.password,
-        passwordConfirmation: this.state.passwordConfirmation
-      };
-
-      this.props.registerUser(newUser, this.props.history);
-    }
+    this.props.registerUser(newUser, this.props.history);
   };
 
   render() {
@@ -162,9 +69,7 @@ class RegistrationPage extends Component {
             </Header>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
-                <span class="errorsColor">
-                  {this.state.first_nameErrorEmpty}
-                </span>
+                <span class="errorsColor">{errors.first_name}</span>
                 <Form.Input
                   id="first_name"
                   name="first_name"
@@ -172,13 +77,11 @@ class RegistrationPage extends Component {
                   icon="user"
                   iconPosition="left"
                   placeholder="First Name"
-                  error={this.state.first_nameErrorEmpty}
+                  error={errors.first_name}
                   value={this.state.first_name}
                   onChange={this.onChange}
                 />
-                <span class="errorsColor">
-                  {this.state.last_nameErrorEmpty}
-                </span>
+                <span class="errorsColor">{errors.last_name}</span>
                 <Form.Input
                   id="last_name"
                   name="last_name"
@@ -186,14 +89,11 @@ class RegistrationPage extends Component {
                   icon="user"
                   iconPosition="left"
                   placeholder="Last Name"
-                  error={this.state.last_nameErrorEmpty}
+                  error={errors.last_name}
                   value={this.state.last_name}
                   onChange={this.onChange}
                 />
-                <span class="errorsColor">{this.state.emailErrorEmpty}</span>
-                <div>
-                  <span class="errorsColor">{this.state.emailErrorDomain}</span>
-                </div>
+                <span class="errorsColor">{errors.email}</span>
                 <Form.Input
                   id="email"
                   name="email"
@@ -201,18 +101,11 @@ class RegistrationPage extends Component {
                   icon="mail"
                   iconPosition="left"
                   placeholder="E-mail address"
-                  error={
-                    this.state.emailErrorEmpty || this.state.emailErrorDomain
-                  }
+                  error={errors.email}
                   value={this.state.email}
                   onChange={this.onChange}
                 />
-                <span class="errorsColor">{this.state.passwordErrorEmpty}</span>
-                <div>
-                  <span class="errorsColor">
-                    {this.state.passwordErrorLength}
-                  </span>
-                </div>
+                <span class="errorsColor">{errors.password}</span>
                 <Form.Input
                   id="password"
                   name="password"
@@ -221,21 +114,11 @@ class RegistrationPage extends Component {
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
-                  error={
-                    this.state.passwordErrorEmpty ||
-                    this.state.passwordErrorLength
-                  }
+                  error={errors.password}
                   value={this.state.password}
                   onChange={this.onChange}
                 />
-                <span class="errorsColor">
-                  {this.state.passwordConfirmationErrorEmpty}
-                </span>
-                <div>
-                  <span class="errorsColor">
-                    {this.state.passwordConfirmationErrorMatch}
-                  </span>
-                </div>
+                <span class="errorsColor">{errors.passwordConfirmation}</span>
                 <Form.Input
                   id="passwordConfirmation"
                   name="passwordConfirmation"
@@ -244,10 +127,7 @@ class RegistrationPage extends Component {
                   iconPosition="left"
                   placeholder="Password Confrimation"
                   type="password"
-                  error={
-                    this.state.passwordConfirmationErrorEmpty ||
-                    this.state.passwordConfirmationErrorMatch
-                  }
+                  error={errors.passwordConfirmation}
                   value={this.state.passwordConfirmation}
                   onChange={this.onChange}
                 />

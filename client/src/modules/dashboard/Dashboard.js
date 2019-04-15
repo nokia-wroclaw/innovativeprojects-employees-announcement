@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { Button } from "semantic-ui-react";
+import { Button } from 'semantic-ui-react';
 
 class Dashboard extends Component {
   onLogoutClick = e => {
@@ -10,15 +10,23 @@ class Dashboard extends Component {
     this.props.logoutUser();
   };
 
-  render() {
+render() {
     const { user } = this.props.auth;
 
-    return (
-      <div>
+return (
+      <div >
         Hi, {user.first_name}
-        <p className="flow-text grey-text text-darken-1">
-          You are logged in! :)
-        </p>
+              <p className="flow-text grey-text text-darken-1">
+                You are logged in! :)
+              </p>
+
+              <Button color='blue'  size='large' onClick={this.onLogoutClick}>
+                Logout
+              </Button>
+
+
+
+
       </div>
     );
   }

@@ -90,7 +90,7 @@ const email = req.body.email;
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 100000000//  in seconds
+            expiresIn: 31556926 // 1 year in seconds
           },
           (err, token) => {
             res.json({
