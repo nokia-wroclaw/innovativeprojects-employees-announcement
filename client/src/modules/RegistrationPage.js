@@ -20,8 +20,8 @@ class RegistrationPage extends Component {
       errors: {},
       firstNameErrorEmpty: "", //trzymajcie się jednego stylu - powinno być firstNameErrorEmpty
       firstNameErrorWhitespaces: "",
-      lasttNameErrorEmpty: "",
-      lasttNameErrorWhitespaces: "",
+      lastNameErrorEmpty: "",
+      lastNameErrorWhitespaces: "",
       emailErrorEmpty: "",
       emailErrorDomain: "",
       emailErrorWhitespaces: "",
@@ -70,9 +70,9 @@ class RegistrationPage extends Component {
 
   getLastNameErrorMessages = lastName => {
     return {
-      lasttNameErrorEmpty:
+      lastNameErrorEmpty:
         lastName.trim() === "" ? "Last name cannot be empty" : "",
-      lasttNameErrorWhitespaces: /\s/.test(lastName)
+      lastNameErrorWhitespaces: /\s/.test(lastName)
         ? "Last name cannot contain whitespaces"
         : ""
     };
@@ -123,8 +123,8 @@ class RegistrationPage extends Component {
   //   const errors = {
   //     firstNameErrorEmpty: "",
   //     firstNameErrorWhitespaces: "",
-  //     lasttNameErrorEmpty: "",
-  //     lasttNameErrorWhitespaces: "",
+  //     lastNameErrorEmpty: "",
+  //     lastNameErrorWhitespaces: "",
   //     emailErrorEmpty: "",
   //     emailErrorDomain: "",
   //     emailErrorWhitespaces: "",
@@ -149,12 +149,12 @@ class RegistrationPage extends Component {
   //
   //   if (this.state.lastName.trim() === "") {
   //     isError = true;
-  //     errors.lasttNameErrorEmpty = "Last name cannot be empty";
+  //     errors.lastNameErrorEmpty = "Last name cannot be empty";
   //   }
   //
   //   if (/\s/.test(this.state.lastName)) {
   //     isError = true;
-  //     errors.lasttNameErrorWhitespaces = "Last name cannot contain whitespaces";
+  //     errors.lastNameErrorWhitespaces = "Last name cannot contain whitespaces";
   //   }
   //
   //   if (this.state.email.trim() === "") {
@@ -244,8 +244,8 @@ class RegistrationPage extends Component {
         errors: {},
         firstNameErrorEmpty: "",
         firstNameErrorWhitespaces: "",
-        lasttNameErrorEmpty: "",
-        lasttNameErrorWhitespaces: "",
+        lastNameErrorEmpty: "",
+        lastNameErrorWhitespaces: "",
         emailErrorEmpty: "",
         emailErrorDomain: "",
         emailErrorWhitespaces: "",
@@ -315,12 +315,12 @@ class RegistrationPage extends Component {
                 />
                 <div>
                   <span className="errorsColor">
-                    {this.state.lasttNameErrorEmpty}
+                    {this.state.lastNameErrorEmpty}
                   </span>
                 </div>
                 <div>
                   <span className="errorsColor">
-                    {this.state.lasttNameErrorWhitespaces}
+                    {this.state.lastNameErrorWhitespaces}
                   </span>
                 </div>
                 <Form.Input
@@ -331,8 +331,8 @@ class RegistrationPage extends Component {
                   iconPosition="left"
                   placeholder="Last Name"
                   error={
-                    this.state.lasttNameErrorEmpty ||
-                    this.state.lasttNameErrorWhitespaces
+                    this.state.lastNameErrorEmpty ||
+                    this.state.lastNameErrorWhitespaces
                   }
                   value={this.state.lastName}
                   onChange={e =>
