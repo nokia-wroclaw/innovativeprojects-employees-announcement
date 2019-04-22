@@ -118,104 +118,6 @@ class RegistrationPage extends Component {
     };
   };
 
-  // validate = () => {
-  //   let isError = false;
-  //   const errors = {
-  //     firstNameErrorEmpty: "",
-  //     firstNameErrorWhitespaces: "",
-  //     lastNameErrorEmpty: "",
-  //     lastNameErrorWhitespaces: "",
-  //     emailErrorEmpty: "",
-  //     emailErrorDomain: "",
-  //     emailErrorWhitespaces: "",
-  //     passwordErrorEmpty: "",
-  //     passwordErrorLength: "",
-  //     passwordErrorWhitespaces: "",
-  //     passwordConfirmationErrorEmpty: "",
-  //     passwordConfirmationErrorMatch: "",
-  //     passwordConfirmationErrorWhitespaces: ""
-  //   };
-  //   if (this.state.firstName.trim() === "") {
-  //     isError = true;
-  //     errors.firstNameErrorEmpty = "First name cannot be empty";
-  //   }
-  //
-  //   if (/\s/.test(this.state.firstName)) {
-  //     // \s is regex for whitespaces
-  //     isError = true;
-  //     errors.firstNameErrorWhitespaces =
-  //       "First name cannot contain whitespaces";
-  //   }
-  //
-  //   if (this.state.lastName.trim() === "") {
-  //     isError = true;
-  //     errors.lastNameErrorEmpty = "Last name cannot be empty";
-  //   }
-  //
-  //   if (/\s/.test(this.state.lastName)) {
-  //     isError = true;
-  //     errors.lastNameErrorWhitespaces = "Last name cannot contain whitespaces";
-  //   }
-  //
-  //   if (this.state.email.trim() === "") {
-  //     isError = true;
-  //     errors.emailErrorEmpty = "Email cannot be empty";
-  //   }
-  //
-  //   if (/\s/.test(this.state.email)) {
-  //     isError = true;
-  //     errors.emailErrorWhitespaces = "Email cannot contain whitespaces";
-  //   }
-  //
-  //   var emailRegex = /^[a-zA-Z0-9_.+-]+@nokia\.com$/;
-  //
-  //   if (!emailRegex.test(this.state.email)) {
-  //     isError = true;
-  //     errors.emailErrorDomain =
-  //       "Email needs to be from nokia domain, eg. example@nokia.com";
-  //   }
-  //
-  //   if (this.state.password.trim() === "") {
-  //     isError = true;
-  //     errors.passwordErrorEmpty = "Password cannot be empty";
-  //   }
-  //
-  //   if (/\s/.test(this.state.password)) {
-  //     isError = true;
-  //     errors.passwordErrorWhitespaces = "Password cannot contain whitespaces";
-  //   }
-  //
-  //   if (this.state.password.length < 6) {
-  //     isError = true;
-  //     errors.passwordErrorLength = "Password must have at least 6 characters ";
-  //   }
-  //
-  //   if (this.state.passwordConfirmation.trim() === "") {
-  //     isError = true;
-  //     errors.passwordConfirmationErrorEmpty =
-  //       "Password Confirmation cannot be empty";
-  //   }
-  //
-  //   if (/\s/.test(this.state.passwordConfirmation)) {
-  //     isError = true;
-  //     errors.passwordConfirmationErrorWhitespaces =
-  //       "Password Confirmation cannot contain whitespaces";
-  //   }
-  //
-  //   if (this.state.password !== this.state.passwordConfirmation) {
-  //     isError = true;
-  //     errors.passwordConfirmationErrorMatch =
-  //       "Password and Password Confirmation must match";
-  //   }
-  //
-  //   if (isError) {
-  //     this.setState(errors);
-  //   }
-  //
-  //
-  //   return isError;
-  // };
-
   onSubmit = e => {
     e.preventDefault();
 
@@ -287,7 +189,6 @@ class RegistrationPage extends Component {
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>
-                  {/*class to invalid property, powinno być className*/}
                   <span className="errorsColor">
                     {this.state.firstNameErrorEmpty}
                   </span>
