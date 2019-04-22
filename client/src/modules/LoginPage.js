@@ -117,15 +117,17 @@ class LoginPage extends Component {
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>
-                  <span class="errorsColor">{this.state.emailErrorEmpty}</span>
+                  <span className="errorsColor">
+                    {this.state.emailErrorEmpty}
+                  </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.emailErrorWhitespaces}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">{errors.emailnotfound}</span>
+                  <span className="errorsColor">{errors.emailnotfound}</span>
                 </div>
 
                 <Form.Input
@@ -146,18 +148,20 @@ class LoginPage extends Component {
                   }
                 />
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordErrorEmpty}
                   </span>
                 </div>
 
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordErrorWhitespaces}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">{errors.passwordincorrect}</span>
+                  <span className="errorsColor">
+                    {errors.passwordincorrect}
+                  </span>
                 </div>
 
                 <Form.Input

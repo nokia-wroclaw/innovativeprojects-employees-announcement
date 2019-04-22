@@ -49,11 +49,6 @@ class RegistrationPage extends Component {
     }
   }
 
-  //do usunięcia
-  //  onChange = e => {
-  //    this.setState({ [e.target.id]: e.target.value });
-  //  };
-
   //zamiast onChange
   updateInput = (e, getErrorMessages) => {
     this.setState({
@@ -293,12 +288,12 @@ class RegistrationPage extends Component {
               <Segment stacked>
                 <div>
                   {/*class to invalid property, powinno być className*/}
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.firstNameErrorEmpty}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.firstNameErrorWhitespaces}
                   </span>
                 </div>
@@ -319,12 +314,12 @@ class RegistrationPage extends Component {
                   }
                 />
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.lasttNameErrorEmpty}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.lasttNameErrorWhitespaces}
                   </span>
                 </div>
@@ -345,18 +340,22 @@ class RegistrationPage extends Component {
                   }
                 />
                 <div>
-                  <span class="errorsColor">{this.state.emailErrorEmpty}</span>
+                  <span className="errorsColor">
+                    {this.state.emailErrorEmpty}
+                  </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.emailErrorWhitespaces}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">{this.state.emailErrorDomain}</span>
+                  <span className="errorsColor">
+                    {this.state.emailErrorDomain}
+                  </span>
                 </div>
                 <div>
-                  <span class="errorsColor">{errors.email}</span>
+                  <span className="errorsColor">{errors.email}</span>
                 </div>
                 <Form.Input
                   id="email"
@@ -378,19 +377,19 @@ class RegistrationPage extends Component {
                 />
 
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordErrorEmpty}
                   </span>
                 </div>
 
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordErrorWhitespaces}
                   </span>
                 </div>
 
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordErrorLength}
                   </span>
                 </div>
@@ -413,17 +412,17 @@ class RegistrationPage extends Component {
                   }
                 />
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordConfirmationErrorEmpty}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordConfirmationErrorWhitespaces}
                   </span>
                 </div>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
                     {this.state.passwordConfirmationErrorMatch}
                   </span>
                 </div>

@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
 // Load input validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+//const validateRegisterInput = require("../../validation/register");
+//const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
@@ -17,7 +17,7 @@ const User = require("../../models/User");
 router.post("/register", (req, res) => {
   // Form validation
 
-  const { errors, isValid } = validateRegisterInput(req.body);
+  //  const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check validation
   //  if (!isValid) {
@@ -56,12 +56,12 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   // Form validation
 
-  const { errors, isValid } = validateLoginInput(req.body);
+  //  const { errors, isValid } = validateLoginInput(req.body);
 
   // Check validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  //  if (!isValid) {
+  //    return res.status(400).json(errors);
+  //  }
 
   const email = req.body.email;
   const password = req.body.password;
