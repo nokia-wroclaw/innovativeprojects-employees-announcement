@@ -11,10 +11,6 @@ export default class Annoucement extends Component {
     Date: "10.04.2019"
   };
 
-  GoToAuthor() {
-    console.log("Hello");
-  }
-
   render() {
     return (
       <Segment>
@@ -22,7 +18,7 @@ export default class Annoucement extends Component {
           <Feed.Event>
             <Feed.Label image="/images/avatar/small/laura.jpg" />
             <Feed.Label>
-              <a onClick={() => this.GoToAuthor()}>{this.state.Author}</a>
+              <a>{this.state.Author}</a>
               <p>{this.state.Description.length}</p>
             </Feed.Label>
 

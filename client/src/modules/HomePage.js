@@ -1,15 +1,50 @@
 import React, { Component } from "react";
 import "./HomePage.css";
 import logo2 from "./images/one.jpg";
-import Announcement from "./Announcement";
+//import Announcement from "./Announcement";
 import SearchBar from "./SearchBar";
-import { Grid } from "semantic-ui-react";
+import { Grid, Segment, Feed } from "semantic-ui-react";
+import axios from "axios";
+
+const Announcement = props => (
+  <Segment>
+    <Feed>
+      <Feed.Event>
+        <Feed.Label image="/images/avatar/small/laura.jpg" />
+        <Feed.Content>
+          <Feed.Summary>{props.announcement.title}</Feed.Summary>
+          <Feed.Extra text>{props.announcement.description}</Feed.Extra>
+          <Feed.Extra text>
+            <p>Price:</p>
+            {props.announcement.price}
+          </Feed.Extra>
+        </Feed.Content>
+      </Feed.Event>
+    </Feed>
+  </Segment>
+);
 
 class HomePage extends Component {
-  GoToAuthorHandler() {
-    console.log("Hello");
+  constructor(props) {
+    super(props);
+    this.state = { announcements: [] };
   }
 
+  componentDidMount() {
+    axios
+      .get("/api/announcements/")
+      .then(response => {
+        this.setState({ announcements: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+  announcementsList() {
+    return this.state.announcements.map(function(currentAnnouncement, i) {
+      return <Announcement announcement={currentAnnouncement} key={i} />;
+    });
+  }
   render() {
     return (
       <div
@@ -26,26 +61,7 @@ class HomePage extends Component {
             </div>
           </Grid.Column>
           <Grid.Column width="8" floated="right">
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
-            <Announcement />
+            {this.announcementsList()}
           </Grid.Column>
           <Grid.Column width="3" />
         </Grid>
