@@ -54,7 +54,9 @@ class App extends Component {
               flexDirection: "column"
             }}
           >
-            <NavBar />
+            <div className="NavBar">
+              <NavBar />
+            </div>
 
             <div className="App" style={{ flex: 1 }}>
               <Switch>

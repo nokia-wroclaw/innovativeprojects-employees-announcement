@@ -1,52 +1,38 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  GridRow,
-  GridColumn,
-  Container,
-  Segment
-} from "semantic-ui-react";
+import "./Announcement.css";
+import { Segment, Feed } from "semantic-ui-react";
 
 export default class Annoucement extends Component {
   state = {
-    AnnouncementAuthor: "Ukon",
-    AnnouncementTitle: "OPEL ASTRA SUPER OKAZJA !!!ONEONE",
-    AnnouncementDescription: "Elo ziomki sprzedam opla warto, tanio",
-    AnnouncementDate: "10.04.2019"
+    Author: "Kamil Śliwa",
+    Title: "OPEL ASTRA SUPER OKAZJA !!!ONEONE",
+    Description:
+      "Elo ziomki sprzedam opla warto, tanio, niebity. Ogólnie to sprzedaje, bo nie mam pieniędzy na mój super motocykl marzeń. Mój super motocykl marzeń to skuter dziadka, który chcę od niego odkupić za 30 srebrników kaukaskich. Taka waluta wymaga ode mnie zaangażowania środków pieniężnych, które zostaną pozyskane ze sprzedaży w.w. dóbr materialnych. Elo ziomki sprzedam opla warto, tanio, niebity. Ogólnie to sprzedaje, bo nie mam pieniędzy na mój super motocykl marzeń. Mój super motocykl marzeń to skuter dziadka, który chcę od niego odkupić za 30 srebrników kaukaskich. Taka waluta wymaga ode mnie zaangażowania środków pieniężnych, które zostaną pozyskane ze sprzedaży w.w. dóbr materialnych.  ",
+    Date: "10.04.2019"
   };
 
-  schaby = {
-    schabik: "schabik"
-  };
+  GoToAuthor() {
+    console.log("Hello");
+  }
 
   render() {
     return (
-      <Segment placeholder>
-        <Grid columns={3} divided celled>
-          <GridRow>
-            <GridColumn width={3}>{this.state.AnnouncementAuthor}</GridColumn>
-            <GridColumn width={10}>{this.state.AnnouncementTitle}</GridColumn>
-            <GridColumn width={3}>{this.state.AnnouncementDate}</GridColumn>
-          </GridRow>
+      <Segment>
+        <Feed>
+          <Feed.Event>
+            <Feed.Label image="/images/avatar/small/laura.jpg" />
+            <Feed.Label>
+              <a onClick={() => this.GoToAuthor()}>{this.state.Author}</a>
+              <p>{this.state.Description.length}</p>
+            </Feed.Label>
 
-          <GridRow centered>
-            <GridColumn width={15}>
-              <Container text>
-                <Segment placeholder>
-                  <p border-style="dashed">
-                    {this.state.AnnouncementDescription}
-                    {"\n"}
-                    {this.schaby.schabik}
-                  </p>
-                </Segment>
-              </Container>
-            </GridColumn>
-          </GridRow>
-
-          <GridRow>
-            <GridColumn floated="left">Contact me</GridColumn>
-          </GridRow>
-        </Grid>
+            <Feed.Content>
+              <Feed.Date>{this.state.Date}</Feed.Date>
+              <Feed.Summary>{this.state.Title}</Feed.Summary>
+              <Feed.Extra text>{this.state.Description}</Feed.Extra>
+            </Feed.Content>
+          </Feed.Event>
+        </Feed>
       </Segment>
     );
   }
