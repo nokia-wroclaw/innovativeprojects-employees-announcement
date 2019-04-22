@@ -14,7 +14,7 @@ class Dashboard extends Component {
 
     return (
       <div>
-        Hi, {user.first_name}
+        Hi, {user.firstName}
         <p className="flow-text grey-text text-darken-1">
           You are logged in! :)
         </p>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image, List, Segment, Container } from "semantic-ui-react";
-import logo from "./images/nokia.png";
+import logo from "./images/nokia_white.png";
 
 class Footer extends Component {
   render() {

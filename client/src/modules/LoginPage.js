@@ -18,7 +18,11 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
+      emailErrorEmpty: "",
+      emailErrorWhitespaces: "",
+      passwordErrorEmpty: "",
+      passwordErrorWhitespaces: ""
     };
   }
 
@@ -41,19 +45,59 @@ class LoginPage extends Component {
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
+  updateInput = (e, getErrorMessages) => {
+    this.setState({
+      ...getErrorMessages(e.target.value),
+      [e.target.id]: e.target.value
+    });
+  };
+
+  getEmailErrorMessages = email => {
+    return {
+      emailErrorEmpty: email.trim() === "" ? "Email cannot be empty" : "",
+      emailErrorWhitespaces: /\s/.test(email)
+        ? "Email cannot contain whitespaces"
+        : ""
+    };
+  };
+
+  getPasswordErrorMessages = password => {
+    return {
+      passwordErrorEmpty:
+        password.trim() === "" ? "Password cannot be empty" : "",
+      passwordErrorWhitespaces: /\s/.test(password)
+        ? "Password cannot contain whitespaces"
+        : ""
+    };
   };
 
   onSubmit = e => {
     e.preventDefault();
 
-    const userData = {
-      email: this.state.email,
-      password: this.state.password
+    const errors = {
+      ...this.getEmailErrorMessages(this.state.email),
+      ...this.getPasswordErrorMessages(this.state.password)
     };
 
-    this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    const hasErrors = Object.values(errors).some(message => message !== "");
+
+    if (!hasErrors) {
+      this.setState({
+        emailErrorEmpty: "",
+        emailErrorWhitespaces: "",
+        passwordErrorEmpty: "",
+        passwordErrorWhitespaces: ""
+      });
+
+      const userData = {
+        email: this.state.email,
+        password: this.state.password
+      };
+
+      this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    } else {
+      this.setState(errors);
+    }
   };
 
   render() {
@@ -72,9 +116,24 @@ class LoginPage extends Component {
             </Header>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
-                <span class="errorsColor">{errors.emailnotfound}</span>
+                <div>
+                  <span class="errorsColor">{this.state.emailErrorEmpty}</span>
+                </div>
+                <div>
+                  <span class="errorsColor">
+                    {this.state.emailErrorWhitespaces}
+                  </span>
+                </div>
+                <div>
+                  <span class="errorsColor">{errors.emailnotfound}</span>
+                </div>
+
                 <Form.Input
-                  error={errors.emailnotfound}
+                  error={
+                    this.state.emailErrorEmpty ||
+                    this.state.emailErrorWhitespaces ||
+                    errors.emailnotfound
+                  }
                   fluid
                   icon="mail"
                   iconPosition="left"
@@ -82,11 +141,31 @@ class LoginPage extends Component {
                   name="email"
                   placeholder="E-mail address"
                   value={this.state.email}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getEmailErrorMessages)
+                  }
                 />
-                <span class="errorsColor">{errors.passwordincorrect}</span>
+                <div>
+                  <span class="errorsColor">
+                    {this.state.passwordErrorEmpty}
+                  </span>
+                </div>
+
+                <div>
+                  <span class="errorsColor">
+                    {this.state.passwordErrorWhitespaces}
+                  </span>
+                </div>
+                <div>
+                  <span class="errorsColor">{errors.passwordincorrect}</span>
+                </div>
+
                 <Form.Input
-                  error={errors.passwordincorrect}
+                  error={
+                    this.state.passwordErrorEmpty ||
+                    this.state.passwordErrorWhitespaces ||
+                    errors.passwordincorrect
+                  }
                   fluid
                   icon="lock"
                   iconPosition="left"
@@ -95,7 +174,9 @@ class LoginPage extends Component {
                   placeholder="Password"
                   type="password"
                   value={this.state.password}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getPasswordErrorMessages)
+                  }
                 />
 
                 <Button color="blue" fluid size="large">

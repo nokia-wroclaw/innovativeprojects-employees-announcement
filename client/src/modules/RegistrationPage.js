@@ -12,16 +12,16 @@ class RegistrationPage extends Component {
   constructor() {
     super();
     this.state = {
-      first_name: "",
-      last_name: "",
+      firstName: "", //na camelCase
+      lastName: "",
       email: "",
       password: "",
       passwordConfirmation: "",
       errors: {},
-      first_nameErrorEmpty: "",
-      first_nameErrorWhitespaces: "",
-      last_nameErrorEmpty: "",
-      last_nameErrorWhitespaces: "",
+      firstNameErrorEmpty: "", //trzymajcie się jednego stylu - powinno być firstNameErrorEmpty
+      firstNameErrorWhitespaces: "",
+      lasttNameErrorEmpty: "",
+      lasttNameErrorWhitespaces: "",
       emailErrorEmpty: "",
       emailErrorDomain: "",
       emailErrorWhitespaces: "",
@@ -49,124 +49,208 @@ class RegistrationPage extends Component {
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
+  //do usunięcia
+  //  onChange = e => {
+  //    this.setState({ [e.target.id]: e.target.value });
+  //  };
+
+  //zamiast onChange
+  updateInput = (e, getErrorMessages) => {
+    this.setState({
+      ...getErrorMessages(e.target.value),
+      [e.target.id]: e.target.value
+    });
   };
 
-  validate = () => {
-    let isError = false;
-    const errors = {
-      first_nameErrorEmpty: "",
-      first_nameErrorWhitespaces: "",
-      last_nameErrorEmpty: "",
-      last_nameErrorWhitespaces: "",
-      emailErrorEmpty: "",
-      emailErrorDomain: "",
-      emailErrorWhitespaces: "",
-      passwordErrorEmpty: "",
-      passwordErrorLength: "",
-      passwordErrorWhitespaces: "",
-      passwordConfirmationErrorEmpty: "",
-      passwordConfirmationErrorMatch: "",
-      passwordConfirmationErrorWhitespaces: ""
+  //każdy input powinien mieć własną walidację
+  getFirstNameErrorMessages = firstName => {
+    return {
+      firstNameErrorEmpty:
+        firstName.trim() === "" ? "First name cannot be empty" : "",
+      firstNameErrorWhitespaces: /\s/.test(firstName)
+        ? "First name cannot contain whitespaces"
+        : ""
     };
-    if (this.state.first_name.trim() === "") {
-      isError = true;
-      errors.first_nameErrorEmpty = "First name cannot be empty";
-    }
-
-    if (/\s/.test(this.state.first_name)) {
-      // \s is regex for whitespaces
-      isError = true;
-      errors.first_nameErrorWhitespaces =
-        "First name cannot contain whitespaces";
-    }
-
-    if (this.state.last_name.trim() === "") {
-      isError = true;
-      errors.last_nameErrorEmpty = "Last name cannot be empty";
-    }
-
-    if (/\s/.test(this.state.last_name)) {
-      isError = true;
-      errors.last_nameErrorWhitespaces = "Last name cannot contain whitespaces";
-    }
-
-    if (this.state.email.trim() === "") {
-      isError = true;
-      errors.emailErrorEmpty = "Email cannot be empty";
-    }
-
-    if (/\s/.test(this.state.email)) {
-      isError = true;
-      errors.emailErrorWhitespaces = "Email cannot contain whitespaces";
-    }
-
-    var emailRegex = /^[a-zA-Z0-9_.+-]+@nokia\.com$/;
-
-    if (!emailRegex.test(this.state.email)) {
-      isError = true;
-      errors.emailErrorDomain =
-        "Email needs to be from nokia domain, eg. example@nokia.com";
-    }
-
-    if (this.state.password.trim() === "") {
-      isError = true;
-      errors.passwordErrorEmpty = "Password cannot be empty";
-    }
-
-    if (/\s/.test(this.state.password)) {
-      isError = true;
-      errors.passwordErrorWhitespaces = "Password cannot contain whitespaces";
-    }
-
-    if (this.state.password.length < 6) {
-      isError = true;
-      errors.passwordErrorLength = "Password must have at least 6 characters ";
-    }
-
-    if (this.state.passwordConfirmation.trim() === "") {
-      isError = true;
-      errors.passwordConfirmationErrorEmpty =
-        "Password Confirmation cannot be empty";
-    }
-
-    if (/\s/.test(this.state.passwordConfirmation)) {
-      isError = true;
-      errors.passwordConfirmationErrorWhitespaces =
-        "Password Confirmation cannot contain whitespaces";
-    }
-
-    if (this.state.password !== this.state.passwordConfirmation) {
-      isError = true;
-      errors.passwordConfirmationErrorMatch =
-        "Password and Password Confirmation must match";
-    }
-
-    if (isError) {
-      this.setState(errors);
-    }
-
-    return isError;
   };
+
+  getLastNameErrorMessages = lastName => {
+    return {
+      lasttNameErrorEmpty:
+        lastName.trim() === "" ? "Last name cannot be empty" : "",
+      lasttNameErrorWhitespaces: /\s/.test(lastName)
+        ? "Last name cannot contain whitespaces"
+        : ""
+    };
+  };
+
+  getEmailErrorMessages = email => {
+    return {
+      emailErrorEmpty: email.trim() === "" ? "Email cannot be empty" : "",
+      emailErrorWhitespaces: /\s/.test(email)
+        ? "Email cannot contain whitespaces"
+        : "",
+      emailErrorDomain: !/^[a-zA-Z0-9_.+-]+@nokia\.com$/.test(email)
+        ? "Email needs to be from nokia domain, eg. example@nokia.com"
+        : ""
+    };
+  };
+
+  getPasswordErrorMessages = password => {
+    return {
+      passwordErrorEmpty:
+        password.trim() === "" ? "Password cannot be empty" : "",
+      passwordErrorWhitespaces: /\s/.test(password)
+        ? "Password cannot contain whitespaces"
+        : "",
+      passwordErrorLength:
+        password.length < 6 ? "Password must have at least 6 characters " : ""
+    };
+  };
+
+  getPasswordConfirmationErrorMessages = passwordConfirmation => {
+    return {
+      passwordConfirmationErrorEmpty:
+        passwordConfirmation.trim() === ""
+          ? "Password confirmation cannot be empty"
+          : "",
+      passwordConfirmationErrorWhitespaces: /\s/.test(passwordConfirmation)
+        ? "Password confirmation cannot contain whitespaces"
+        : "",
+      passwordConfirmationErrorMatch:
+        this.state.password !== passwordConfirmation
+          ? "Password and Password Confirmation must match"
+          : ""
+    };
+  };
+
+  // validate = () => {
+  //   let isError = false;
+  //   const errors = {
+  //     firstNameErrorEmpty: "",
+  //     firstNameErrorWhitespaces: "",
+  //     lasttNameErrorEmpty: "",
+  //     lasttNameErrorWhitespaces: "",
+  //     emailErrorEmpty: "",
+  //     emailErrorDomain: "",
+  //     emailErrorWhitespaces: "",
+  //     passwordErrorEmpty: "",
+  //     passwordErrorLength: "",
+  //     passwordErrorWhitespaces: "",
+  //     passwordConfirmationErrorEmpty: "",
+  //     passwordConfirmationErrorMatch: "",
+  //     passwordConfirmationErrorWhitespaces: ""
+  //   };
+  //   if (this.state.firstName.trim() === "") {
+  //     isError = true;
+  //     errors.firstNameErrorEmpty = "First name cannot be empty";
+  //   }
+  //
+  //   if (/\s/.test(this.state.firstName)) {
+  //     // \s is regex for whitespaces
+  //     isError = true;
+  //     errors.firstNameErrorWhitespaces =
+  //       "First name cannot contain whitespaces";
+  //   }
+  //
+  //   if (this.state.lastName.trim() === "") {
+  //     isError = true;
+  //     errors.lasttNameErrorEmpty = "Last name cannot be empty";
+  //   }
+  //
+  //   if (/\s/.test(this.state.lastName)) {
+  //     isError = true;
+  //     errors.lasttNameErrorWhitespaces = "Last name cannot contain whitespaces";
+  //   }
+  //
+  //   if (this.state.email.trim() === "") {
+  //     isError = true;
+  //     errors.emailErrorEmpty = "Email cannot be empty";
+  //   }
+  //
+  //   if (/\s/.test(this.state.email)) {
+  //     isError = true;
+  //     errors.emailErrorWhitespaces = "Email cannot contain whitespaces";
+  //   }
+  //
+  //   var emailRegex = /^[a-zA-Z0-9_.+-]+@nokia\.com$/;
+  //
+  //   if (!emailRegex.test(this.state.email)) {
+  //     isError = true;
+  //     errors.emailErrorDomain =
+  //       "Email needs to be from nokia domain, eg. example@nokia.com";
+  //   }
+  //
+  //   if (this.state.password.trim() === "") {
+  //     isError = true;
+  //     errors.passwordErrorEmpty = "Password cannot be empty";
+  //   }
+  //
+  //   if (/\s/.test(this.state.password)) {
+  //     isError = true;
+  //     errors.passwordErrorWhitespaces = "Password cannot contain whitespaces";
+  //   }
+  //
+  //   if (this.state.password.length < 6) {
+  //     isError = true;
+  //     errors.passwordErrorLength = "Password must have at least 6 characters ";
+  //   }
+  //
+  //   if (this.state.passwordConfirmation.trim() === "") {
+  //     isError = true;
+  //     errors.passwordConfirmationErrorEmpty =
+  //       "Password Confirmation cannot be empty";
+  //   }
+  //
+  //   if (/\s/.test(this.state.passwordConfirmation)) {
+  //     isError = true;
+  //     errors.passwordConfirmationErrorWhitespaces =
+  //       "Password Confirmation cannot contain whitespaces";
+  //   }
+  //
+  //   if (this.state.password !== this.state.passwordConfirmation) {
+  //     isError = true;
+  //     errors.passwordConfirmationErrorMatch =
+  //       "Password and Password Confirmation must match";
+  //   }
+  //
+  //   if (isError) {
+  //     this.setState(errors);
+  //   }
+  //
+  //
+  //   return isError;
+  // };
 
   onSubmit = e => {
     e.preventDefault();
 
-    const err = this.validate();
+    //todo do dokończenia
+    const errors = {
+      ...this.getFirstNameErrorMessages(this.state.firstName),
+      ...this.getLastNameErrorMessages(this.state.lastName),
+      ...this.getEmailErrorMessages(this.state.email),
+      ...this.getPasswordErrorMessages(this.state.password),
+      ...this.getPasswordConfirmationErrorMessages(
+        this.state.passwordConfirmation
+      )
+    };
 
-    if (!err) {
+    const hasErrors = Object.values(errors).some(message => message !== "");
+
+    if (!hasErrors) {
+      /* ogólnie ta zmiana stanu nie będzie potrzebna - wszystko pójdzie w real timie*/
       this.setState({
-        first_name: "",
-        last_name: "",
+        /*firstName: "",
+        lastName: "",
         email: "",
         password: "",
-        passwordConfirmation: "",
+        passwordConfirmation: "", <-- to jest niepotrzebne - powoduje utratę danych (przypadek z tym samym e-mailem),
+        to jednak nie było związane z dispatcherem ;C*/
         errors: {},
-        first_nameErrorEmpty: "",
-        first_nameErrorWhitespaces: "",
-        last_nameErrorEmpty: "",
-        last_nameErrorWhitespaces: "",
+        firstNameErrorEmpty: "",
+        firstNameErrorWhitespaces: "",
+        lasttNameErrorEmpty: "",
+        lasttNameErrorWhitespaces: "",
         emailErrorEmpty: "",
         emailErrorDomain: "",
         emailErrorWhitespaces: "",
@@ -179,14 +263,16 @@ class RegistrationPage extends Component {
       });
 
       const newUser = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         email: this.state.email,
         password: this.state.password,
         passwordConfirmation: this.state.passwordConfirmation
       };
 
       this.props.registerUser(newUser, this.props.history);
+    } else {
+      this.setState(errors);
     }
   };
 
@@ -206,52 +292,57 @@ class RegistrationPage extends Component {
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>
+                  {/*class to invalid property, powinno być className*/}
                   <span class="errorsColor">
-                    {this.state.first_nameErrorEmpty}
+                    {this.state.firstNameErrorEmpty}
                   </span>
                 </div>
                 <div>
                   <span class="errorsColor">
-                    {this.state.first_nameErrorWhitespaces}
+                    {this.state.firstNameErrorWhitespaces}
                   </span>
                 </div>
                 <Form.Input
-                  id="first_name"
-                  name="first_name"
+                  id="firstName"
+                  name="firstName"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="First Name"
                   error={
-                    this.state.first_nameErrorEmpty ||
-                    this.state.first_nameErrorWhitespaces
+                    this.state.firstNameErrorEmpty ||
+                    this.state.firstNameErrorWhitespaces
                   }
-                  value={this.state.first_name}
-                  onChange={this.onChange}
+                  value={this.state.firstName}
+                  onChange={e =>
+                    this.updateInput(e, this.getFirstNameErrorMessages)
+                  }
                 />
                 <div>
                   <span class="errorsColor">
-                    {this.state.last_nameErrorEmpty}
+                    {this.state.lasttNameErrorEmpty}
                   </span>
                 </div>
                 <div>
                   <span class="errorsColor">
-                    {this.state.last_nameErrorWhitespaces}
+                    {this.state.lasttNameErrorWhitespaces}
                   </span>
                 </div>
                 <Form.Input
-                  id="last_name"
-                  name="last_name"
+                  id="lastName"
+                  name="lastName"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="Last Name"
                   error={
-                    this.state.last_nameErrorEmpty ||
-                    this.state.last_nameErrorWhitespaces
+                    this.state.lasttNameErrorEmpty ||
+                    this.state.lasttNameErrorWhitespaces
                   }
-                  value={this.state.last_name}
-                  onChange={this.onChange}
+                  value={this.state.lastName}
+                  onChange={e =>
+                    this.updateInput(e, this.getLastNameErrorMessages)
+                  }
                 />
                 <div>
                   <span class="errorsColor">{this.state.emailErrorEmpty}</span>
@@ -277,10 +368,13 @@ class RegistrationPage extends Component {
                   error={
                     this.state.emailErrorEmpty ||
                     this.state.emailErrorDomain ||
-                    this.state.emailErrorWhitespaces
+                    this.state.emailErrorWhitespaces ||
+                    errors.email
                   }
                   value={this.state.email}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getEmailErrorMessages)
+                  }
                 />
 
                 <div>
@@ -314,7 +408,9 @@ class RegistrationPage extends Component {
                     this.state.passwordErrorWhitespaces
                   }
                   value={this.state.password}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getPasswordErrorMessages)
+                  }
                 />
                 <div>
                   <span class="errorsColor">
@@ -345,7 +441,12 @@ class RegistrationPage extends Component {
                     this.state.passwordConfirmationErrorWhitespaces
                   }
                   value={this.state.passwordConfirmation}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(
+                      e,
+                      this.getPasswordConfirmationErrorMessages
+                    )
+                  }
                 />
 
                 <Button color="blue" fluid size="large">
