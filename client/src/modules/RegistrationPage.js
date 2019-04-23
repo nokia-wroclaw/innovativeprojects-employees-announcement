@@ -148,7 +148,7 @@ class RegistrationPage extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    //const { errors } = this.state;
     return (
       <div>
         <Grid

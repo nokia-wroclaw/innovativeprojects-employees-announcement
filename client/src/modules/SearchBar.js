@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown, Icon, Input, Menu, Sticky } from "semantic-ui-react";
+import { Input, Menu, Sticky } from "semantic-ui-react";
 
 export default class SearchBar extends Component {
   state = {};

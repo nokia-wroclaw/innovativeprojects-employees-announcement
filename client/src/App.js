@@ -20,6 +20,7 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 import PrivateRoute from "./modules/private-route/PrivateRoute";
 import Dashboard from "./modules/dashboard/Dashboard";
+import logo2 from "./modules/images/one.jpg";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -51,7 +52,10 @@ class App extends Component {
             style={{
               display: "flex",
               minHeight: "100vh",
-              flexDirection: "column"
+              flexDirection: "column",
+              backgroundImage: `url(${logo2})`,
+              height: "100%",
+              width: "100%"
             }}
           >
             <div className="NavBar">

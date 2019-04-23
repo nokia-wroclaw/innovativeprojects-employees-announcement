@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Image, Rail } from "semantic-ui-react";
+import { Menu, Image } from "semantic-ui-react";
 import logo from "./images/nokia.png";
 import "./NavBar.css";
 

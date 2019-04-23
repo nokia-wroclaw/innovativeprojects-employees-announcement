@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./HomePage.css";
-import logo2 from "./images/one.jpg";
 //import Announcement from "./Announcement";
 import SearchBar from "./SearchBar";
 import { Grid, Segment, Feed } from "semantic-ui-react";
@@ -11,8 +10,13 @@ const Announcement = props => (
     <Feed>
       <Feed.Event>
         <Feed.Label image="/images/avatar/small/laura.jpg" />
+        {props.announcement.user_id}
+      </Feed.Event>
+      <Feed.Event>
         <Feed.Content>
-          <Feed.Summary>{props.announcement.title}</Feed.Summary>
+          <Feed.Summary className="summary">
+            {props.announcement.title}
+          </Feed.Summary>
           <Feed.Extra text>{props.announcement.description}</Feed.Extra>
           <Feed.Extra text>
             <p>Price:</p>
@@ -27,7 +31,12 @@ const Announcement = props => (
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { announcements: [] };
+    this.state = { announcements: [], currentPage: 1, announcementsPerPage: 3 };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    this.setState({ currentPage: Number(event.target.id) });
   }
 
   componentDidMount() {
@@ -40,20 +49,24 @@ class HomePage extends Component {
         console.log(error);
       });
   }
+
+  // announcementsList() {
+  //   for (let i = 0; i < 5; i++)
+  //     return this.state.announcements.map(function(currentAnnouncement, i) {
+  //       return <Announcement announcement={currentAnnouncement} key={i} />;
+  //     });
+  // }
+
   announcementsList() {
     return this.state.announcements.map(function(currentAnnouncement, i) {
       return <Announcement announcement={currentAnnouncement} key={i} />;
     });
   }
+
   render() {
+    const { announcements, currentPage, announcementsPerPage } = this.state;
     return (
-      <div
-        style={{
-          backgroundImage: `url(${logo2})`,
-          height: "100%",
-          width: "100%"
-        }}
-      >
+      <div>
         <Grid padded="vertically" columns={3}>
           <Grid.Column floated="right" width="2">
             <div className="fixed">
