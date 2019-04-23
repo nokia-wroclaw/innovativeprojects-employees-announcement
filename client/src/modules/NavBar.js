@@ -27,7 +27,7 @@ class NavBar extends Component {
   render() {
     return (
       <div>
-        <Menu inverted attached>
+        <Menu fixed="top" inverted>
           <Menu.Menu>
             <Menu.Item onClick={this.ChangeToHomePath}>
               <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
