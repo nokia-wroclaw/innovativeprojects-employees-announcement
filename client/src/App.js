@@ -58,7 +58,9 @@ class App extends Component {
               width: "100%"
             }}
           >
-            <NavBar />
+            <div>
+              <NavBar />
+            </div>
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
