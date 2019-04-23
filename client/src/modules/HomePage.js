@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import SubMenu from "./SubMenu";
+
 import {
   Grid,
   GridRow,
@@ -23,12 +23,11 @@ const Announcement = props => (
   <Segment>
     <Feed>
       <Feed.Event>
-        <Feed.Label image="/images/avatar/small/laura.jpg" />
         <Feed.Content>
           <Feed.Summary>{props.announcement.title}</Feed.Summary>
           <Feed.Extra text>
-            <p>Price:</p>
-            {props.announcement.price}
+            <p>Price:
+            {props.announcement.price}</p>
           </Feed.Extra>
           <Feed.Extra text>{props.announcement.description}</Feed.Extra>
         </Feed.Content>
@@ -65,34 +64,16 @@ class HomePage extends Component {
         {this.props.auth.isAuthenticated ? <AnnouncementAdd /> : ""}
 
         <Grid padded="vertically" columns={3}>
-          <Grid.Column floated="right" width="2">
-            <Sticky>
-              <SubMenu />
-            </Sticky>
+          <Grid.Column  width="3">
           </Grid.Column>
-          <Grid.Column width="10" floated="right">
+          <Grid.Column  width="10" >
             {this.announcementsList()}
           </Grid.Column>
           <Grid.Column width="2" />
         </Grid>
       </div>
 
-      // <div>
-      //           <h3>Todos List</h3>
-      //           <table className="table table-striped" style={{ marginTop: 20 }}>
-      //               <thead>
-      //                   <tr>
-      //                       <th>Title</th>
-      //                       <th>description</th>
-      //                       <th>Price</th>
-
-      //                   </tr>
-      //               </thead>
-      //               <tbody>
-      //                   { this.announcementsList() }
-      //               </tbody>
-      //           </table>
-      //       </div>
+      
     );
   }
 }
