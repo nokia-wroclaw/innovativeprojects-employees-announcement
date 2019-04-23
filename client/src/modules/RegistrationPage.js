@@ -135,30 +135,6 @@ class RegistrationPage extends Component {
     const hasErrors = Object.values(errors).some(message => message !== "");
 
     if (!hasErrors) {
-      /* ogólnie ta zmiana stanu nie będzie potrzebna - wszystko pójdzie w real timie*/
-      this.setState({
-        /*firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "", <-- to jest niepotrzebne - powoduje utratę danych (przypadek z tym samym e-mailem),
-        to jednak nie było związane z dispatcherem ;C*/
-        errors: {},
-        firstNameErrorEmpty: "",
-        firstNameErrorWhitespaces: "",
-        lastNameErrorEmpty: "",
-        lastNameErrorWhitespaces: "",
-        emailErrorEmpty: "",
-        emailErrorDomain: "",
-        emailErrorWhitespaces: "",
-        passwordErrorEmpty: "",
-        passwordErrorLength: "",
-        passwordErrorWhitespaces: "",
-        passwordConfirmationErrorEmpty: "",
-        passwordConfirmationErrorMatch: "",
-        passwordConfirmationErrorWhitespaces: ""
-      });
-
       const newUser = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
