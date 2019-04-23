@@ -12,20 +12,25 @@ class RegistrationPage extends Component {
   constructor() {
     super();
     this.state = {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       passwordConfirmation: "",
       errors: {},
-      first_nameErrorEmpty: "",
-      last_nameErrorEmpty: "",
+      firstNameErrorEmpty: "",
+      firstNameErrorWhitespaces: "",
+      lastNameErrorEmpty: "",
+      lastNameErrorWhitespaces: "",
       emailErrorEmpty: "",
       emailErrorDomain: "",
+      emailErrorWhitespaces: "",
       passwordErrorEmpty: "",
       passwordErrorLength: "",
+      passwordErrorWhitespaces: "",
       passwordConfirmationErrorEmpty: "",
-      passwordConfirmationErrorMatch: ""
+      passwordConfirmationErrorMatch: "",
+      passwordConfirmationErrorWhitespaces: ""
     };
   }
 
@@ -44,106 +49,103 @@ class RegistrationPage extends Component {
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
+  //zamiast onChange
+  updateInput = (e, getErrorMessages) => {
+    this.setState({
+      ...getErrorMessages(e.target.value),
+      [e.target.id]: e.target.value
+    });
   };
 
-  validate = () => {
-    let isError = false;
-    const errors = {
-      first_nameErrorEmpty: "",
-      last_nameErrorEmpty: "",
-      emailErrorEmpty: "",
-      emailErrorDomain: "",
-      passwordErrorEmpty: "",
-      passwordErrorLength: "",
-      passwordConfirmationErrorEmpty: "",
-      passwordConfirmationErrorMatch: ""
+  //każdy input powinien mieć własną walidację
+  getFirstNameErrorMessages = firstName => {
+    return {
+      firstNameErrorEmpty:
+        firstName.trim() === "" ? "First name cannot be empty" : "",
+      firstNameErrorWhitespaces: /\s/.test(firstName)
+        ? "First name cannot contain whitespaces"
+        : ""
     };
-    if (this.state.first_name.trim() === "") {
-      isError = true;
-      errors.first_nameErrorEmpty = "First name cannot be empty";
-    }
+  };
 
-    if (this.state.last_name.trim() === "") {
-      isError = true;
-      errors.last_nameErrorEmpty = "Last name cannot be empty";
-    }
+  getLastNameErrorMessages = lastName => {
+    return {
+      lastNameErrorEmpty:
+        lastName.trim() === "" ? "Last name cannot be empty" : "",
+      lastNameErrorWhitespaces: /\s/.test(lastName)
+        ? "Last name cannot contain whitespaces"
+        : ""
+    };
+  };
 
-    if (this.state.email.trim() === "") {
-      isError = true;
-      errors.emailErrorEmpty = "Email cannot be empty";
-    }
+  getEmailErrorMessages = email => {
+    return {
+      emailErrorEmpty: email.trim() === "" ? "Email cannot be empty" : "",
+      emailErrorWhitespaces: /\s/.test(email)
+        ? "Email cannot contain whitespaces"
+        : "",
+      emailErrorDomain: !/^[a-zA-Z0-9_.+-]+@nokia\.com$/.test(email)
+        ? "Email needs to be from nokia domain, eg. example@nokia.com"
+        : ""
+    };
+  };
 
-    var emailRegex = /^[a-zA-Z0-9_.+-]+@nokia\.com$/;
+  getPasswordErrorMessages = password => {
+    return {
+      passwordErrorEmpty:
+        password.trim() === "" ? "Password cannot be empty" : "",
+      passwordErrorWhitespaces: /\s/.test(password)
+        ? "Password cannot contain whitespaces"
+        : "",
+      passwordErrorLength:
+        password.length < 6 ? "Password must have at least 6 characters " : ""
+    };
+  };
 
-    if (!emailRegex.test(this.state.email)) {
-      isError = true;
-      errors.emailErrorDomain =
-        "Email needs to be from nokia domain, eg. example@nokia.com";
-    }
-
-    if (this.state.password.trim() === "") {
-      isError = true;
-      errors.passwordErrorEmpty = "Password cannot be empty";
-    }
-
-    if (this.state.password.length < 7) {
-      isError = true;
-      errors.passwordErrorLength = "Password must have at least 6 characters ";
-    }
-
-    if (this.state.passwordConfirmation.trim() === "") {
-      isError = true;
-      errors.passwordConfirmationErrorEmpty =
-        "Password confirmation cannot be empty";
-    }
-
-    if (this.state.password !== this.state.passwordConfirmation) {
-      isError = true;
-      errors.passwordConfirmationErrorMatch =
-        "Password and Password Confirmation must match";
-    }
-
-    if (isError) {
-      this.setState(errors);
-    }
-
-    return isError;
+  getPasswordConfirmationErrorMessages = passwordConfirmation => {
+    return {
+      passwordConfirmationErrorEmpty:
+        passwordConfirmation.trim() === ""
+          ? "Password confirmation cannot be empty"
+          : "",
+      passwordConfirmationErrorWhitespaces: /\s/.test(passwordConfirmation)
+        ? "Password confirmation cannot contain whitespaces"
+        : "",
+      passwordConfirmationErrorMatch:
+        this.state.password !== passwordConfirmation
+          ? "Password and Password Confirmation must match"
+          : ""
+    };
   };
 
   onSubmit = e => {
     e.preventDefault();
 
-    const err = this.validate();
+    //todo do dokończenia
+    const errors = {
+      ...this.getFirstNameErrorMessages(this.state.firstName),
+      ...this.getLastNameErrorMessages(this.state.lastName),
+      ...this.getEmailErrorMessages(this.state.email),
+      ...this.getPasswordErrorMessages(this.state.password),
+      ...this.getPasswordConfirmationErrorMessages(
+        this.state.passwordConfirmation
+      )
+    };
 
-    if (!err) {
-      this.setState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        errors: {},
-        first_nameErrorEmpty: "",
-        last_nameErrorEmpty: "",
-        emailErrorEmpty: "",
-        emailErrorDomain: "",
-        passwordErrorEmpty: "",
-        passwordErrorLength: "",
-        passwordConfirmationErrorEmpty: "",
-        passwordConfirmationErrorMatch: ""
-      });
+    const hasErrors = Object.values(errors).some(message => message !== "");
 
+    if (!hasErrors) {
       const newUser = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         email: this.state.email,
         password: this.state.password,
         passwordConfirmation: this.state.passwordConfirmation
       };
 
       this.props.registerUser(newUser, this.props.history);
+    } else {
+      this.setState(errors);
     }
   };
 
@@ -162,37 +164,75 @@ class RegistrationPage extends Component {
             </Header>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
-                <span class="errorsColor">
-                  {this.state.first_nameErrorEmpty}
-                </span>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.firstNameErrorEmpty}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.firstNameErrorWhitespaces}
+                  </span>
+                </div>
                 <Form.Input
-                  id="first_name"
-                  name="first_name"
+                  id="firstName"
+                  name="firstName"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="First Name"
-                  error={this.state.first_nameErrorEmpty}
-                  value={this.state.first_name}
-                  onChange={this.onChange}
+                  error={
+                    this.state.firstNameErrorEmpty ||
+                    this.state.firstNameErrorWhitespaces
+                  }
+                  value={this.state.firstName}
+                  onChange={e =>
+                    this.updateInput(e, this.getFirstNameErrorMessages)
+                  }
                 />
-                <span class="errorsColor">
-                  {this.state.last_nameErrorEmpty}
-                </span>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.lastNameErrorEmpty}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.lastNameErrorWhitespaces}
+                  </span>
+                </div>
                 <Form.Input
-                  id="last_name"
-                  name="last_name"
+                  id="lastName"
+                  name="lastName"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="Last Name"
-                  error={this.state.last_nameErrorEmpty}
-                  value={this.state.last_name}
-                  onChange={this.onChange}
+                  error={
+                    this.state.lastNameErrorEmpty ||
+                    this.state.lastNameErrorWhitespaces
+                  }
+                  value={this.state.lastName}
+                  onChange={e =>
+                    this.updateInput(e, this.getLastNameErrorMessages)
+                  }
                 />
-                <span class="errorsColor">{this.state.emailErrorEmpty}</span>
                 <div>
-                  <span class="errorsColor">{this.state.emailErrorDomain}</span>
+                  <span className="errorsColor">
+                    {this.state.emailErrorEmpty}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.emailErrorWhitespaces}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.emailErrorDomain}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">{errors.email}</span>
                 </div>
                 <Form.Input
                   id="email"
@@ -202,14 +242,31 @@ class RegistrationPage extends Component {
                   iconPosition="left"
                   placeholder="E-mail address"
                   error={
-                    this.state.emailErrorEmpty || this.state.emailErrorDomain
+                    this.state.emailErrorEmpty ||
+                    this.state.emailErrorDomain ||
+                    this.state.emailErrorWhitespaces ||
+                    errors.email
                   }
                   value={this.state.email}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getEmailErrorMessages)
+                  }
                 />
-                <span class="errorsColor">{this.state.passwordErrorEmpty}</span>
+
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
+                    {this.state.passwordErrorEmpty}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="errorsColor">
+                    {this.state.passwordErrorWhitespaces}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="errorsColor">
                     {this.state.passwordErrorLength}
                   </span>
                 </div>
@@ -223,16 +280,26 @@ class RegistrationPage extends Component {
                   type="password"
                   error={
                     this.state.passwordErrorEmpty ||
-                    this.state.passwordErrorLength
+                    this.state.passwordErrorLength ||
+                    this.state.passwordErrorWhitespaces
                   }
                   value={this.state.password}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(e, this.getPasswordErrorMessages)
+                  }
                 />
-                <span class="errorsColor">
-                  {this.state.passwordConfirmationErrorEmpty}
-                </span>
                 <div>
-                  <span class="errorsColor">
+                  <span className="errorsColor">
+                    {this.state.passwordConfirmationErrorEmpty}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
+                    {this.state.passwordConfirmationErrorWhitespaces}
+                  </span>
+                </div>
+                <div>
+                  <span className="errorsColor">
                     {this.state.passwordConfirmationErrorMatch}
                   </span>
                 </div>
@@ -246,10 +313,16 @@ class RegistrationPage extends Component {
                   type="password"
                   error={
                     this.state.passwordConfirmationErrorEmpty ||
-                    this.state.passwordConfirmationErrorMatch
+                    this.state.passwordConfirmationErrorMatch ||
+                    this.state.passwordConfirmationErrorWhitespaces
                   }
                   value={this.state.passwordConfirmation}
-                  onChange={this.onChange}
+                  onChange={e =>
+                    this.updateInput(
+                      e,
+                      this.getPasswordConfirmationErrorMessages
+                    )
+                  }
                 />
 
                 <Button color="blue" fluid size="large">

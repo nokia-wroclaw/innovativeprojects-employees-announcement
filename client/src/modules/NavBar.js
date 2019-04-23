@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Image } from "semantic-ui-react";
-import logo from "./images/nokia.png";
+import logo from "./images/nokia_white.png";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -30,8 +30,8 @@ class NavBar extends Component {
         <Menu inverted attached>
           <Menu.Menu>
             <Menu.Item onClick={this.ChangeToHomePath}>
-              <Image size="mini" src={logo} style={{ marginRight: "1.5em" }} />
-              Employee Announcements
+              <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
+              Employees Announcements
             </Menu.Item>
           </Menu.Menu>
           <Menu.Menu position="right">

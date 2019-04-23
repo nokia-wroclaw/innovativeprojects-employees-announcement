@@ -11,32 +11,31 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 
-
 // @route POST api/users/register
 // @desc Register user
 // @access Public
 router.post("/register", (req, res) => {
   // Form validation
 
-const { errors, isValid } = validateRegisterInput(req.body);
+  const { errors, isValid } = validateRegisterInput(req.body);
 
-// Check validation
+  // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
   User.findOne({ email: req.body.email }).then(user => {
-      if (user) {
-        return res.status(400).json({ email: "Email already exists" });
-      } else {
-        const newUser = new User({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          password: req.body.password
-  });
+    if (user) {
+      return res.status(400).json({ email: "Email already exists" });
+    } else {
+      const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password
+      });
 
-// Hash password before saving in database
+      // Hash password before saving in database
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -57,9 +56,9 @@ const { errors, isValid } = validateRegisterInput(req.body);
 router.post("/login", (req, res) => {
   // Form validation
 
-const { errors, isValid } = validateLoginInput(req.body);
+  const { errors, isValid } = validateLoginInput(req.body);
 
-// Check validation
+  // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -67,29 +66,29 @@ const { errors, isValid } = validateLoginInput(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
-// Find user by email
+  // Find user by email
   User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
-// Check password
+    // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User matched
         // Create JWT Payload
         const payload = {
           id: user.id,
-          first_name: user.first_name
+          firstName: user.firstName
         };
 
-// Sign token
+        // Sign token
         jwt.sign(
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 604800 //31556926 // 1 year in seconds
           },
           (err, token) => {
             res.json({
