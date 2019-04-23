@@ -116,9 +116,6 @@ class AddAnnouncementPage extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="black" textAlign="center">
-              Adding announcement
-            </Header>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <span class="errorsColor">{this.state.titleErrorEmpty}</span>
@@ -182,7 +179,7 @@ class AddAnnouncementPage extends Component {
                 />
 
                 <Button color="blue" fluid size="large">
-                  Add
+                  Add Announcement
                 </Button>
               </Segment>
             </Form>
