@@ -1,0 +1,8 @@
+.fixed {
+  position: fixed;
+  top: 0 px;
+}
+
+.summary {
+  text-align: center;
+}
