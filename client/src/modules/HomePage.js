@@ -1,9 +1,92 @@
 import React, { Component } from "react";
 
+
+import {
+  Grid,
+  GridRow,
+  Menu,
+  Sticky,
+  Segment,
+  Rail,
+  GridColumn,
+  Feed
+} from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import AnnouncementAdd from "./AnnouncementAdd";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+
+const Announcement = props => (
+  <Segment>
+    <Feed>
+      <Feed.Event>
+        <Feed.Content>
+          <Feed.Summary>{props.announcement.title}</Feed.Summary>
+          <Feed.Extra text>
+            <p>Price:
+            {props.announcement.price}</p>
+          </Feed.Extra>
+          <Feed.Extra text>{props.announcement.description}</Feed.Extra>
+        </Feed.Content>
+      </Feed.Event>
+    </Feed>
+  </Segment>
+);
+
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { announcements: [] };
+  }
+
+  componentDidMount() {
+    axios
+      .get("/api/announcements/")
+      .then(response => {
+        this.setState({ announcements: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  announcementsList() {
+    return this.state.announcements.map(function(currentAnnouncement, i) {
+      return <Announcement announcement={currentAnnouncement} key={i} />;
+    });
+  }
   render() {
-    return <div />;
+    return (
+      <div style={{ marginTop: "5em" }} >
+        {this.props.auth.isAuthenticated ? <AnnouncementAdd /> : ""}
+
+        <Grid padded="vertically" columns={3}>
+          <Grid.Column  width="3">
+          </Grid.Column>
+          <Grid.Column  width="10" >
+            {this.announcementsList()}
+          </Grid.Column>
+          <Grid.Column width="2" />
+        </Grid>
+      </div>
+
+      
+    );
   }
 }
 
-export default HomePage;
+HomePage.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(HomePage);

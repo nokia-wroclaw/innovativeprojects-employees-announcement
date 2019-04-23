@@ -10,7 +10,7 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import Footer from "./modules/Footer";
 
-import logo from "./modules/images/background.jpg";
+import logo2 from "./modules/images/one.jpg";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -53,14 +53,12 @@ class App extends Component {
               display: "flex",
               minHeight: "100vh",
               flexDirection: "column",
-              backgroundImage: `url(${logo})`,
+              backgroundImage: `url(${logo2})`,
               height: "100%",
               width: "100%"
             }}
           >
-            <div>
-              <NavBar />
-            </div>
+            <NavBar />
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />

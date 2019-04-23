@@ -35,7 +35,7 @@ class LoginPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard"); // push user to dashboard when they login
+      this.props.history.push("/"); // push user to dashboard when they login
     }
 
     if (nextProps.errors) {
