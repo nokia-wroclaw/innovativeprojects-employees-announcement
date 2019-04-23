@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo2 from "./images/one.jpg";
 
 import SubMenu from "./SubMenu";
 import {
@@ -62,7 +61,7 @@ class HomePage extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={{ marginTop: "5em" }} >
         {this.props.auth.isAuthenticated ? <AnnouncementAdd /> : ""}
 
         <Grid padded="vertically" columns={3}>
