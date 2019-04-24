@@ -43,7 +43,7 @@ class HomePage extends Component {
     this.state = { announcements: [] };
   }
 
-  componentDidMount() {
+  getAllAnnouncements = () => {
     axios
       .get("/api/announcements/")
       .then(response => {
@@ -52,17 +52,28 @@ class HomePage extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  };
+
+  componentDidMount() {
+    this.getAllAnnouncements(this.announcements);
   }
 
   announcementsList() {
-    return this.state.announcements.map(function(currentAnnouncement, i) {
-      return <Announcement announcement={currentAnnouncement} key={i} />;
-    });
+    return this.state.announcements
+
+      .map(function(currentAnnouncement, i) {
+        return <Announcement announcement={currentAnnouncement} key={i} />;
+      })
+      .reverse(); // ale przy odwrotnej kolejnosci jest skok, nie wazne naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        {this.props.auth.isAuthenticated ? <AnnouncementAdd /> : ""}
+        {this.props.auth.isAuthenticated ? (
+          <AnnouncementAdd getAllAnnouncements={this.getAllAnnouncements} />
+        ) : (
+          ""
+        )}
 
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="3" />

@@ -25,6 +25,7 @@ class NavBar extends Component {
   }
 
   render() {
+    const { user } = this.props.auth;
     return (
       <div>
         <Menu fixed="top" inverted>
@@ -36,7 +37,11 @@ class NavBar extends Component {
           </Menu.Menu>
           <Menu.Menu position="right">
             {this.props.auth.isAuthenticated ? (
-              <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>
+              <>
+                <Menu.Item>Hi {user.firstName}</Menu.Item>
+
+                <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>
+              </>
             ) : (
               <>
                 <Menu.Item onClick={this.ChangeToRegistrationPath}>

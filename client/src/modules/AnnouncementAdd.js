@@ -65,10 +65,10 @@ class AddAnnouncementPage extends Component {
       errors.priceErrorEmpty = "Price cannot be empty";
     }
 
-    if (this.state.user_id.trim() === "") {
-      isError = true;
-      errors.user_idErrorEmpty = "user_id cannot be empty";
-    }
+    //  if (this.state.user_id.trim() === "") {
+    //    isError = true;
+    //    errors.user_idErrorEmpty = "user_id cannot be empty";
+    //  }
 
     if (isError) {
       this.setState(errors);
@@ -80,14 +80,16 @@ class AddAnnouncementPage extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    const { user } = this.props.auth;
+
     const err = this.validate();
 
     if (!err) {
       this.setState({
-        //    title: "",
-        //      description: "",
-        //      price: "",
-        //      user_id: "",
+        title: "",
+        description: "",
+        price: "",
+        user_id: "",
         errors: {},
         titleErrorEmpty: "",
         descriptionErrorEmpty: "",
@@ -99,11 +101,12 @@ class AddAnnouncementPage extends Component {
         title: this.state.title,
         description: this.state.description,
         price: this.state.price,
-        user_id: this.state.user_id
+        user_id: user.id
       };
 
       this.props.addAnnouncement(newAnnouncement, this.props.history);
     }
+    this.props.getAllAnnouncements();
   };
 
   render() {
@@ -150,35 +153,26 @@ class AddAnnouncementPage extends Component {
                 <span class="errorsColor">
                   {this.state.descriptionErrorEmpty}
                 </span>
-                <TextArea
-                  style={{ height: "200px", resize: "none" }}
-                  id="description"
-                  name="description"
+                <Form>
+                  <TextArea
+                    style={{ height: "200px", resize: "none" }}
+                    id="description"
+                    name="description"
+                    fluid
+                    icon="pencil alternate"
+                    iconPosition="left"
+                    placeholder="Description"
+                    error={this.state.descriptionErrorEmpty}
+                    value={this.state.description}
+                    onChange={this.onChange}
+                  />
+                </Form>
+                <Button
+                  style={{ marginTop: "1em" }}
+                  color="blue"
                   fluid
-                  icon="pencil alternate"
-                  iconPosition="left"
-                  placeholder="Description"
-                  error={this.state.descriptionErrorEmpty}
-                  value={this.state.description}
-                  onChange={this.onChange}
-                />
-
-                <span class="errorsColor">{this.state.user_idErrorEmpty}</span>
-
-                <Form.Input
-                  id="user_id"
-                  name="user_id"
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="user_id"
-                  type="user_id"
-                  error={this.state.user_idErrorEmpty}
-                  value={this.state.user_id}
-                  onChange={this.onChange}
-                />
-
-                <Button color="blue" fluid size="large">
+                  size="large"
+                >
                   Add Announcement
                 </Button>
               </Segment>
