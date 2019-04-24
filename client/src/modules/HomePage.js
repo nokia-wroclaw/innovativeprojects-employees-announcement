@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 import {
   Grid,
   GridRow,
@@ -26,8 +25,10 @@ const Announcement = props => (
         <Feed.Content>
           <Feed.Summary>{props.announcement.title}</Feed.Summary>
           <Feed.Extra text>
-            <p>Price:
-            {props.announcement.price}</p>
+            <p>
+              Price:
+              {props.announcement.price}
+            </p>
           </Feed.Extra>
           <Feed.Extra text>{props.announcement.description}</Feed.Extra>
         </Feed.Content>
@@ -60,20 +61,15 @@ class HomePage extends Component {
   }
   render() {
     return (
-      <div style={{ marginTop: "5em" }} >
+      <div style={{ marginTop: "5em" }}>
         {this.props.auth.isAuthenticated ? <AnnouncementAdd /> : ""}
 
         <Grid padded="vertically" columns={3}>
-          <Grid.Column  width="3">
-          </Grid.Column>
-          <Grid.Column  width="10" >
-            {this.announcementsList()}
-          </Grid.Column>
+          <Grid.Column width="3" />
+          <Grid.Column width="10">{this.announcementsList()}</Grid.Column>
           <Grid.Column width="2" />
         </Grid>
       </div>
-
-      
     );
   }
 }
