@@ -10,7 +10,8 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import Footer from "./modules/Footer";
 
-import logo2 from "./modules/images/one.jpg";
+import logo1 from "./modules/images/one.jpg";
+import logo2 from "./modules/images/night.jpg";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -44,6 +45,25 @@ if (localStorage.jwtToken) {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bgImage: props.bgImage
+    };
+  }
+
+  ChangeToLightMode = e => {
+    this.setState({
+      bgImage: `url(${logo1})`
+    });
+  };
+
+  ChangeToDarkMode = e => {
+    this.setState({
+      bgImage: `url(${logo2})`
+    });
+  };
+
   render() {
     return (
       <Provider store={store}>
@@ -53,12 +73,15 @@ class App extends Component {
               display: "flex",
               minHeight: "100vh",
               flexDirection: "column",
-              backgroundImage: `url(${logo2})`,
+              backgroundImage: this.state.bgImage,
               height: "100%",
               width: "100%"
             }}
           >
-            <NavBar />
+            <NavBar
+              ChangeToDarkMode={this.ChangeToDarkMode}
+              ChangeToLightMode={this.ChangeToLightMode}
+            />
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />

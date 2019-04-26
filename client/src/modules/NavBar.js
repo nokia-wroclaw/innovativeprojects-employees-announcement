@@ -36,10 +36,14 @@ class NavBar extends Component {
             </Menu.Item>
           </Menu.Menu>
           <Menu.Menu position="right">
+            <Menu.Item onClick={this.props.ChangeToDarkMode}>
+              DarkMode
+            </Menu.Item>
+            <Menu.Item onClick={this.props.ChangeToLightMode}>
+              LightMode
+            </Menu.Item>
             {this.props.auth.isAuthenticated ? (
               <>
-                <Menu.Item>Hi {user.firstName}</Menu.Item>
-
                 <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>
               </>
             ) : (

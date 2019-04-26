@@ -115,10 +115,14 @@ class AddAnnouncementPage extends Component {
       <div>
         <Grid
           textAlign="center"
-          style={({ height: "100%" }, { marginTop: "5.5em" })}
+          style={
+            ({ height: "100%" },
+            { marginTop: "5.5em" },
+            { marginBottom: "8em" })
+          }
           verticalAlign="middle"
         >
-          <Grid.Column style={{ maxWidth: 450 }}>
+          <Grid.Column style={{ maxWidth: 1168.12 }}>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <span class="errorsColor">{this.state.titleErrorEmpty}</span>
