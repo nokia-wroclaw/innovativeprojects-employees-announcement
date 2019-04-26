@@ -11,6 +11,13 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 
+router.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  User.findById(id, function(err, user) {
+    res.json(user);
+  });
+});
+
 // @route POST api/users/register
 // @desc Register user
 // @access Public
@@ -80,7 +87,9 @@ router.post("/login", (req, res) => {
         // Create JWT Payload
         const payload = {
           id: user.id,
-          firstName: user.firstName
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
         };
 
         // Sign token

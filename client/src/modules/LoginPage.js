@@ -27,15 +27,15 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
+    // If logged in and user navigates to Login page, should redirect them to homepage
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/"); // push user to dashboard when they login
+      this.props.history.push("/"); // push user to homepage when they login
     }
 
     if (nextProps.errors) {
@@ -111,9 +111,11 @@ class LoginPage extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="blue" textAlign="center">
-              Login to your account
-            </Header>
+            <Message>
+              <Header as="h3" color="blue" textAlign="center">
+                Login to your account
+              </Header>
+            </Message>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>
