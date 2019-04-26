@@ -13,31 +13,11 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
+import Announcement from "./Announcement";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
-
-const Announcement = props => (
-  <Segment>
-    <Feed>
-      <Feed.Event>
-        <Feed.Content>
-          <Feed.Summary>{props.announcement.title} </Feed.Summary>
-          <Feed.User>Dawid B </Feed.User>
-          <Feed.Date>Date.now()</Feed.Date>
-          <Feed.Extra text>
-            <p>
-              Price:
-              {props.announcement.price}
-            </p>
-          </Feed.Extra>
-          <Feed.Extra text>{props.announcement.description}</Feed.Extra>
-        </Feed.Content>
-      </Feed.Event>
-    </Feed>
-  </Segment>
-);
 
 class HomePage extends Component {
   constructor(props) {
@@ -66,7 +46,7 @@ class HomePage extends Component {
       .map(function(currentAnnouncement, i) {
         return <Announcement announcement={currentAnnouncement} key={i} />;
       })
-      .reverse(); // ale przy odwrotnej kolejnosci jest skok, nie wazne naprawione tym ze reverse() ma byc po funkcji map a nie przed
+      .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
   render() {
     return (

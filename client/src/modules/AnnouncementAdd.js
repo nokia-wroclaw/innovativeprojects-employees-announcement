@@ -25,8 +25,7 @@ class AddAnnouncementPage extends Component {
       errors: {},
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
-      priceErrorEmpty: "",
-      user_idErrorEmpty: ""
+      priceErrorEmpty: ""
     };
   }
 
@@ -47,8 +46,7 @@ class AddAnnouncementPage extends Component {
     const errors = {
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
-      priceErrorEmpty: "",
-      user_idErrorEmpty: ""
+      priceErrorEmpty: ""
     };
     if (this.state.title.trim() === "") {
       isError = true;
@@ -64,11 +62,6 @@ class AddAnnouncementPage extends Component {
       isError = true;
       errors.priceErrorEmpty = "Price cannot be empty";
     }
-
-    //  if (this.state.user_id.trim() === "") {
-    //    isError = true;
-    //    errors.user_idErrorEmpty = "user_id cannot be empty";
-    //  }
 
     if (isError) {
       this.setState(errors);
@@ -93,8 +86,7 @@ class AddAnnouncementPage extends Component {
         errors: {},
         titleErrorEmpty: "",
         descriptionErrorEmpty: "",
-        priceErrorEmpty: "",
-        user_idErrorEmpty: ""
+        priceErrorEmpty: ""
       });
 
       const newAnnouncement = {
@@ -139,9 +131,7 @@ class AddAnnouncementPage extends Component {
                 />
 
                 <span class="errorsColor">{this.state.priceErrorEmpty}</span>
-                <div>
-                  <span class="errorsColor">{this.state.priceErrorDomain}</span>
-                </div>
+
                 <Form.Input
                   id="price"
                   name="price"

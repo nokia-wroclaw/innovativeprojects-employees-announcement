@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Image } from "semantic-ui-react";
+import { Menu, Image, Dropdown } from "semantic-ui-react";
 import logo from "./images/nokia_white.png";
 
 import PropTypes from "prop-types";
@@ -36,12 +36,17 @@ class NavBar extends Component {
             </Menu.Item>
           </Menu.Menu>
           <Menu.Menu position="right">
-            <Menu.Item onClick={this.props.ChangeToDarkMode}>
-              DarkMode
-            </Menu.Item>
-            <Menu.Item onClick={this.props.ChangeToLightMode}>
-              LightMode
-            </Menu.Item>
+            <Dropdown text="Mode" pointing className="link item">
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={this.props.ChangeToDarkMode}>
+                  DarkMode
+                </Dropdown.Item>
+                <Dropdown.Item onClick={this.props.ChangeToLightMode}>
+                  LightMode
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
             {this.props.auth.isAuthenticated ? (
               <>
                 <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>

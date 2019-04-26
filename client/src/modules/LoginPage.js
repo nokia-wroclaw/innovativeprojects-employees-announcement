@@ -27,15 +27,15 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
+    // If logged in and user navigates to Login page, should redirect them to homepage
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/"); // push user to dashboard when they login
+      this.props.history.push("/"); // push user to homepage when they login
     }
 
     if (nextProps.errors) {
