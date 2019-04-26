@@ -11,7 +11,7 @@ import HomePage from "./modules/HomePage";
 import Footer from "./modules/Footer";
 
 import logo1 from "./modules/images/one.jpg";
-import logo2 from "./modules/images/night.jpg";
+import logo2 from "./modules/images/gradient.jpg";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -56,12 +56,14 @@ class App extends Component {
     this.setState({
       bgImage: `url(${logo1})`
     });
+    localStorage.logoImage2 = `url(${logo1})`;
   };
 
   ChangeToDarkMode = e => {
     this.setState({
       bgImage: `url(${logo2})`
     });
+    localStorage.logoImage2 = `url(${logo2})`;
   };
 
   render() {

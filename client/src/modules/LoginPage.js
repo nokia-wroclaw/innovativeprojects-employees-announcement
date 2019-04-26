@@ -111,9 +111,11 @@ class LoginPage extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="blue" textAlign="center">
-              Login to your account
-            </Header>
+            <Message>
+              <Header as="h3" color="blue" textAlign="center">
+                Login to your account
+              </Header>
+            </Message>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>

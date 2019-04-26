@@ -23,7 +23,9 @@ const Announcement = props => (
     <Feed>
       <Feed.Event>
         <Feed.Content>
-          <Feed.Summary>{props.announcement.title}</Feed.Summary>
+          <Feed.Summary>{props.announcement.title} </Feed.Summary>
+          <Feed.User>Dawid B </Feed.User>
+          <Feed.Date>Date.now()</Feed.Date>
           <Feed.Extra text>
             <p>
               Price:

@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 
 import "./RegistrationPage.css";
-import { Grid, Button, Header, Form, Segment } from "semantic-ui-react";
+import {
+  Grid,
+  Button,
+  Header,
+  Form,
+  Segment,
+  Message
+} from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -159,9 +166,11 @@ class RegistrationPage extends Component {
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="blue" textAlign="center">
-              Registration
-            </Header>
+            <Message>
+              <Header as="h3" color="blue" textAlign="center">
+                Registration
+              </Header>
+            </Message>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <div>

@@ -7,7 +7,7 @@ import "semantic-ui/dist/semantic.min.css";
 import logo1 from "./modules/images/one.jpg";
 
 ReactDOM.render(
-  <App bgImage={`url(${logo1})`} />,
+  <App bgImage={localStorage.logoImage2} />,
   document.getElementById("root")
 );
 
