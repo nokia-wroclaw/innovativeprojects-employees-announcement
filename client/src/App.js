@@ -10,8 +10,8 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import Footer from "./modules/Footer";
 
-import logo1 from "./modules/images/one.jpg";
-import logo2 from "./modules/images/gradient.jpg";
+import logo1 from "./modules/images/lightMode.jpg";
+import logo2 from "./modules/images/darkMode.jpg";
 
 import { Provider } from "react-redux";
 import store from "./store";
