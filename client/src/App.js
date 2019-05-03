@@ -89,11 +89,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/authors" component={Authors} />
-                <Route
-                  exact
-                  path="/registration"
-                  component={RegistrationPage}
-                />
+                <Route exact path="/registration"component={RegistrationPage}/>
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/account" component={AccountPage} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />

@@ -1,6 +1,5 @@
+import AccountSettings from "./AccountSettings";
 import React, { Component } from "react";
-import "./AccountPage.css";
-import "./RegistrationPage.css";
 import {
   Grid,
   Button,
@@ -9,90 +8,47 @@ import {
   Segment,
   Message
 } from "semantic-ui-react";
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+import Page404 from "./Page404";
 
 class AccountPage extends Component {
-    constructor()
-    {
-        super()
-        this.state = {
-            firstName: "",
-            lastName: "",
-            oldPassword: "",
-            newPassword: "",
-            newPasswordConfirmation: "",
-            phone: "",
+    constructor(props)
+        {
+            super(props)
         }
-    }
 
     render() {
-        return ( 
-            <div className = "changename-form" style={{ marginTop: "5em" }}>
-            <Grid textAlign="center" verticalAlign="middle">
-                <Grid.Column style={{ maxWidth: 600 }} right aligned>
-                    <Message>
-                        <Header as="h3" color="blue" textAlign="center">
-                            Account Details
-                        </Header>
-                    </Message>
-
-                    <Form size="large" noValidate onSubmit={this.onSubmit}>
-              <Segment stacked textAlign="left">
-                <Header as="h4" color="blue" textAlign="left" d> 
-                    Change your first and last name
-                </Header>
-
-                <Form.Input placeholder="First Name" style={{ maxWidth: 250 }}
-                />
-
-                <Form.Input placeholder="Last Name" style={{ maxWidth: 250 }}
-                />
-
-                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
-                  Apply
-                </Button>
-              </Segment>
-            
-              <Segment stacked textAlign="left">
-            
-                 <Header as="h4" color="blue" textAlign="left" d> 
-                    Change your password
-                 </Header>
-
-                <Form.Input placeholder="Old password" style={{ maxWidth: 250 }}
-                />
-
-                <Form.Input placeholder="New password" style={{ maxWidth: 250 }}
-                />
-
-                <Form.Input placeholder="Confirm new password" style={{ maxWidth: 250 }}
-                />
-
-                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
-                  Apply
-                </Button>
-              </Segment>
-
-              <Segment stacked textAlign="left">
-            
-                <Header as="h4" color="blue" textAlign="left" d> 
-                Change your contact number
-                </Header>
-
-                <Form.Input placeholder="Contact number" style={{ maxWidth: 250 }}
-                />
-                
-                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
-                    Apply
-                </Button>
-             </Segment>
-            </Form>
-                </Grid.Column>
-            </Grid>
-            
-            </div>  )  
+        const { user } = this.props.auth;
+          if (this.props.auth.isAuthenticated )
+         {
+        return (
+            <div>
+                <AccountSettings/>
+                <h1>{user.lastName}</h1>
+            </div>
+             )
+         }
+         else
+         {
+             return (
+                 <Page404/>
+             )
+         }
     }
-
 }
 
-export default AccountPage
+AccountPage.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+  };
+  
+  const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+  export default connect(
+    mapStateToProps,
+    { logoutUser }
+  )(AccountPage);
