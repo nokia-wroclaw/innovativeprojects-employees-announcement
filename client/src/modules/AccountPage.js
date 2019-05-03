@@ -26,9 +26,71 @@ class AccountPage extends Component {
     }
 
     render() {
-        return (
-            <Header>NO HEJO</Header>
-        )
+        return ( 
+            <div className = "changename-form" style={{ marginTop: "5em" }}>
+            <Grid textAlign="center" verticalAlign="middle">
+                <Grid.Column style={{ maxWidth: 600 }} right aligned>
+                    <Message>
+                        <Header as="h3" color="blue" textAlign="center">
+                            Account Details
+                        </Header>
+                    </Message>
+
+                    <Form size="large" noValidate onSubmit={this.onSubmit}>
+              <Segment stacked textAlign="left">
+                <Header as="h4" color="blue" textAlign="left" d> 
+                    Change your first and last name
+                </Header>
+
+                <Form.Input placeholder="First Name" style={{ maxWidth: 250 }}
+                />
+
+                <Form.Input placeholder="Last Name" style={{ maxWidth: 250 }}
+                />
+
+                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+                  Apply
+                </Button>
+              </Segment>
+            
+              <Segment stacked textAlign="left">
+            
+                 <Header as="h4" color="blue" textAlign="left" d> 
+                    Change your password
+                 </Header>
+
+                <Form.Input placeholder="Old password" style={{ maxWidth: 250 }}
+                />
+
+                <Form.Input placeholder="New password" style={{ maxWidth: 250 }}
+                />
+
+                <Form.Input placeholder="Confirm new password" style={{ maxWidth: 250 }}
+                />
+
+                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+                  Apply
+                </Button>
+              </Segment>
+
+              <Segment stacked textAlign="left">
+            
+                <Header as="h4" color="blue" textAlign="left" d> 
+                Change your contact number
+                </Header>
+
+                <Form.Input placeholder="Contact number" style={{ maxWidth: 250 }}
+                />
+                
+                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+                    Apply
+                </Button>
+             </Segment>
+            </Form>
+                </Grid.Column>
+            </Grid>
+            
+            </div>  )  
     }
 
 }
