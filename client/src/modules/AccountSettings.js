@@ -9,7 +9,7 @@ import {
 } from "semantic-ui-react";
 
 
-class AccountSettings extends Component {
+class NameSettings extends Component {
     constructor(props)
     {
         super()
@@ -18,16 +18,7 @@ class AccountSettings extends Component {
     render() {
      
         return ( 
-            <div className = "accountsettings-form" style={{ marginTop: "5em" }}>
-            <Grid textAlign="center" verticalAlign="middle">
-                <Grid.Column style={{ maxWidth: 600 }} right aligned>
-                    <Message>
-                        <Header as="h3" color="blue" textAlign="center">
-                            Account Details
-                        </Header>
-                    </Message>
-
-                    <Form size="large" noValidate onSubmit={this.onSubmit}>
+            <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment className = "changename-form" stacked textAlign="left">
                 <Header as="h4" color="blue" textAlign="left" d> 
                     Change your first and last name
@@ -43,49 +34,73 @@ class AccountSettings extends Component {
                   Apply
                 </Button>
               </Segment>
-            
-              <Segment className = "changepassword-form" stacked textAlign="left">
-            
-                 <Header as="h4" color="blue" textAlign="left" d> 
-                    Change your password
-                 </Header>
-
-                <Form.Input placeholder="Old password" style={{ maxWidth: 250 }}
-                />
-
-                <Form.Input placeholder="New password" style={{ maxWidth: 250 }}
-                />
-
-                <Form.Input placeholder="Confirm new password" style={{ maxWidth: 250 }}
-                />
-
-                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
-                  Apply
-                </Button>
-              </Segment>
-
-              <Segment className = "changephone-form" stacked textAlign="left">
-            
-                <Header as="h4" color="blue" textAlign="left" d> 
-                Change your contact number
-                </Header>
-
-                <Form.Input placeholder="Contact number" style={{ maxWidth: 250 }}
-                />
-                
-                <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
-                    Apply
-                </Button>
-             </Segment>
             </Form>
-                </Grid.Column>
-            </Grid>
-            
-            </div>  )  
+             )  
     }
 
 }
 
+class PasswordSettings extends Component 
+{
+constructor(props)
+{
+    super()
+}
+
+render() {
+    return ( 
+      <Form size="large" noValidate onSubmit={this.onSubmit}>
+      <Segment className = "changepassword-form" stacked textAlign="left">
+    
+         <Header as="h4" color="blue" textAlign="left" d> 
+            Change your password
+         </Header>
+
+        <Form.Input placeholder="Old password" style={{ maxWidth: 250 }}
+        />
+
+        <Form.Input placeholder="New password" style={{ maxWidth: 250 }}
+        />
+
+        <Form.Input placeholder="Confirm new password" style={{ maxWidth: 250 }}
+        />
+
+        <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+          Apply
+        </Button>
+      </Segment>
+    </Form>
+    )
+}
+}
+
+class ContactSettings extends Component
+{
+  constructor(props)
+{
+    super()
+}
+render() {
+ 
+    return ( 
+      <Form size="large" noValidate onSubmit={this.onSubmit}>
+      <Segment className = "changecontact-form" stacked textAlign="left">
+    
+        <Header as="h4" color="blue" textAlign="left" d> 
+        Change your contact details
+        </Header>
+
+        <Form.Input placeholder="Contact number" style={{ maxWidth: 250 }}
+        />
+        
+        <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+            Apply
+        </Button>
+     </Segment>
+    </Form>
+    )
+}
+}
 
 
 const mapStateToProps = state => ({
@@ -93,4 +108,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default AccountSettings
+export {NameSettings, PasswordSettings, ContactSettings}

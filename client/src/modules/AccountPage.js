@@ -1,4 +1,4 @@
-import AccountSettings from "./AccountSettings";
+import {NameSettings, PasswordSettings, ContactSettings} from "./AccountSettings";
 import React, { Component } from "react";
 import {
   Grid,
@@ -30,19 +30,33 @@ class AccountPage extends Component {
     render() {
  
           if (this.props.auth.isAuthenticated )
-         { 
-
+             { 
             const { user } = this.props.auth;
-        return (
-            <div>
-                <AccountSettings 
-                firstName = {user.firstName}
-                lastName = {user.lastName}
-                />
-            </div>
-             )
-         }
-         else
+            return (
+                     <div className = "accountpage-form" style={{ marginTop: "5em" }}>
+                        <Grid textAlign="center" verticalAlign="middle">
+                             <Grid.Column style={{ maxWidth: 600 }} right aligned>
+                                 <Message>
+                                    <Header as="h3" color="blue" textAlign="center">
+                                        Account Details
+                                    </Header>
+                                 </Message>
+
+                                <NameSettings
+                                firstName = {user.firstName}
+                                lastName = {user.lastName}
+                                />
+
+                                <PasswordSettings/>
+                                <ContactSettings/>
+
+                        
+                             </Grid.Column>
+                         </Grid>
+                 </div>
+                    )
+                 }
+             else
          {
              return (
                  <Page404/>
