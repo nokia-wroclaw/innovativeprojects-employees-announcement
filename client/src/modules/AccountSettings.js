@@ -13,10 +13,20 @@ class NameSettings extends Component {
     constructor(props)
     {
         super()
+        this.state={
+          firstNameInput : props.firstName,
+          lastNameInput : props.lastName
+        }
     }
+
+    onSubmit = e => {
+      e.preventDefault();
+
+      this.props.changeName()
+    }
+
     
     render() {
-     
         return ( 
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment className = "changename-form" stacked textAlign="left">
@@ -24,10 +34,10 @@ class NameSettings extends Component {
                     Change your first and last name
                 </Header>
 
-                <Form.Input placeholder={this.props.firstName} style={{ maxWidth: 250 }}
+                <Form.Input placeholder = "First Name" defaultValue= {this.props.firstName} style={{ maxWidth: 250 }}
                 />
-
-                <Form.Input placeholder={this.props.lastName} style={{ maxWidth: 250 }}
+  
+                <Form.Input placeholder= "Last Name" defaultValue = {this.props.lastName} style={{ maxWidth: 250 }}
                 />
 
                 <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>

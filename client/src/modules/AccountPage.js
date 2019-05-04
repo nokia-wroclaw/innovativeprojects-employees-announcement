@@ -35,7 +35,7 @@ class AccountPage extends Component {
             return (
                      <div className = "accountpage-form" style={{ marginTop: "5em" }}>
                         <Grid textAlign="center" verticalAlign="middle">
-                             <Grid.Column style={{ maxWidth: 600 }} right aligned>
+                             <Grid.Column style={{ maxWidth: 600 }}>
                                  <Message>
                                     <Header as="h3" color="blue" textAlign="center">
                                         Account Details
@@ -46,12 +46,10 @@ class AccountPage extends Component {
                                 firstName = {user.firstName}
                                 lastName = {user.lastName}
                                 />
-
+                              
                                 <PasswordSettings/>
                                 <ContactSettings/>
-
-                        
-                             </Grid.Column>
+                                </Grid.Column>
                          </Grid>
                  </div>
                     )
