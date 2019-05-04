@@ -7,24 +7,14 @@ import {
   Segment,
   Message
 } from "semantic-ui-react";
-import { userInfo } from "os";
 
 
 class AccountSettings extends Component {
-    constructor()
+    constructor(props)
     {
         super()
-        this.state = {
-            firstName: "",
-            lastName: "",
-            oldPassword: "",
-            newPassword: "",
-            newPasswordConfirmation: "",
-            phone: "",
-        }
     }
-
-
+    
     render() {
      
         return ( 
@@ -43,10 +33,10 @@ class AccountSettings extends Component {
                     Change your first and last name
                 </Header>
 
-                <Form.Input placeholder="First Name" style={{ maxWidth: 250 }}
+                <Form.Input placeholder={this.props.firstName} style={{ maxWidth: 250 }}
                 />
 
-                <Form.Input placeholder="Last Name" style={{ maxWidth: 250 }}
+                <Form.Input placeholder={this.props.lastName} style={{ maxWidth: 250 }}
                 />
 
                 <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>

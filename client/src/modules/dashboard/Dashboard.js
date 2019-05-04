@@ -13,7 +13,7 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
 
     return (
-      <div>
+      <div style={({ height: "100%" }, { marginTop: "5.5em" })}>
         Hi, {user.lastName}
         <p className="flow-text grey-text text-darken-1">
           You are logged in! :)

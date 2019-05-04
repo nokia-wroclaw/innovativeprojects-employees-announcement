@@ -14,19 +14,31 @@ import { logoutUser } from "../actions/authActions";
 import Page404 from "./Page404";
 
 class AccountPage extends Component {
-    constructor(props)
+    constructor()
         {
-            super(props)
+            super()
+            this.state = {
+                firstName: "",
+                lastName: "",
+                oldPassword: "",
+                newPassword: "",
+                newPasswordConfirmation: "",
+                phone: "",
+            }
         }
 
     render() {
-        const { user } = this.props.auth;
+ 
           if (this.props.auth.isAuthenticated )
-         {
+         { 
+
+            const { user } = this.props.auth;
         return (
             <div>
-                <AccountSettings/>
-                <h1>{user.lastName}</h1>
+                <AccountSettings 
+                firstName = {user.firstName}
+                lastName = {user.lastName}
+                />
             </div>
              )
          }
