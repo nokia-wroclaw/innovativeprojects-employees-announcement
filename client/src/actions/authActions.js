@@ -66,3 +66,15 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
 };
+
+//Modify user's first or/and last name
+export const changeName = userData => dispatch => {
+  axios.post("api/users/update/:id").then(
+  ).catch(err =>
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  );
+ 
+};

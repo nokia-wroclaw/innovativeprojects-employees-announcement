@@ -115,4 +115,23 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.post("/update/:id", (req, res) => {
+   User.findById(req.body.id, (err,user) => {
+    if (!user) res.status(404).send("User not found");
+    else {
+      user.firstName= req.body.firstName,
+      user.lastName= req.body.lastName
+    }
+
+    user
+      .save()
+      .then(user => {
+        res.json("User's first and/or last name updated");
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
+      });
+})
+});
+
 module.exports = router;
