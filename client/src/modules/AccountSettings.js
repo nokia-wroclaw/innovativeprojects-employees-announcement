@@ -7,6 +7,10 @@ import {
   Segment,
   Message
 } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { changeName } from "../actions/authActions.js"
 
 
 class NameSettings extends Component {
@@ -14,17 +18,26 @@ class NameSettings extends Component {
     {
         super()
         this.state={
-          firstNameInput : props.firstName,
-          lastNameInput : props.lastName
+          id: props.id,
+          firstName : props.firstName,
+          lastName : props.lastName
         }
     }
 
     onSubmit = e => {
       e.preventDefault();
-
-      this.props.changeName()
+      const newUser = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+      };
+      this.props.changeName(newUser);
     }
 
+    updateInput = (e) => {
+      this.setState({
+        [e.target.id]: e.target.value
+      });
+    };
     
     render() {
         return ( 
@@ -34,10 +47,22 @@ class NameSettings extends Component {
                     Change your first and last name
                 </Header>
 
-                <Form.Input placeholder = "First Name" defaultValue= {this.props.firstName} style={{ maxWidth: 250 }}
+                <Form.Input id="firstName" name="firstName" 
+                placeholder = "First Name" defaultValue= {this.props.firstName} 
+                value={this.state.firstName}
+                onChange={e =>
+                  this.updateInput(e)
+                }
+                style={{ maxWidth: 250 }}
                 />
   
-                <Form.Input placeholder= "Last Name" defaultValue = {this.props.lastName} style={{ maxWidth: 250 }}
+                <Form.Input id="lastName" name="lastName"
+                placeholder= "Last Name" defaultValue = {this.props.lastName} 
+                value={this.state.lastName}
+                onChange={e =>
+                  this.updateInput(e)
+                }
+                style={{ maxWidth: 250 }}
                 />
 
                 <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
@@ -112,10 +137,20 @@ render() {
 }
 }
 
+NameSettings.propTypes = {
+  changeName: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
+
+export default connect(
+  mapStateToProps,
+  { changeName }
+)(withRouter(NameSettings));
 
 export {NameSettings, PasswordSettings, ContactSettings}

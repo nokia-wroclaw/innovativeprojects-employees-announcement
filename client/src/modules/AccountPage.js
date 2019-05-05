@@ -43,6 +43,7 @@ class AccountPage extends Component {
                                  </Message>
 
                                 <NameSettings
+                                id = {user.id}
                                 firstName = {user.firstName}
                                 lastName = {user.lastName}
                                 />
@@ -64,7 +65,6 @@ class AccountPage extends Component {
 }
 
 AccountPage.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
   };
   
@@ -74,5 +74,5 @@ AccountPage.propTypes = {
 
   export default connect(
     mapStateToProps,
-    { logoutUser }
+    {  }
   )(AccountPage);
