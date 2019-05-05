@@ -20,17 +20,20 @@ class NameSettings extends Component {
         this.state={
           id: props.id,
           firstName : props.firstName,
-          lastName : props.lastName
+          lastName : props.lastName,
+          changeName : props.changeName
         }
     }
 
     onSubmit = e => {
       e.preventDefault();
       const newUser = {
+        id: this.state.id,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
       };
       this.props.changeName(newUser);
+      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.changeName)
     }
 
     updateInput = (e) => {
@@ -43,7 +46,7 @@ class NameSettings extends Component {
         return ( 
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment className = "changename-form" stacked textAlign="left">
-                <Header as="h4" color="blue" textAlign="left" d> 
+                <Header as="h4" color="blue" textAlign="left"> 
                     Change your first and last name
                 </Header>
 
@@ -87,7 +90,7 @@ render() {
       <Form size="large" noValidate onSubmit={this.onSubmit}>
       <Segment className = "changepassword-form" stacked textAlign="left">
     
-         <Header as="h4" color="blue" textAlign="left" d> 
+         <Header as="h4" color="blue" textAlign="left"> 
             Change your password
          </Header>
 
@@ -121,7 +124,7 @@ render() {
       <Form size="large" noValidate onSubmit={this.onSubmit}>
       <Segment className = "changecontact-form" stacked textAlign="left">
     
-        <Header as="h4" color="blue" textAlign="left" d> 
+        <Header as="h4" color="blue" textAlign="left"> 
         Change your contact details
         </Header>
 
@@ -137,15 +140,12 @@ render() {
 }
 }
 
-NameSettings.propTypes = {
-  changeName: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  id: state.id,
+  firstName: state.firstName,
+  lastName: state.lastName
 });
 
 export default connect(

@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../actions/authActions";
+import { changeName } from "../actions/authActions";
 import Page404 from "./Page404";
 
 class AccountPage extends Component {
@@ -46,6 +46,7 @@ class AccountPage extends Component {
                                 id = {user.id}
                                 firstName = {user.firstName}
                                 lastName = {user.lastName}
+                                changeName = {changeName}
                                 />
                               
                                 <PasswordSettings/>
@@ -74,5 +75,5 @@ AccountPage.propTypes = {
 
   export default connect(
     mapStateToProps,
-    {  }
+    { changeName }
   )(AccountPage);
