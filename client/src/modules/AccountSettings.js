@@ -19,9 +19,9 @@ class NameSettings extends Component {
         super()
         this.state={
           id: props.id,
-          firstName : props.firstName,
-          lastName : props.lastName,
-          changeName : props.changeName
+          firstName: props.firstName,
+          lastName: props.lastName,
+          changeName: props.changeName
         }
     }
 
