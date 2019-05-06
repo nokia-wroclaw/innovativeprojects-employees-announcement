@@ -11,7 +11,6 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { changeName } from "../actions/authActions.js";
-import axios from "axios";
 
 
 class NameSettings extends Component {
@@ -27,16 +26,6 @@ class NameSettings extends Component {
           firstNameErrorEmpty: "",
           firstNameErrorWhitespaces: "",
         }
-    }
-
-    UpdateFunction(newUser) {
-      this.responseOk = false;
-      axios
-        .post('api/users/update/${this.state.id}', newUser)
-        .then()
-        .catch(function(error) {
-          console.log(error);
-        });
     }
 
     getFirstNameErrorMessages = firstName => {
@@ -76,8 +65,8 @@ class NameSettings extends Component {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
       };
-      this.UpdateFunction(newUser)
-      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.UpdateFunction)
+      this.props.changeName(newUser)
+      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.changeName)
       }
       else {
         this.setState(errors);

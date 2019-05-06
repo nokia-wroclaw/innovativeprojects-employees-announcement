@@ -68,12 +68,11 @@ export const logoutUser = () => dispatch => {
 };
 
 //Modify user's first or/and last name
-export const changeName = userData => dispatch => {
-  axios.post("api/users/update/:id").then(
-  ).catch(err =>
-    dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
-    })
-  );
-};
+export const changeName = (userData) => {
+  axios
+    .post('api/users/update/${userData.id}', userData)
+    .then()
+    .catch(function(error) {
+      console.log(error);
+    });
+}
