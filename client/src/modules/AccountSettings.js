@@ -10,8 +10,7 @@ import {
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeName } from "../actions/authActions.js";
-
+import axios from "axios";
 
 class NameSettings extends Component {
     constructor(props)
@@ -19,13 +18,31 @@ class NameSettings extends Component {
         super()
         this.state={
           id: props.id,
-          firstName: props.firstName,
-          lastName: props.lastName,
+          firstName: "",
+          lastName: "",
           changeName: props.changeName,
           errors: {},
           firstNameErrorEmpty: "",
           firstNameErrorWhitespaces: "",
         }
+    }
+
+    componentDidMount()
+    {
+      var that = this
+      axios
+      .get('api/users/'+ this.state.id)
+      .then(res => that.setState(
+          {
+              firstName: res.data.firstName,
+              lastName: res.data.lastName
+          }
+      ))
+      .catch(err => that.setState(
+          {
+              err
+          }
+      ));
     }
 
     getFirstNameErrorMessages = firstName => {
@@ -66,7 +83,7 @@ class NameSettings extends Component {
         lastName: this.state.lastName,
       };
       this.props.changeName(newUser)
-      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.changeName)
+      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.chang)
       }
       else {
         this.setState(errors);
@@ -147,6 +164,16 @@ class PasswordSettings extends Component
 constructor(props)
 {
     super()
+    this.state={
+      id: props.id,
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirmation: "",
+      changePassword: props.changePassword,
+      errors: {},
+      firstNameErrorEmpty: "",
+      firstNameErrorWhitespaces: "",
+    }
 }
 
 render() {
@@ -158,13 +185,46 @@ render() {
             Change your password
          </Header>
 
-        <Form.Input placeholder="Old password" style={{ maxWidth: 250 }}
+        <Form.Input id="oldPassword" name="oldPassword"
+                placeholder = "Old Password"
+                // error={
+                //   this.state.firstNameErrorEmpty ||
+                //   this.state.firstNameErrorWhitespaces
+                // }
+                value={this.state.oldPassword}
+                onChange={e =>
+                  this.updateInput(e//, this.getFirstNameErrorMessages
+                    )
+                }
+                style={{ maxWidth: 250 }} 
         />
 
-        <Form.Input placeholder="New password" style={{ maxWidth: 250 }}
+        <Form.Input  id="newPassword" name="newPassword"
+                placeholder = "New Password"
+                // error={
+                //   this.state.firstNameErrorEmpty ||
+                //   this.state.firstNameErrorWhitespaces
+                // }
+                value={this.state.newPassword}
+                onChange={e =>
+                  this.updateInput(e//, this.getFirstNameErrorMessages
+                    )
+                }
+                style={{ maxWidth: 250 }} 
         />
 
-        <Form.Input placeholder="Confirm new password" style={{ maxWidth: 250 }}
+        <Form.Input  id="confirmNewPassword" name="confirmNewPassword"
+                placeholder = "Confirm New Password"
+                // error={
+                //   this.state.firstNameErrorEmpty ||
+                //   this.state.firstNameErrorWhitespaces
+                // }
+                value={this.state.confirmNewPassword}
+                onChange={e =>
+                  this.updateInput(e//, this.getFirstNameErrorMessages
+                    )
+                }
+                style={{ maxWidth: 250 }} 
         />
 
         <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
@@ -211,10 +271,5 @@ const mapStateToProps = state => ({
   firstName: state.firstName,
   lastName: state.lastName
 });
-
-export default connect(
-  mapStateToProps,
-  { changeName }
-)(withRouter(NameSettings));
 
 export {NameSettings, PasswordSettings, ContactSettings}

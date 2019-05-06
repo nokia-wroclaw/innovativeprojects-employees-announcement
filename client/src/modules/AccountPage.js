@@ -10,16 +10,18 @@ import {
 } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeName } from "../actions/authActions";
+import { changeName, changePassword, getUser } from "../actions/authActions";
 import Page404 from "./Page404";
+import axios from "axios";
 
 class AccountPage extends Component {
-    constructor()
+    constructor(props)
         {
             super()
+            this.id = props.auth.user.id
+         
             this.state = {
-                firstName: "",
-                lastName: "",
+                id: this.id,
                 oldPassword: "",
                 newPassword: "",
                 newPasswordConfirmation: "",
@@ -27,12 +29,11 @@ class AccountPage extends Component {
             }
         }
 
-        
     render() {
- 
+
           if (this.props.auth.isAuthenticated )
              { 
-            const { user } = this.props.auth;
+
             return (
                      <div className = "accountpage-form" style={{ marginTop: "5em" }}>
                         <Grid textAlign="center" verticalAlign="middle">
@@ -44,13 +45,13 @@ class AccountPage extends Component {
                                  </Message>
 
                                 <NameSettings
-                                id = {user.id}
-                                firstName = {user.firstName}
-                                lastName = {user.lastName}
+                                id = {this.state.id}
                                 changeName = {changeName}
                                 />
                               
-                                <PasswordSettings/>
+                                <PasswordSettings
+                                id = {this.state.id}
+                                changePassword = {changePassword}/>
                                 <ContactSettings/>
                                 </Grid.Column>
                          </Grid>

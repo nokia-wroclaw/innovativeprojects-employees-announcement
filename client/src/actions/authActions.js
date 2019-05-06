@@ -67,12 +67,33 @@ export const logoutUser = () => dispatch => {
   dispatch(setCurrentUser({}));
 };
 
+//Get full info of one user
+export const getUser = (id) =>
+{
+  axios
+    .get('api/users/${id}')
+    .then()
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 //Modify user's first or/and last name
 export const changeName = (userData) => {
   axios
-    .post('api/users/update/${userData.id}', userData)
+    .post('api/users/update/name/${userData.id}', userData)
     .then()
-    .catch(function(error) {
-      console.log(error);
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+//Modify user's password
+export const changePassword = (userData) => {
+  axios
+    .post('api/users/update/password/${userData.id}', userData)
+    .then()
+    .catch(err => {
+        console.log(err)
     });
 }

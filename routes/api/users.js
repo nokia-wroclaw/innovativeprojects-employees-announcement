@@ -115,22 +115,46 @@ router.post("/login", (req, res) => {
   });
 });
 
-router.post("/update/:id", (req, res) => {
+router.post("/update/name/:id", (req, res) => {
    User.findById(req.body.id, (err, user) => {
     if (!user) res.status(404).send("User not found");
     else {
       user.firstName= req.body.firstName,
       user.lastName= req.body.lastName
-    }
 
-    user
+      user
       .save()
       .then(user => {
         res.json("User's first and/or last name updated");
       })
       .catch(err => {
-        res.status(400).send("Update not possible");
+        res.status(400).send("User first and/or last name update not possible");
       });
+    }
+})
+});
+
+router.post("/update/password/:id", (req, res) => {
+  User.findById(req.body.id, (err, user) => {
+   if (!user) res.status(404).send("User not found");
+   else {
+     user.password = req.body.password
+     bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) throw err;
+        user.password = hash;
+      });
+    });
+   
+   user
+     .save()
+     .then(user => {
+       res.json("User's password updated");
+     })
+     .catch(err => {
+       res.status(400).send("User password update not possible");
+     });
+    }
 })
 });
 
