@@ -10,7 +10,8 @@ import {
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeName } from "../actions/authActions.js"
+import { changeName } from "../actions/authActions.js";
+import axios from "axios";
 
 
 class NameSettings extends Component {
@@ -25,6 +26,19 @@ class NameSettings extends Component {
         }
     }
 
+    UpdateFunction(newUser) {
+      this.responseOk = false;
+      axios
+        .post('api/users/update/${this.state.id}', newUser)
+        .then()
+        .catch(function(error) {
+          console.log(error);
+        });
+
+ 
+    }
+  
+
     onSubmit = e => {
       e.preventDefault();
       const newUser = {
@@ -32,8 +46,8 @@ class NameSettings extends Component {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
       };
-      this.props.changeName(newUser);
-      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.changeName)
+      this.UpdateFunction(newUser)
+      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.UpdateFunction)
     }
 
     updateInput = (e) => {
@@ -51,7 +65,7 @@ class NameSettings extends Component {
                 </Header>
 
                 <Form.Input id="firstName" name="firstName" 
-                placeholder = "First Name" defaultValue= {this.props.firstName} 
+                placeholder = "First Name" defaultValue= {this.state.firstName} 
                 value={this.state.firstName}
                 onChange={e =>
                   this.updateInput(e)
@@ -60,7 +74,7 @@ class NameSettings extends Component {
                 />
   
                 <Form.Input id="lastName" name="lastName"
-                placeholder= "Last Name" defaultValue = {this.props.lastName} 
+                placeholder= "Last Name" defaultValue = {this.state.lastName} 
                 value={this.state.lastName}
                 onChange={e =>
                   this.updateInput(e)

@@ -76,5 +76,4 @@ export const changeName = userData => dispatch => {
       payload: err.response.data
     })
   );
- 
 };
