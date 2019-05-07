@@ -86,13 +86,11 @@ class NameSettings extends Component {
       };
       this.props.changeName(newUser)
       this.setState({formSuccess: true})
-      setTimeout(
-        function() {
-            this.setState({formSuccess: false});
-        }
+      setTimeout( (() =>
+        this.setState({formSuccess: false}))
         .bind(this),
         4500
-    );
+        );
 
       }
       else {
@@ -160,11 +158,9 @@ class NameSettings extends Component {
                 }
                 style={{ maxWidth: 250 }}
                 />
-                {
                   <Transition visible={this.state.formSuccess} animation='scale' duration={500}>
-                    <Message success header='Account Data updated' content="You have successfully changed your name" />
+                    <Message floating success header='Account details updated' content="You have successfully changed your name" />
                   </Transition>
-                }
                 <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
                   Apply
                 </Button>
@@ -186,6 +182,7 @@ constructor(props)
       newPasswordConfirmation: "",
       changePassword: props.changePassword,
       errors: {},
+      formSuccess: false
     }
 }
 
@@ -244,6 +241,12 @@ onSubmit = e => {
           newPasswordConfirmation: this.state.newPasswordConfirmation
         };
         this.props.changePassword(newUser)
+        this.setState({formSuccess: true})
+        setTimeout((() =>
+        this.setState({formSuccess: false}))
+        .bind(this),
+        4500
+        );
       }
       else {
         this.setState(errors);
@@ -276,6 +279,7 @@ render() {
         </div>
         <Form.Input  id="newPassword" name="newPassword"
                 placeholder = "New Password"
+                disabled = {this.state.formSuccess}
                 error={
                   this.state.newPasswordErrorEmpty ||
                   this.state.newPasswordErrorLength ||
@@ -305,6 +309,7 @@ render() {
         </div>
         <Form.Input  id="newPasswordConfirmation" name="newPasswordConfirmation"
                 placeholder = "Confirm New Password"
+                disabled = {this.state.formSuccess}
                 error={
                   this.state.newPasswordConfirmationErrorEmpty ||
                   this.state.newPasswordConfirmationErrorWhitespaces ||
@@ -316,7 +321,9 @@ render() {
                 }
                 style={{ maxWidth: 250 }} 
         />
-
+            <Transition visible={this.state.formSuccess} animation='scale' duration={500}>
+              <Message floating success header='Password updated' content="You have successfully changed your pasword" />
+            </Transition>
         <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
           Apply
         </Button>
