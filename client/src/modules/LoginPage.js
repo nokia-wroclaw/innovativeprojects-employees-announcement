@@ -136,7 +136,7 @@ class LoginPage extends Component {
                   error={
                     this.state.emailErrorEmpty ||
                     this.state.emailErrorWhitespaces ||
-                    errors.emailnotfound
+                    errors.emailNotFound
                   }
                   fluid
                   icon="mail"
@@ -162,7 +162,7 @@ class LoginPage extends Component {
                 </div>
                 <div>
                   <span className="errorsColor">
-                    {errors.passwordincorrect}
+                    {errors.passwordIncorrect}
                   </span>
                 </div>
 
@@ -170,7 +170,7 @@ class LoginPage extends Component {
                   error={
                     this.state.passwordErrorEmpty ||
                     this.state.passwordErrorWhitespaces ||
-                    errors.passwordincorrect
+                    errors.passwordIncorrect
                   }
                   fluid
                   icon="lock"
