@@ -32,13 +32,8 @@ class TopicView extends Component {
       .get(`/api/topics/${params.TopicId}`)
       .then(response => {
         this.setState({ topic: response.data });
+        return axios.get(`/api/users/${response.data.user_id}`);
       })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    axios
-      .get(`/api/users/${this.state.topic.user_id}`)
       .then(response => {
         this.setState({ user: response.data });
       })
