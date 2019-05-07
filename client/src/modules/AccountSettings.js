@@ -220,14 +220,30 @@ getNewPasswordConfirmationErrorMessages = newPasswordConfirmation => {
 };
 
 onSubmit = e => {
-  const newUser = {
-    id: this.state.id,
-    oldPassword: this.state.oldPassword,
-    newPassword: this.state.newPassword,
-    newPasswordConfirmation: this.state.newPasswordConfirmation
-  };
-  this.props.changePassword(newUser)
-  alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
+  e.preventDefault();
+
+  const errors = {
+    ...this.getOldPasswordErrorMessages(this.state.oldPassword),
+    ...this.getNewPasswordErrorMessages(this.state.newPassword),
+    ...this.getNewPasswordConfirmationErrorMessages(this.state.newPasswordConfirmation)
+  }; 
+
+  const hasErrors = Object.values(errors).some(message => message !== "");
+
+      if(!hasErrors)
+      {
+        const newUser = {
+          id: this.state.id,
+          oldPassword: this.state.oldPassword,
+          newPassword: this.state.newPassword,
+          newPasswordConfirmation: this.state.newPasswordConfirmation
+        };
+        this.props.changePassword(newUser)
+        alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
+      }
+      else {
+        this.setState(errors);
+      }
 }
 
 render() {
