@@ -18,6 +18,16 @@ router.route("/:id").get(function(req, res) {
   });
 });
 
+router.get("/acc/:email", (req, res) => {
+  User.findOne({ email: req.params.email }).then(user => {
+    if (!user) {
+      return res.status(404).json({ emailnotfound: "Email not found" });
+    }
+
+    res.json(user);
+  });
+});
+
 // @route POST api/users/register
 // @desc Register user
 // @access Public
