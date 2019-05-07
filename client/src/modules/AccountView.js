@@ -3,18 +3,12 @@ import axios from "axios";
 
 import {
   List,
-  Message,
-  Button,
   Form,
   Header,
   Grid,
   GridRow,
-  Menu,
-  Sticky,
   Segment,
-  Rail,
-  GridColumn,
-  Feed
+  GridColumn
 } from "semantic-ui-react";
 
 class AccountView extends Component {
@@ -40,26 +34,46 @@ class AccountView extends Component {
 
   render() {
     return (
-      <div className="login-form">
-        <Grid
-          textAlign="center"
-          style={({ height: "100%" }, { marginTop: "5.5em" })}
-          verticalAlign="middle"
-        >
-          <Grid.Column style={{ maxWidth: 850 }}>
-            <Form size="large" noValidate onSubmit={this.onSubmit}>
-              <Segment stacked style={{ height: "400px", width: "800px" }}>
-                <Header as="h2" color="blue" textAlign="center">
+      <div>
+        <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
+          <GridRow>
+            <Form noValidate onSubmit={this.onSubmit}>
+              <Segment style={{ height: "200px", width: "600px" }}>
+                <Header as="h1" color="blue">
                   User info
                 </Header>
-                <List>
-                  <List.Item icon="user" content={this.state.user.firstName} />
-                  <List.Item icon="user" content={this.state.user.lastName} />
-                  <List.Item icon="mail" content={this.state.user.email} />
-                </List>
+                <Grid columns="3">
+                  <GridColumn width="1">
+                    <List size="massive">
+                      <List.Item icon="user" />
+                      <List.Item icon="user" />
+                      <List.Item icon="mail" />
+                    </List>
+                  </GridColumn>
+                  <GridColumn textAlign="left">
+                    <List size="massive">
+                      <List.Item content={"First Name: "} />
+                      <List.Item content={"Last Name: "} />
+                      <List.Item content={"Email: "} />
+                    </List>
+                  </GridColumn>
+                  <GridColumn textAlign="left">
+                    <List size="massive">
+                      <List.Item content={this.state.user.firstName} />
+                      <List.Item content={this.state.user.lastName} />
+                      <List.Item content={this.state.user.email} />
+                    </List>
+                  </GridColumn>
+                </Grid>
               </Segment>
             </Form>
-          </Grid.Column>
+          </GridRow>
+
+          {/* <GridRow>
+            <Form noValidate onSubmit={this.onSubmit}>
+              <Segment stacked style={{ height: "400px", width: "800px" }} />
+            </Form>
+          </GridRow> */}
         </Grid>
       </div>
     );

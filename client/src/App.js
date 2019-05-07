@@ -8,6 +8,7 @@ import RegistrationPage from "./modules/RegistrationPage";
 import LoginPage from "./modules/LoginPage";
 import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
+import TopicsPage from "./modules/TopicsPage";
 import Footer from "./modules/Footer";
 import AccountPage from "./modules/AccountPage"
 import AccountView from "./modules/AccountView";
@@ -89,6 +90,7 @@ class App extends Component {
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
+                <Route exact path="/topics" component={TopicsPage} />
                 <Route
                   exact
                   path="/account-view/:UserEmail"
