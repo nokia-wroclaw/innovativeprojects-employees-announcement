@@ -67,7 +67,7 @@ class AddAnnouncementPage extends Component {
 
     if (isNaN(this.state.price)) {
       isError = true;
-      errors.priceErrorIsNumber = "Price need to be a number";
+      errors.priceErrorIsNumber = "Price needs to be a number";
     }
 
     if (isError) {
