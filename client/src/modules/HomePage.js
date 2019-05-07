@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  GridRow,
-  Menu,
-  Sticky,
-  Segment,
-  Rail,
-  GridColumn,
-  Feed
-} from "semantic-ui-react";
+import { Grid, GridColumn } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
@@ -51,16 +42,17 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        {this.props.auth.isAuthenticated ? (
-          <AnnouncementAdd getAllAnnouncements={this.getAllAnnouncements} />
-        ) : (
-          ""
-        )}
-
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3" />
-          <Grid.Column width="10">{this.announcementsList()}</Grid.Column>
-          <Grid.Column width="2" />
+          <GridColumn width="3" />
+          <GridColumn width="10">
+            {this.props.auth.isAuthenticated ? (
+              <AnnouncementAdd getAllAnnouncements={this.getAllAnnouncements} />
+            ) : (
+              ""
+            )}
+            ,{this.announcementsList()}
+          </GridColumn>
+          <GridColumn width="2" />
         </Grid>
       </div>
     );
