@@ -171,9 +171,63 @@ constructor(props)
       newPasswordConfirmation: "",
       changePassword: props.changePassword,
       errors: {},
-      firstNameErrorEmpty: "",
-      firstNameErrorWhitespaces: "",
     }
+}
+
+updateInput = (e, getErrorMessages) => {
+  this.setState({
+    ...getErrorMessages(e.target.value),
+    [e.target.id]: e.target.value
+  });
+};
+
+getOldPasswordErrorMessages = oldPassword => {
+  return "";
+};
+
+getNewPasswordErrorMessages = newPassword => {
+  return {
+    newPasswordErrorEmpty:
+      newPassword.trim() === "" ? "New Password cannot be empty" 
+      : "",
+    newPasswordErrorWhitespaces: /\s/.test(newPassword)
+      ? "New Password cannot contain whitespaces"
+      : "",
+    newPasswordErrorLength:
+      newPassword.length < 6 ? "New Password must have at least 6 characters " 
+      : "",
+    newPasswordErrorOldPasswordSame:
+      this.state.oldPassword == newPassword
+      ? "New Password cannot be the same as the Old Password"
+      : ""
+  };
+};
+
+getNewPasswordConfirmationErrorMessages = newPasswordConfirmation => {
+  return {
+    newPasswordConfirmationErrorEmpty:
+      newPasswordConfirmation.trim() === ""
+        ? "New Password confirmation cannot be empty"
+        : "",
+    newPasswordConfirmationErrorWhitespaces: /\s/.test(newPasswordConfirmation)
+      ? "New Password confirmation cannot contain whitespaces"
+      : "",
+    newPasswordConfirmationErrorMatch:
+      this.state.newPassword !== newPasswordConfirmation
+      ? "New Password and New Password Confirmation must match"
+      : ""
+  };
+};
+
+onSubmit = e => {
+  const newUser = {
+    id: this.state.id,
+    oldPassword: this.state.oldPassword,
+    newPassword: this.state.newPassword,
+    newPasswordConfirmation: this.state.newPasswordConfirmation
+  };
+  this.props.changePassword(newUser)
+  alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.chang)
 }
 
 render() {
@@ -184,45 +238,77 @@ render() {
          <Header as="h4" color="blue" textAlign="left"> 
             Change your password
          </Header>
-
+       
         <Form.Input id="oldPassword" name="oldPassword"
                 placeholder = "Old Password"
                 // error={
-                //   this.state.firstNameErrorEmpty ||
-                //   this.state.firstNameErrorWhitespaces
                 // }
                 value={this.state.oldPassword}
                 onChange={e =>
-                  this.updateInput(e//, this.getFirstNameErrorMessages
-                    )
+                  this.updateInput(e, this.getOldPasswordErrorMessages)
                 }
                 style={{ maxWidth: 250 }} 
         />
-
+        <div>
+          <span className="errorsColor">
+              {this.state.newPasswordErrorEmpty}
+          </span>
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordErrorLength}
+            </span>
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordErrorWhitespaces}
+            </span>
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordErrorOldPasswordSame}
+            </span>
+        </div>
         <Form.Input  id="newPassword" name="newPassword"
                 placeholder = "New Password"
-                // error={
-                //   this.state.firstNameErrorEmpty ||
-                //   this.state.firstNameErrorWhitespaces
-                // }
+                error={
+                  this.state.newPasswordErrorEmpty ||
+                  this.state.newPasswordErrorLength ||
+                  this.state.newPasswordErrorWhitespaces ||
+                  this.state.newPasswordErrorOldPasswordSame
+                }
                 value={this.state.newPassword}
                 onChange={e =>
-                  this.updateInput(e//, this.getFirstNameErrorMessages
-                    )
+                  this.updateInput(e, this.getNewPasswordErrorMessages)
                 }
                 style={{ maxWidth: 250 }} 
         />
 
-        <Form.Input  id="confirmNewPassword" name="confirmNewPassword"
+        <div>
+          <span className="errorsColor">
+              {this.state.newPasswordConfirmationErrorEmpty}
+          </span>
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordConfirmationErrorWhitespaces}
+            </span>
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordConfirmationErrorMatch}
+            </span>
+        </div>
+        <Form.Input  id="newPasswordConfirmation" name="newPasswordConfirmation"
                 placeholder = "Confirm New Password"
-                // error={
-                //   this.state.firstNameErrorEmpty ||
-                //   this.state.firstNameErrorWhitespaces
-                // }
-                value={this.state.confirmNewPassword}
+                error={
+                  this.state.newPasswordConfirmationErrorEmpty ||
+                  this.state.newPasswordConfirmationErrorWhitespaces ||
+                  this.state.newPasswordConfirmationErrorMatch
+                }
+                value={this.state.newPasswordConfirmation}
                 onChange={e =>
-                  this.updateInput(e//, this.getFirstNameErrorMessages
-                    )
+                  this.updateInput(e, this.getNewPasswordConfirmationErrorMessages)
                 }
                 style={{ maxWidth: 250 }} 
         />
