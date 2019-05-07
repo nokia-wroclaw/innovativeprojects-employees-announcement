@@ -24,16 +24,29 @@ class NavBar extends Component {
     window.location = "/login";
   }
 
+  ChangeToTopicsPath() {
+    window.location = "/topics";
+  }
+
   render() {
     const { user } = this.props.auth;
     return (
       <div>
         <Menu fixed="top" inverted>
           <Menu.Menu>
-            <Menu.Item onClick={this.ChangeToHomePath}>
+            <Menu.Item onClick={this.ChangeToHomePath} >
               <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
-              Employees Announcements
             </Menu.Item>
+            <Dropdown  text="Employees Announcements" pointing className="link item">
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={this.ChangeToHomePath}>
+                  Announcements
+                </Dropdown.Item>
+                <Dropdown.Item onClick={this.ChangeToTopicsPath}>
+                  Topics
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Menu>
           <Menu.Menu position="right">
             <Dropdown text="Mode" pointing className="link item">
