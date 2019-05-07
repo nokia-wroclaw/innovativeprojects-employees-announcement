@@ -28,16 +28,27 @@ class NavBar extends Component {
     window.location = "/topics";
   }
 
+  ChangeToProfilePath = userMail => e => {
+    window.location = "/account-view/" + userMail;
+  };
+
   render() {
     const { user } = this.props.auth;
+    var acc = new String(user.email);
+    acc = acc.substring(0, acc.indexOf("@"));
+
     return (
       <div>
         <Menu fixed="top" inverted>
           <Menu.Menu>
-            <Menu.Item onClick={this.ChangeToHomePath} >
+            <Menu.Item onClick={this.ChangeToHomePath}>
               <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
             </Menu.Item>
-            <Dropdown  text="Employees Announcements" pointing className="link item">
+            <Dropdown
+              text="Employees Announcements"
+              pointing
+              className="link item"
+            >
               <Dropdown.Menu>
                 <Dropdown.Item onClick={this.ChangeToHomePath}>
                   Announcements
@@ -62,7 +73,21 @@ class NavBar extends Component {
 
             {this.props.auth.isAuthenticated ? (
               <>
-                <Menu.Item onClick={this.onLogoutClick}>Logout</Menu.Item>
+                <Dropdown
+                  text={"Hi  " + user.firstName}
+                  pointing
+                  className="link item"
+                >
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={this.ChangeToProfilePath(acc)}>
+                      Your Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item>Account Settings</Dropdown.Item>
+                    <Dropdown.Item onClick={this.onLogoutClick}>
+                      Logout
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </>
             ) : (
               <>
