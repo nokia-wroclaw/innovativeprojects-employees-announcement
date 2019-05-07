@@ -39,7 +39,7 @@ class Announcement extends Component {
       <Segment>
         <Feed>
           <Feed.Event>
-            <Feed.Label /*image="./images/aurora.jpg" */ />
+            <Feed.Label /*image="./images/nokia.png" */ />
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
@@ -49,10 +49,10 @@ class Announcement extends Component {
               <Feed.Summary> {this.props.announcement.title}</Feed.Summary>
               <Feed.Extra text>
                 <p>
-                  <b>Price: </b> {this.props.announcement.price}
+                  <b>Price: </b> {this.props.announcement.price} [zł]
                 </p>
               </Feed.Extra>
-              <Feed.Extra text>
+              <Feed.Extra style={{ width: "90%" }}>
                 {this.props.announcement.description}
               </Feed.Extra>
             </Feed.Content>
