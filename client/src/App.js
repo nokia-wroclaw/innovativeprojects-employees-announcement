@@ -91,13 +91,13 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/topics" component={TopicsPage} />
-                <Route
+                <PrivateRoute
                   exact
                   path="/account-view/:UserEmail"
                   component={AccountView}
                 />
                 <Route exact path="/topics/:TopicId" component={TopicView} />
-                <Route exact path="/authors" component={Authors} />
+                <PrivateRoute exact path="/authors" component={Authors} />
                 <Route
                   exact
                   path="/registration"
