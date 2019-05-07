@@ -51,15 +51,16 @@ class TopicPage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        {this.props.auth.isAuthenticated ? (
-          <TopicAdd getAllTopics={this.getAllTopics} />
-        ) : (
-          ""
-        )}
-
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="3" />
-          <Grid.Column width="10">{this.topicsList()}</Grid.Column>
+          <Grid.Column width="10">
+            {this.props.auth.isAuthenticated ? (
+              <TopicAdd getAllTopics={this.getAllTopics} />
+            ) : (
+              ""
+            )}
+            ,{this.topicsList()}{" "}
+          </Grid.Column>
           <Grid.Column width="2" />
         </Grid>
       </div>
