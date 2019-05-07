@@ -35,6 +35,12 @@ class Announcement extends Component {
   }
 
   render() {
+    var acc = new String(this.state.user.email);
+    acc = acc.substring(0, acc.indexOf("@"));
+    var date =
+      new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
+      ", " +
+      new Date(this.props.announcement.date_of_add).toLocaleDateString();
     return (
       <Segment>
         <Feed>
@@ -43,8 +49,8 @@ class Announcement extends Component {
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                ({this.state.user.email}) at{" "}
-                {this.props.announcement.date_of_add}
+                <a href={"/account-view/" + acc}>({this.state.user.email})</a>{" "}
+                at {date}
               </Feed.Date>
               <Feed.Summary> {this.props.announcement.title}</Feed.Summary>
               <Feed.Extra text>

@@ -11,6 +11,7 @@ import HomePage from "./modules/HomePage";
 import TopicsPage from "./modules/TopicsPage";
 import Footer from "./modules/Footer";
 import AccountView from "./modules/AccountView";
+import TopicView from "./modules/TopicView";
 
 import logo1 from "./modules/images/lightMode.jpg";
 import logo2 from "./modules/images/darkMode.jpg";
@@ -95,6 +96,7 @@ class App extends Component {
                   path="/account-view/:UserEmail"
                   component={AccountView}
                 />
+                <Route exact path="/topics/:TopicId" component={TopicView} />
                 <Route exact path="/authors" component={Authors} />
                 <Route
                   exact

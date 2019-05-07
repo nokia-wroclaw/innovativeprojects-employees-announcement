@@ -20,7 +20,7 @@ import axios from "axios";
 class Topic extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {} };
+    this.state = { user: {}, topic: {} };
   }
 
   componentDidMount() {
@@ -35,6 +35,13 @@ class Topic extends Component {
   }
 
   render() {
+    var acc = new String(this.state.user.email);
+    acc = acc.substring(0, acc.indexOf("@"));
+    var top = new String(this.props.topic._id);
+    var date =
+      new Date(this.props.topic.date_of_add).toLocaleTimeString() +
+      ", " +
+      new Date(this.props.topic.date_of_add).toLocaleDateString();
     return (
       <Segment>
         <Feed>
@@ -43,11 +50,14 @@ class Topic extends Component {
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                ({this.state.user.email}) at{" "}
-                {this.props.topic.date_of_add}
+                <a href={"/account-view/" + acc}>({this.state.user.email})</a>{" "}
+                at {date}
               </Feed.Date>
-              <Feed.Summary> {this.props.topic.title}</Feed.Summary>
-            
+              <Feed.Summary>
+                {" "}
+                <a href={"/topics/" + top}>{this.props.topic.title}</a>{" "}
+              </Feed.Summary>
+
               <Feed.Extra style={{ width: "90%" }}>
                 {this.props.topic.description}
               </Feed.Extra>
