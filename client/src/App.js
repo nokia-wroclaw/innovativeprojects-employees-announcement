@@ -10,6 +10,7 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import Footer from "./modules/Footer";
 import AccountPage from "./modules/AccountPage"
+import AccountView from "./modules/AccountView";
 
 import logo1 from "./modules/images/lightMode.jpg";
 import logo2 from "./modules/images/darkMode.jpg";
@@ -88,6 +89,11 @@ class App extends Component {
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
+                <Route
+                  exact
+                  path="/account-view/:UserEmail"
+                  component={AccountView}
+                />
                 <Route exact path="/authors" component={Authors} />
                 <Route exact path="/registration" component={RegistrationPage}/>
                 <Route exact path="/login" component={LoginPage} />

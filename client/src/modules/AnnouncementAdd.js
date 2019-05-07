@@ -25,7 +25,8 @@ class AddAnnouncementPage extends Component {
       errors: {},
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
-      priceErrorEmpty: ""
+      priceErrorEmpty: "",
+      priceErrorIsNumber: ""
     };
   }
 
@@ -46,7 +47,8 @@ class AddAnnouncementPage extends Component {
     const errors = {
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
-      priceErrorEmpty: ""
+      priceErrorEmpty: "",
+      priceErrorIsNumber: ""
     };
     if (this.state.title.trim() === "") {
       isError = true;
@@ -61,6 +63,11 @@ class AddAnnouncementPage extends Component {
     if (this.state.price.trim() === "") {
       isError = true;
       errors.priceErrorEmpty = "Price cannot be empty";
+    }
+
+    if (isNaN(this.state.price)) {
+      isError = true;
+      errors.priceErrorIsNumber = "Price needs to be a number";
     }
 
     if (isError) {
@@ -86,7 +93,8 @@ class AddAnnouncementPage extends Component {
         errors: {},
         titleErrorEmpty: "",
         descriptionErrorEmpty: "",
-        priceErrorEmpty: ""
+        priceErrorEmpty: "",
+        priceErrorIsNumber: ""
       });
 
       const newAnnouncement = {
@@ -131,7 +139,11 @@ class AddAnnouncementPage extends Component {
                 />
 
                 <span class="errorsColor">{this.state.priceErrorEmpty}</span>
-
+                <div>
+                  <span class="errorsColor">
+                    {this.state.priceErrorIsNumber}
+                  </span>
+                </div>
                 <Form.Input
                   id="price"
                   name="price"
@@ -139,7 +151,9 @@ class AddAnnouncementPage extends Component {
                   icon="money bill alternate"
                   iconPosition="left"
                   placeholder="Price"
-                  error={this.state.priceErrorEmpty}
+                  error={
+                    this.state.priceErrorEmpty || this.state.priceErrorIsNumber
+                  }
                   value={this.state.price}
                   onChange={this.onChange}
                 />
