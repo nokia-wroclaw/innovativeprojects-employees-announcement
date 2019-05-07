@@ -22,7 +22,6 @@ class AccountPage extends Component {
          
             this.state = {
                 id: this.id,
-                oldPassword: "",
                 newPassword: "",
                 newPasswordConfirmation: "",
                 phone: "",

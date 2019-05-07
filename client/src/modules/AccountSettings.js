@@ -25,7 +25,7 @@ class NameSettings extends Component {
           errors: {},
           firstNameErrorEmpty: "",
           firstNameErrorWhitespaces: "",
-          success: false
+          formSuccess: false
         }
     }
 
@@ -85,15 +85,15 @@ class NameSettings extends Component {
         lastName: this.state.lastName,
       };
       this.props.changeName(newUser)
-      this.setState({success: true})
+      this.setState({formSuccess: true})
       setTimeout(
         function() {
-            this.setState({success: false});
+            this.setState({formSuccess: false});
         }
         .bind(this),
         4500
     );
-      alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.chang)
+
       }
       else {
         this.setState(errors);
@@ -109,7 +109,7 @@ class NameSettings extends Component {
     
     render() {
         return ( 
-            <Form success size="large" noValidate onSubmit={this.onSubmit}>
+            <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment className = "changename-form" stacked textAlign="left">
                 <Header as="h4" color="blue" textAlign="left"> 
                     Change your first and last name
@@ -126,7 +126,7 @@ class NameSettings extends Component {
                 </div>
                 <Form.Input id="firstName" name="firstName"
                 placeholder = "First Name" defaultValue= {this.state.firstName} 
-                disabled = {this.state.success}
+                disabled = {this.state.formSuccess}
                 error={
                   this.state.firstNameErrorEmpty ||
                   this.state.firstNameErrorWhitespaces
@@ -149,7 +149,7 @@ class NameSettings extends Component {
                 </div>
                 <Form.Input id="lastName" name="lastName"
                 placeholder= "Last Name" defaultValue = {this.state.lastName} 
-                disabled = {this.state.success}
+                disabled = {this.state.formSuccess}
                 error={
                   this.state.lastNameErrorEmpty ||
                   this.state.lastNameErrorWhitespaces
@@ -161,7 +161,7 @@ class NameSettings extends Component {
                 style={{ maxWidth: 250 }}
                 />
                 {
-                  <Transition visible={this.state.success} animation='scale' duration={500}>
+                  <Transition visible={this.state.formSuccess} animation='scale' duration={500}>
                     <Message success header='Account Data updated' content="You have successfully changed your name" />
                   </Transition>
                 }
@@ -182,7 +182,6 @@ constructor(props)
     super()
     this.state={
       id: props.id,
-      oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
       changePassword: props.changePassword,
@@ -197,10 +196,6 @@ updateInput = (e, getErrorMessages) => {
   });
 };
 
-getOldPasswordErrorMessages = oldPassword => {
-  return "";
-};
-
 getNewPasswordErrorMessages = newPassword => {
   return {
     newPasswordErrorEmpty:
@@ -211,10 +206,6 @@ getNewPasswordErrorMessages = newPassword => {
       : "",
     newPasswordErrorLength:
       newPassword.length < 6 ? "New Password must have at least 6 characters " 
-      : "",
-    newPasswordErrorOldPasswordSame:
-      this.state.oldPassword == newPassword
-      ? "New Password cannot be the same as the Old Password"
       : ""
   };
 };
@@ -239,7 +230,6 @@ onSubmit = e => {
   e.preventDefault();
 
   const errors = {
-    ...this.getOldPasswordErrorMessages(this.state.oldPassword),
     ...this.getNewPasswordErrorMessages(this.state.newPassword),
     ...this.getNewPasswordConfirmationErrorMessages(this.state.newPasswordConfirmation)
   }; 
@@ -250,12 +240,10 @@ onSubmit = e => {
       {
         const newUser = {
           id: this.state.id,
-          oldPassword: this.state.oldPassword,
           newPassword: this.state.newPassword,
           newPasswordConfirmation: this.state.newPasswordConfirmation
         };
         this.props.changePassword(newUser)
-        alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
       }
       else {
         this.setState(errors);
@@ -271,14 +259,6 @@ render() {
             Change your password
          </Header>
        
-        <Form.Input id="oldPassword" name="oldPassword"
-                placeholder = "Old Password"
-                value={this.state.oldPassword}
-                onChange={e =>
-                  this.updateInput(e, this.getOldPasswordErrorMessages)
-                }
-                style={{ maxWidth: 250 }} 
-        />
         <div>
           <span className="errorsColor">
               {this.state.newPasswordErrorEmpty}
@@ -294,18 +274,12 @@ render() {
               {this.state.newPasswordErrorWhitespaces}
             </span>
         </div>
-        <div>
-            <span className="errorsColor">
-              {this.state.newPasswordErrorOldPasswordSame}
-            </span>
-        </div>
         <Form.Input  id="newPassword" name="newPassword"
                 placeholder = "New Password"
                 error={
                   this.state.newPasswordErrorEmpty ||
                   this.state.newPasswordErrorLength ||
-                  this.state.newPasswordErrorWhitespaces ||
-                  this.state.newPasswordErrorOldPasswordSame
+                  this.state.newPasswordErrorWhitespaces
                 }
                 value={this.state.newPassword}
                 onChange={e =>

@@ -145,13 +145,11 @@ router.post("/update/name/:id", (req, res) => {
 });
 
 router.post("/update/password/:id", (req, res) => {
-  const oldPassword = req.body.oldPassword;
+
   User.findById(req.body.id, (err, user) => {
    if (!user) res.status(404).send("User not found");
    else {
-      // Check password
-    bcrypt.compare(oldPassword, user.password).then(isMatch => {
-      if (isMatch) {
+ 
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
             if (err) throw err;
@@ -166,13 +164,7 @@ router.post("/update/password/:id", (req, res) => {
             });
           });
         });
-      } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: "Old password incorrect" });
-      }
-    });
-    
+
     }
 })
 });
