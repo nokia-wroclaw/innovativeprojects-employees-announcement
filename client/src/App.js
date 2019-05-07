@@ -89,7 +89,7 @@ class App extends Component {
             <div className="App" style={{ flex: 1 }}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/TopicsPage" component={TopicsPage} />
+                <Route exact path="/topics" component={TopicsPage} />
                 <Route
                   exact
                   path="/account-view/:UserEmail"
