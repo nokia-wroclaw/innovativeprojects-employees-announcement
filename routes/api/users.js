@@ -21,7 +21,7 @@ router.route("/:id").get(function(req, res) {
 router.get("/acc/:email", (req, res) => {
   User.findOne({ email: req.params.email }).then(user => {
     if (!user) {
-      return res.status(404).json({ emailNotFound: "Email not found" });
+      return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
     res.json(user);
@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ emailNotFound: "Email not found" });
+      return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
     // Check password
@@ -119,7 +119,7 @@ router.post("/login", (req, res) => {
       } else {
         return res
           .status(400)
-          .json({ passwordIncorrect: "Password incorrect" });
+          .json({ passwordincorrect: "Password incorrect" });
       }
     });
   });
@@ -169,7 +169,7 @@ router.post("/update/password/:id", (req, res) => {
       } else {
         return res
           .status(400)
-          .json({ passwordIncorrect: "Old password incorrect" });
+          .json({ passwordincorrect: "Old password incorrect" });
       }
     });
     
