@@ -138,22 +138,24 @@ router.post("/update/password/:id", (req, res) => {
   User.findById(req.body.id, (err, user) => {
    if (!user) res.status(404).send("User not found");
    else {
-     user.password = req.body.password
      bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(user.password, salt, (err, hash) => {
+      bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
         if (err) throw err;
+        console.log(user.password)
+        console.log(req.body.newPassword)
+        console.log(hash)
         user.password = hash;
+        console.log(user.password)
+            user
+        .save()
+        .then(user => {
+          res.json("User's password updated");
+        })
+        .catch(err => {
+          res.status(400).send("User password update not possible");
+        });
       });
     });
-   
-   user
-     .save()
-     .then(user => {
-       res.json("User's password updated");
-     })
-     .catch(err => {
-       res.status(400).send("User password update not possible");
-     });
     }
 })
 });

@@ -227,7 +227,7 @@ onSubmit = e => {
     newPasswordConfirmation: this.state.newPasswordConfirmation
   };
   this.props.changePassword(newUser)
-  alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.chang)
+  alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
 }
 
 render() {
