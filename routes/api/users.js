@@ -151,11 +151,7 @@ router.post("/update/password/:id", (req, res) => {
      bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
         if (err) throw err;
-        console.log(user.password)
-        console.log(req.body.newPassword)
-        console.log(hash)
         user.password = hash;
-        console.log(user.password)
             user
         .save()
         .then(user => {
