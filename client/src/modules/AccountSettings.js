@@ -241,8 +241,6 @@ render() {
        
         <Form.Input id="oldPassword" name="oldPassword"
                 placeholder = "Old Password"
-                // error={
-                // }
                 value={this.state.oldPassword}
                 onChange={e =>
                   this.updateInput(e, this.getOldPasswordErrorMessages)
