@@ -5,7 +5,8 @@ import {
   Header,
   Form,
   Segment,
-  Message
+  Message,
+  Transition
 } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ class NameSettings extends Component {
           errors: {},
           firstNameErrorEmpty: "",
           firstNameErrorWhitespaces: "",
+          success: false
         }
     }
 
@@ -83,6 +85,14 @@ class NameSettings extends Component {
         lastName: this.state.lastName,
       };
       this.props.changeName(newUser)
+      this.setState({success: true})
+      setTimeout(
+        function() {
+            this.setState({success: false});
+        }
+        .bind(this),
+        4500
+    );
       alert(newUser.id + " " + newUser.firstName + " " + newUser.lastName + "\n" + this.props.chang)
       }
       else {
@@ -99,7 +109,7 @@ class NameSettings extends Component {
     
     render() {
         return ( 
-            <Form size="large" noValidate onSubmit={this.onSubmit}>
+            <Form success size="large" noValidate onSubmit={this.onSubmit}>
               <Segment className = "changename-form" stacked textAlign="left">
                 <Header as="h4" color="blue" textAlign="left"> 
                     Change your first and last name
@@ -116,6 +126,7 @@ class NameSettings extends Component {
                 </div>
                 <Form.Input id="firstName" name="firstName"
                 placeholder = "First Name" defaultValue= {this.state.firstName} 
+                disabled = {this.state.success}
                 error={
                   this.state.firstNameErrorEmpty ||
                   this.state.firstNameErrorWhitespaces
@@ -138,6 +149,7 @@ class NameSettings extends Component {
                 </div>
                 <Form.Input id="lastName" name="lastName"
                 placeholder= "Last Name" defaultValue = {this.state.lastName} 
+                disabled = {this.state.success}
                 error={
                   this.state.lastNameErrorEmpty ||
                   this.state.lastNameErrorWhitespaces
@@ -148,7 +160,11 @@ class NameSettings extends Component {
                 }
                 style={{ maxWidth: 250 }}
                 />
-
+                {
+                  <Transition visible={this.state.success} animation='scale' duration={500}>
+                    <Message success header='Account Data updated' content="You have successfully changed your name" />
+                  </Transition>
+                }
                 <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
                   Apply
                 </Button>
