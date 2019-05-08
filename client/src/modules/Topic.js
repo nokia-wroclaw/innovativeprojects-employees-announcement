@@ -53,7 +53,7 @@ class Topic extends Component {
                 <a href={"/account-view/" + acc}>({this.state.user.email})</a>{" "}
                 at {date}
               </Feed.Date>
-              <Feed.Summary>
+              <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}
                 <a href={"/topics/" + top}>{this.props.topic.title}</a>{" "}
               </Feed.Summary>

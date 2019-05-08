@@ -32,6 +32,10 @@ class NavBar extends Component {
     window.location = "/account-view/" + userMail;
   };
 
+  ChangeToAccountPath() {
+    window.location = "/account";
+  }
+
   render() {
     const { user } = this.props.auth;
     var acc = new String(user.email);
@@ -82,7 +86,9 @@ class NavBar extends Component {
                     <Dropdown.Item onClick={this.ChangeToProfilePath(acc)}>
                       Your Profile
                     </Dropdown.Item>
-                    <Dropdown.Item>Account Settings</Dropdown.Item>
+                    <Dropdown.Item onClick={this.ChangeToAccountPath}>
+                      Account Settings
+                    </Dropdown.Item>
                     <Dropdown.Item onClick={this.onLogoutClick}>
                       Logout
                     </Dropdown.Item>

@@ -69,7 +69,9 @@ class TopicView extends Component {
                       </a>{" "}
                       at {date}
                     </Feed.Date>
-                    <Feed.Summary>{this.state.topic.title}</Feed.Summary>
+                    <Feed.Summary style={{ fontSize: "20px" }}>
+                      {this.state.topic.title}
+                    </Feed.Summary>
 
                     <Feed.Extra style={{ width: "90%" }}>
                       {this.state.topic.description}

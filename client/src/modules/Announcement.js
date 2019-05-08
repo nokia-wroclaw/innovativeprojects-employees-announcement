@@ -52,7 +52,10 @@ class Announcement extends Component {
                 <a href={"/account-view/" + acc}>({this.state.user.email})</a>{" "}
                 at {date}
               </Feed.Date>
-              <Feed.Summary> {this.props.announcement.title}</Feed.Summary>
+              <Feed.Summary style={{ fontSize: "20px" }}>
+                {" "}
+                {this.props.announcement.title}
+              </Feed.Summary>
               <Feed.Extra text>
                 <p>
                   <b>Price: </b> {this.props.announcement.price} [zł]
