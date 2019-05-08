@@ -29,10 +29,6 @@ class AccountPage extends Component {
         }
 
     render() {
-
-          if (this.props.auth.isAuthenticated )
-             { 
-
             return (
                      <div className = "accountpage-form" style={{ marginTop: "5em" }}>
                         <Grid textAlign="center" verticalAlign="middle">
@@ -51,18 +47,10 @@ class AccountPage extends Component {
                                 <PasswordSettings
                                 id = {this.state.id}
                                 changePassword = {changePassword}/>
-                                <ContactSettings/>
                                 </Grid.Column>
                          </Grid>
                  </div>
                     )
-                 }
-             else
-         {
-             return (
-                 <Page404/>
-             )
-         }
     }
 }
 

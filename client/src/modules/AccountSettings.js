@@ -241,7 +241,18 @@ onSubmit = e => {
           newPasswordConfirmation: this.state.newPasswordConfirmation
         };
         this.props.changePassword(newUser)
-        this.setState({formSuccess: true})
+        this.setState({
+          formSuccess: true,
+          newPassword: "",
+          newPasswordConfirmation: "",
+          newPasswordErrorEmpty: "",
+          newPasswordErrorLengt: "",
+          newPasswordErrorWhitespaces: "",
+          newPasswordConfirmationErrorEmpty: "",
+          newPasswordConfirmationErrorWhitespaces: "",
+          newPasswordConfirmationErrorMatch: "",
+          errors: {}
+        })
         setTimeout((() =>
         this.setState({formSuccess: false}))
         .bind(this),
@@ -277,7 +288,7 @@ render() {
               {this.state.newPasswordErrorWhitespaces}
             </span>
         </div>
-        <Form.Input  id="newPassword" name="newPassword"
+        <Form.Input type="password" id="newPassword" name="newPassword"
                 placeholder = "New Password"
                 disabled = {this.state.formSuccess}
                 error={
@@ -307,7 +318,7 @@ render() {
               {this.state.newPasswordConfirmationErrorMatch}
             </span>
         </div>
-        <Form.Input  id="newPasswordConfirmation" name="newPasswordConfirmation"
+        <Form.Input type="password" id="newPasswordConfirmation" name="newPasswordConfirmation"
                 placeholder = "Confirm New Password"
                 disabled = {this.state.formSuccess}
                 error={
