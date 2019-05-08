@@ -10,7 +10,7 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import TopicsPage from "./modules/TopicsPage";
 import Footer from "./modules/Footer";
-import AccountPage from "./modules/AccountPage"
+import AccountPage from "./modules/AccountPage";
 import AccountView from "./modules/AccountView";
 import TopicView from "./modules/TopicView";
 
@@ -97,7 +97,7 @@ class App extends Component {
                   path="/account-view/:UserEmail"
                   component={AccountView}
                 />
-<<<<<<< HEAD
+
                 <Route exact path="/topics/:TopicId" component={TopicView} />
                 <PrivateRoute exact path="/authors" component={Authors} />
                 <Route
@@ -105,10 +105,14 @@ class App extends Component {
                   path="/registration"
                   component={RegistrationPage}
                 />
-=======
+
                 <Route exact path="/authors" component={Authors} />
-                <Route exact path="/registration" component={RegistrationPage}/>
->>>>>>> 159a978e7201680841d6638468ea128a4b4b7ed2
+                <Route
+                  exact
+                  path="/registration"
+                  component={RegistrationPage}
+                />
+
                 <Route exact path="/login" component={LoginPage} />
                 <PrivateRoute exact path="/account" component={AccountPage} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
