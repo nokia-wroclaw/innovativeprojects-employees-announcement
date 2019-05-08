@@ -10,6 +10,7 @@ import Page404 from "./modules/Page404";
 import HomePage from "./modules/HomePage";
 import TopicsPage from "./modules/TopicsPage";
 import Footer from "./modules/Footer";
+import AccountPage from "./modules/AccountPage"
 import AccountView from "./modules/AccountView";
 
 import logo1 from "./modules/images/lightMode.jpg";
@@ -96,12 +97,9 @@ class App extends Component {
                   component={AccountView}
                 />
                 <Route exact path="/authors" component={Authors} />
-                <Route
-                  exact
-                  path="/registration"
-                  component={RegistrationPage}
-                />
+                <Route exact path="/registration" component={RegistrationPage}/>
                 <Route exact path="/login" component={LoginPage} />
+                <PrivateRoute exact path="/account" component={AccountPage} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <Route path="*" component={Page404} />
               </Switch>
