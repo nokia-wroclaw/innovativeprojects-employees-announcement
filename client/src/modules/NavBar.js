@@ -78,7 +78,7 @@ class NavBar extends Component {
             {this.props.auth.isAuthenticated ? (
               <>
                 <Dropdown
-                  text={"Hi  " + user.firstName}
+                  text="Logged in"
                   pointing
                   className="link item"
                 >
