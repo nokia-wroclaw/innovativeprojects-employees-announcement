@@ -79,15 +79,7 @@ class NavBar extends Component {
 
             {this.props.auth.isAuthenticated ? (
               <>
-<<<<<<< HEAD
                 <Dropdown text={user.email} pointing className="link item">
-=======
-                <Dropdown
-                  text="Logged in"
-                  pointing
-                  className="link item"
-                >
->>>>>>> 33a5bf037488cea57e83f0a6c5af01b7d0934082
                   <Dropdown.Menu>
                     <Dropdown.Item as={Link} to={"/account-view/" + acc}>
                       Your Profile
