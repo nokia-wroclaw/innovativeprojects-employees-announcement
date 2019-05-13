@@ -10,6 +10,7 @@ import {
   GridColumn,
   Feed
 } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -49,7 +50,7 @@ class Announcement extends Component {
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                <a href={"/account-view/" + acc}>({this.state.user.email})</a>{" "}
+                <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
                 at {date}
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
