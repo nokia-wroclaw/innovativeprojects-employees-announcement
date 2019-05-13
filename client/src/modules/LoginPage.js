@@ -7,6 +7,7 @@ import {
   Message,
   Segment
 } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
@@ -191,7 +192,7 @@ class LoginPage extends Component {
               </Segment>
             </Form>
             <Message>
-              Don't have account? <a href="/registration">Click here</a>
+              Don't have account? <Link to="/registration">Click here</Link>
             </Message>
           </Grid.Column>
         </Grid>

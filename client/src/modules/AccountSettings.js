@@ -102,8 +102,8 @@ class NameSettings extends Component {
   render() {
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
-        <Segment className="changename-form" stacked textAlign="left">
-          <Header as="h4" color="blue" textAlign="left">
+        <Segment className="changename-form" stacked textAlign="center">
+          <Header as="h4" color="blue" textAlign="center">
             Change your first and last name
           </Header>
           <div>
@@ -164,7 +164,7 @@ class NameSettings extends Component {
               content="You have successfully changed your name"
             />
           </Transition>
-          <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+          <Button color="blue" size="medium" style={{ maxWidth: 250 }}>
             Apply
           </Button>
         </Segment>
@@ -268,8 +268,8 @@ class PasswordSettings extends Component {
   render() {
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
-        <Segment className="changepassword-form" stacked textAlign="left">
-          <Header as="h4" color="blue" textAlign="left">
+        <Segment className="changepassword-form" stacked textAlign="center">
+          <Header as="h4" color="blue" textAlign="center">
             Change your password
           </Header>
 
@@ -350,7 +350,7 @@ class PasswordSettings extends Component {
               content="You have successfully changed your password"
             />
           </Transition>
-          <Button color="blue" fluid size="medium" style={{ maxWidth: 250 }}>
+          <Button color="blue" size="medium" style={{ maxWidth: 250 }}>
             Apply
           </Button>
         </Segment>

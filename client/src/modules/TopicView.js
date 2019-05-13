@@ -16,6 +16,7 @@ import {
   GridColumn,
   Feed
 } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 class TopicView extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class TopicView extends Component {
 
   render() {
     var acc = new String(this.state.user.email);
+    acc = acc.substring(0, acc.indexOf("@"));
     var date =
       new Date(this.state.topic.date_of_add).toLocaleTimeString() +
       ", " +
@@ -64,9 +66,9 @@ class TopicView extends Component {
                     <Feed.Date>
                       Added by {this.state.user.firstName}{" "}
                       {this.state.user.lastName}{" "}
-                      <a href={"/account-view/" + acc}>
-                        ({this.state.user.email})
-                      </a>{" "}
+                      <Link to={"/account-view/" + acc}>
+                        {this.state.user.email}
+                      </Link>
                       at {date}
                     </Feed.Date>
                     <Feed.Summary style={{ fontSize: "20px" }}>

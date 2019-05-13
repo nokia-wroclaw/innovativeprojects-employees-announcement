@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
+import { Link } from "react-router-dom";
+
 class NavBar extends Component {
   onLogoutClick = e => {
     e.preventDefault();
@@ -45,7 +47,7 @@ class NavBar extends Component {
       <div>
         <Menu fixed="top" inverted>
           <Menu.Menu>
-            <Menu.Item onClick={this.ChangeToHomePath}>
+            <Menu.Item as={Link} to="/">
               <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
             </Menu.Item>
             <Dropdown
@@ -54,10 +56,10 @@ class NavBar extends Component {
               className="link item"
             >
               <Dropdown.Menu>
-                <Dropdown.Item onClick={this.ChangeToHomePath}>
+                <Dropdown.Item as={Link} to="/">
                   Announcements
                 </Dropdown.Item>
-                <Dropdown.Item onClick={this.ChangeToTopicsPath}>
+                <Dropdown.Item as={Link} to="/topics">
                   Topics
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -77,16 +79,12 @@ class NavBar extends Component {
 
             {this.props.auth.isAuthenticated ? (
               <>
-                <Dropdown
-                  text={"Hi  " + user.firstName}
-                  pointing
-                  className="link item"
-                >
+                <Dropdown text={user.email} pointing className="link item">
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={this.ChangeToProfilePath(acc)}>
+                    <Dropdown.Item as={Link} to={"/account-view/" + acc}>
                       Your Profile
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={this.ChangeToAccountPath}>
+                    <Dropdown.Item as={Link} to="/account">
                       Account Settings
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.onLogoutClick}>
@@ -97,10 +95,12 @@ class NavBar extends Component {
               </>
             ) : (
               <>
-                <Menu.Item onClick={this.ChangeToRegistrationPath}>
+                <Menu.Item as={Link} to="/registration">
                   Registration
                 </Menu.Item>
-                <Menu.Item onClick={this.ChangeToLoginPath}>Login</Menu.Item>
+                <Menu.Item as={Link} to="/login">
+                  Login
+                </Menu.Item>
               </>
             )}
           </Menu.Menu>
