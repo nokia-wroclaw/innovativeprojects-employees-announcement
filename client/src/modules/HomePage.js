@@ -33,12 +33,12 @@ class HomePage extends Component {
 
   announcementsList() {
     return this.state.announcements
-
       .map(function(currentAnnouncement, i) {
         return <Announcement announcement={currentAnnouncement} key={i} />;
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
+
   render() {
     return (
       <div style={{ marginTop: "5em" }}>

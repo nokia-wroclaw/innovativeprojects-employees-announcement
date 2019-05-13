@@ -8,7 +8,8 @@ import {
   Segment,
   Rail,
   GridColumn,
-  Feed
+  Feed,
+  Button
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -20,8 +21,14 @@ import axios from "axios";
 
 class Announcement extends Component {
   constructor(props) {
+ 
     super(props);
-    this.state = { user: {} };
+
+    this.state = { 
+      user: {},
+      auth: this.props.auth
+    };
+
   }
 
   componentDidMount() {
@@ -42,31 +49,47 @@ class Announcement extends Component {
       new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
       ", " +
       new Date(this.props.announcement.date_of_add).toLocaleDateString();
+
     return (
       <Segment>
         <Feed>
-          <Feed.Event>
-            <Feed.Label /*image="./images/nokia.png" */ />
-            <Feed.Content>
-              <Feed.Date>
-                Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                at {date}
-              </Feed.Date>
-              <Feed.Summary style={{ fontSize: "20px" }}>
-                {" "}
-                {this.props.announcement.title}
-              </Feed.Summary>
-              <Feed.Extra text>
-                <p>
-                  <b>Price: </b> {this.props.announcement.price} [zł]
-                </p>
-              </Feed.Extra>
-              <Feed.Extra style={{ width: "90%" }}>
-                {this.props.announcement.description}
-              </Feed.Extra>
-            </Feed.Content>
-          </Feed.Event>
+            <Feed.Event>
+                <Feed.Label /*image="./images/nokia.png" */ />
+                <Feed.Content>
+                  <Grid columns="2">
+                    <Grid.Column>
+                      <Feed.Date>
+                        Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
+                        <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
+                        at {date}
+                      </Feed.Date>
+                      <Feed.Summary style={{ fontSize: "20px" }}>
+                        {" "}
+                        {this.props.announcement.title}
+                      </Feed.Summary>
+                      <Feed.Extra text>
+                        <p>
+                          <b>Price: </b> {this.props.announcement.price} [zł]
+                        </p>
+                      </Feed.Extra>
+                      </Grid.Column>
+                      {this.state.user._id == this.props.auth.user.id ? (
+                        <Grid.Column>
+                          <Button floated="right"> EDIT </Button>
+                        </Grid.Column>
+                    ) : (
+                      ""
+                    )}
+                       </Grid>
+                      <Feed.Extra style={{ width: "90%" }}>
+                        {this.props.announcement.description}
+                      </Feed.Extra>
+               
+                </Feed.Content>
+            </Feed.Event>
+        
+          
+ 
         </Feed>
       </Segment>
     );
