@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, GridColumn } from "semantic-ui-react";
+import { Grid, GridColumn, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
@@ -13,7 +13,7 @@ import { logoutUser } from "../actions/authActions";
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { announcements: [] };
+    this.state = { announcements: [], announcementAddVisible: false };
   }
 
   getAllAnnouncements = () => {
@@ -26,6 +26,12 @@ class HomePage extends Component {
         console.log(error);
       });
   };
+
+  buttonAnnouncementAdd() {
+    this.setState({
+      announcementAddVisible: !this.state.announcementAddVisible
+    });
+  }
 
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
@@ -42,11 +48,28 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
+        {this.props.auth.isAuthenticated ? (
+          <Button
+            style={{ marginRight: "110em" }}
+            color="linkedin"
+            onClick={() => this.buttonAnnouncementAdd()}
+          >
+            {this.state.announcementAddVisible
+              ? "Hide Adding Announcement"
+              : "Add Announcement"}
+          </Button>
+        ) : (
+          ""
+        )}
         <Grid padded="vertically" columns={3}>
           <GridColumn width="3" />
           <GridColumn width="10">
             {this.props.auth.isAuthenticated ? (
-              <AnnouncementAdd getAllAnnouncements={this.getAllAnnouncements} />
+              this.state.announcementAddVisible ? (
+                <AnnouncementAdd
+                  getAllAnnouncements={this.getAllAnnouncements}
+                />
+              ) : null
             ) : (
               ""
             )}

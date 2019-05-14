@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {
   Grid,
+  Button,
   GridRow,
   Menu,
   Sticky,
@@ -22,7 +23,7 @@ import { logoutUser } from "../actions/authActions";
 class TopicPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { topics: [] };
+    this.state = { topics: [], topicAddVisible: false };
   }
 
   getAllTopics = () => {
@@ -35,6 +36,10 @@ class TopicPage extends Component {
         console.log(error);
       });
   };
+
+  buttonTopicAdd() {
+    this.setState({ topicAddVisible: !this.state.topicAddVisible });
+  }
 
   componentDidMount() {
     this.getAllTopics(this.topics);
@@ -51,11 +56,25 @@ class TopicPage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
+        {this.props.auth.isAuthenticated ? (
+          <Button
+            style={{ marginRight: "110em" }}
+            color="linkedin"
+            onClick={() => this.buttonTopicAdd()}
+          >
+            {this.state.topicAddVisible ? "Hide Adding Topic" : "Add Topic"}
+          </Button>
+        ) : (
+          ""
+        )}
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="3" />
+
           <Grid.Column width="10">
             {this.props.auth.isAuthenticated ? (
-              <TopicAdd getAllTopics={this.getAllTopics} />
+              this.state.topicAddVisible ? (
+                <TopicAdd getAllTopics={this.getAllTopics} />
+              ) : null
             ) : (
               ""
             )}
