@@ -57,7 +57,7 @@ class Topic extends Component {
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                 <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                <ReactTimeAgo date={date} />
+                <ReactTimeAgo date={date} tooltipClassName="TooltipCss" />
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}

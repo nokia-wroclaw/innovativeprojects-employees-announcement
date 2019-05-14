@@ -22,6 +22,8 @@ import "react-time-ago/Tooltip.css";
 
 import axios from "axios";
 
+import "./Announcement.css";
+
 class Announcement extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +59,7 @@ class Announcement extends Component {
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                 <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                <ReactTimeAgo date={date} />
+                <ReactTimeAgo date={date} tooltipClassName="TooltipCss" />
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}

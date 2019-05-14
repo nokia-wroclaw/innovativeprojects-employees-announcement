@@ -38,7 +38,12 @@ class TopicView extends Component {
       .then(response => {
         this.setState({
           topic: response.data,
-          someTime: <ReactTimeAgo date={new Date(response.data.date_of_add)} />
+          someTime: (
+            <ReactTimeAgo
+              date={new Date(response.data.date_of_add)}
+              tooltipClassName="TooltipCss"
+            />
+          )
         });
         return axios.get(`/api/users/${response.data.user_id}`);
       })
