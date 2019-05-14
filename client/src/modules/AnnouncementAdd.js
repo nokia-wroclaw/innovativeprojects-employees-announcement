@@ -118,7 +118,7 @@ class AddAnnouncementPage extends Component {
           style={
             ({ height: "100%" },
             { marginTop: "5.5em" },
-            { marginBottom: "8em" })
+            { marginBottom: "3em" })
           }
           verticalAlign="middle"
         >

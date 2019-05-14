@@ -9,7 +9,8 @@ import {
   Rail,
   GridColumn,
   Feed,
-  Button
+  Button,
+  Header
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -18,6 +19,7 @@ import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
 import axios from "axios";
+import AnnouncementAdd from "./AnnouncementAdd";
 
 class Announcement extends Component {
   constructor(props) {
@@ -26,7 +28,8 @@ class Announcement extends Component {
 
     this.state = { 
       user: {},
-      auth: this.props.auth
+      auth: this.props.auth,
+      isEdited: false
     };
 
   }
@@ -49,7 +52,8 @@ class Announcement extends Component {
       new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
       ", " +
       new Date(this.props.announcement.date_of_add).toLocaleDateString();
-
+    console.log(this.state.isEdited)
+    if(!this.state.isEdited)
     return (
       <Segment>
         <Feed>
@@ -72,10 +76,14 @@ class Announcement extends Component {
                           <b>Price: </b> {this.props.announcement.price} [zł]
                         </p>
                       </Feed.Extra>
-                      </Grid.Column>
+                    </Grid.Column>
                       {this.state.user._id == this.props.auth.user.id ? (
                         <Grid.Column>
-                          <Button floated="right"> EDIT </Button>
+                          <Button floated="right" onClick = {(e) =>
+                            {e.preventDefault()
+                              this.setState({isEdited: true})}}>
+                              EDIT
+                          </Button>
                         </Grid.Column>
                     ) : (
                       ""
@@ -87,11 +95,16 @@ class Announcement extends Component {
                
                 </Feed.Content>
             </Feed.Event>
-        
-          
- 
         </Feed>
-      </Segment>
+      </Segment>)
+      else
+      return (
+        <div>
+        <Segment style={{backgroundColor: "#0d71bb"}}>
+          <Header size="small" color="white">Announcement Edition</Header>
+        </Segment>
+        <AnnouncementAdd/>
+        </div>
     );
   }
 }
