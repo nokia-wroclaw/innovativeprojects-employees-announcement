@@ -16,6 +16,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
+import ReactTimeAgo from "react-time-ago/tooltip";
+
+import "react-time-ago/Tooltip.css";
+
 import axios from "axios";
 
 class Announcement extends Component {
@@ -38,20 +42,22 @@ class Announcement extends Component {
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
-    var date =
-      new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
-      ", " +
-      new Date(this.props.announcement.date_of_add).toLocaleDateString();
+    //    var date =
+    //    new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
+    //      ", " +
+    //      new Date(this.props.announcement.date_of_add).toLocaleDateString();
+
+    var date = new Date(this.props.announcement.date_of_add);
     return (
       <Segment>
-        <Feed>
+        <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
             <Feed.Label /*image="./images/nokia.png" */ />
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                 <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                at {date}
+                <ReactTimeAgo date={date} />
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}

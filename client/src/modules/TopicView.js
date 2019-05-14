@@ -18,6 +18,10 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
+import ReactTimeAgo from "react-time-ago/tooltip";
+
+import "react-time-ago/Tooltip.css";
+
 class TopicView extends Component {
   constructor(props) {
     super(props);
@@ -46,10 +50,12 @@ class TopicView extends Component {
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
-    var date =
-      new Date(this.state.topic.date_of_add).toLocaleTimeString() +
-      ", " +
-      new Date(this.state.topic.date_of_add).toLocaleDateString();
+    //    var date2 =
+    //      new Date(this.state.topic.date_of_add).toLocaleTimeString() +
+    //      ", " +
+    //      new Date(this.state.topic.date_of_add).toLocaleDateString();
+    //var date = new Date(this.state.topic.date_of_add);
+    var date = new Date();
     return (
       <div className="login-form">
         <Grid
@@ -59,7 +65,7 @@ class TopicView extends Component {
         >
           <Grid.Column style={{ maxWidth: 850 }}>
             <Segment>
-              <Feed>
+              <Feed style={{ marginTop: "1.5em" }}>
                 <Feed.Event>
                   <Feed.Label /*image="./images/nokia.png" */ />
                   <Feed.Content>
@@ -68,8 +74,8 @@ class TopicView extends Component {
                       {this.state.user.lastName}{" "}
                       <Link to={"/account-view/" + acc}>
                         {this.state.user.email}
-                      </Link>
-                      at {date}
+                      </Link>{" "}
+                      <ReactTimeAgo date={date} />
                     </Feed.Date>
                     <Feed.Summary style={{ fontSize: "20px" }}>
                       {this.state.topic.title}
