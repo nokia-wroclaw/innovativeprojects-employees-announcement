@@ -36,7 +36,10 @@ class TopicView extends Component {
     axios
       .get(`/api/topics/${params.TopicId}`)
       .then(response => {
-        this.setState({ topic: response.data });
+        this.setState({
+          topic: response.data,
+          someTime: <ReactTimeAgo date={new Date(response.data.date_of_add)} />
+        });
         return axios.get(`/api/users/${response.data.user_id}`);
       })
       .then(response => {
@@ -50,12 +53,13 @@ class TopicView extends Component {
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
-    //    var date2 =
-    //      new Date(this.state.topic.date_of_add).toLocaleTimeString() +
-    //      ", " +
-    //      new Date(this.state.topic.date_of_add).toLocaleDateString();
+    var date2 =
+      new Date(this.state.topic.date_of_add).toLocaleTimeString() +
+      ", " +
+      new Date(this.state.topic.date_of_add).toLocaleDateString();
+    //console.log(this.state.topic);
     //var date = new Date(this.state.topic.date_of_add);
-    var date = new Date();
+    //var date = new Date();
     return (
       <div className="login-form">
         <Grid
@@ -75,7 +79,7 @@ class TopicView extends Component {
                       <Link to={"/account-view/" + acc}>
                         {this.state.user.email}
                       </Link>{" "}
-                      <ReactTimeAgo date={date} />
+                      {this.state.someTime}
                     </Feed.Date>
                     <Feed.Summary style={{ fontSize: "20px" }}>
                       {this.state.topic.title}
