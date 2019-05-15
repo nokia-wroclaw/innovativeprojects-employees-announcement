@@ -15,8 +15,8 @@ commentRoutes.route("/").get(function(req, res) {
 });
 
 commentRoutes.route("/topicId/:id").get(function(req, res) {
-  let id = req.params.topic_id;
-  Comment.find(id, function(err, comment) {
+  let id = req.params.id;
+  Comment.find({ topic_id: id }, function(err, comment) {
     res.json(comment);
   });
 });

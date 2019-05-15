@@ -39,7 +39,7 @@ class TopicView extends Component {
 
   getAllComments = () => {
     axios
-      .get(`/api/comments/topicID/5cdb1ed8ce8d811790d151302`)
+      .get(`/api/comments/topicID/${this.state.topic_id}`)
       .then(response => {
         this.setState({ comments: response.data });
       })
