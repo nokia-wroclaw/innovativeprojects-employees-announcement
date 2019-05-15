@@ -22,6 +22,8 @@ import ReactTimeAgo from "react-time-ago/tooltip";
 
 import "react-time-ago/Tooltip.css";
 
+import "./TopicView.css";
+
 class TopicView extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ class TopicView extends Component {
           someTime: (
             <ReactTimeAgo
               date={new Date(response.data.date_of_add)}
-              tooltipClassName="TooltipCss"
+              tooltipClassName="TooltipCssTopicView"
             />
           )
         });

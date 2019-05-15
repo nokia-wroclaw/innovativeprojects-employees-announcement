@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, GridColumn, Button } from "semantic-ui-react";
+import { Grid, GridColumn, Button, Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
@@ -64,6 +64,9 @@ class HomePage extends Component {
         <Grid padded="vertically" columns={3}>
           <GridColumn width="3" />
           <GridColumn width="10">
+            <Header inverted as="h3" dividing>
+              Announcements
+            </Header>
             {this.props.auth.isAuthenticated ? (
               this.state.announcementAddVisible ? (
                 <AnnouncementAdd

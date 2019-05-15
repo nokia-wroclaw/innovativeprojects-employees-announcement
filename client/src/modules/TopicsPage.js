@@ -4,6 +4,7 @@ import {
   Grid,
   Button,
   GridRow,
+  Header,
   Menu,
   Sticky,
   Segment,
@@ -69,8 +70,10 @@ class TopicPage extends Component {
         )}
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="3" />
-
           <Grid.Column width="10">
+            <Header inverted as="h3" dividing>
+              Topics
+            </Header>
             {this.props.auth.isAuthenticated ? (
               this.state.topicAddVisible ? (
                 <TopicAdd getAllTopics={this.getAllTopics} />

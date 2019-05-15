@@ -22,6 +22,8 @@ import ReactTimeAgo from "react-time-ago/tooltip";
 
 import "react-time-ago/Tooltip.css";
 
+import "./Topic.css";
+
 class Topic extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +59,7 @@ class Topic extends Component {
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                 <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                <ReactTimeAgo date={date} tooltipClassName="TooltipCss" />
+                <ReactTimeAgo date={date} tooltipClassName="TooltipCssTopic" />
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}
