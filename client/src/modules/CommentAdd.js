@@ -101,7 +101,7 @@ class CommentAdd extends Component {
                   id="message"
                   name="message"
                   fluid
-                  icon="quote right"
+                  icon="write"
                   iconPosition="left"
                   placeholder="Message"
                   error={this.state.messageErrorEmpty}
@@ -115,7 +115,7 @@ class CommentAdd extends Component {
                   fluid
                   size="large"
                 >
-                  Add Comment
+                  Reply
                 </Button>
               </Segment>
             </Form>

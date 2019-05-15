@@ -54,7 +54,7 @@ class Topic extends Component {
       <Segment>
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
-            <Feed.Label /*image="./images/nokia.png" */ />
+            <Feed.Label image={require("./images/2pac.jpg")} />
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
