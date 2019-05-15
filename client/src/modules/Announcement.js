@@ -50,11 +50,12 @@ class Announcement extends Component {
     //      new Date(this.props.announcement.date_of_add).toLocaleDateString();
 
     var date = new Date(this.props.announcement.date_of_add);
+
     return (
       <Segment>
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
-            <Feed.Label /*image="./images/nokia.png" */ />
+            <Feed.Label image={require("./images/2pac.jpg")} />
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
