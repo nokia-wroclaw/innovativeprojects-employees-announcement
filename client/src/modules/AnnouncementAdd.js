@@ -14,7 +14,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-class AddAnnouncementPage extends Component {
+class AnnouncementAdd extends Component {
   constructor() {
     super();
     this.state = {
@@ -192,7 +192,7 @@ class AddAnnouncementPage extends Component {
   }
 }
 
-AddAnnouncementPage.propTypes = {
+AnnouncementAdd.propTypes = {
   addAnnouncement: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -206,4 +206,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addAnnouncement }
-)(withRouter(AddAnnouncementPage));
+)(withRouter(AnnouncementAdd));

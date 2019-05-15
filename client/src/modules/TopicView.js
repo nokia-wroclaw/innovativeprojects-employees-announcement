@@ -24,11 +24,29 @@ import "react-time-ago/Tooltip.css";
 
 import "./TopicView.css";
 
+import Comment from "./Comment";
+import CommentAdd from "./CommentAdd";
+
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/authActions";
+
 class TopicView extends Component {
   constructor(props) {
     super(props);
-    this.state = { topic: {}, user: {} };
+    this.state = { topic: {}, user: {}, comments: [] };
   }
+
+  getAllComments = () => {
+    axios
+      .get(`/api/comments/topicID/5cdb1ed8ce8d811790d151302`)
+      .then(response => {
+        this.setState({ comments: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   componentDidMount() {
     const {
@@ -55,8 +73,18 @@ class TopicView extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
+    this.getAllComments(this.comments);
   }
 
+  commentsList() {
+    return this.state.comments
+
+      .map(function(currentComment, i) {
+        return <Comment comment={currentComment} key={i} />;
+      })
+      .reverse();
+  }
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
@@ -101,9 +129,29 @@ class TopicView extends Component {
             </Segment>
           </Grid.Column>
         </Grid>
+        {this.props.auth.isAuthenticated ? (
+          <CommentAdd
+            getAllComments={this.getAllComments}
+            topic_id={this.state.topic._id}
+          />
+        ) : (
+          ""
+        )}
+        {this.commentsList()}
       </div>
     );
   }
 }
 
-export default TopicView;
+TopicView.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(TopicView);
