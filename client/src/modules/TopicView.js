@@ -39,7 +39,7 @@ class TopicView extends Component {
 
   getAllComments = () => {
     axios
-      .get(`/api/comments/topicID/${this.state.topic_id}`)
+      .get(`/api/comments/topicID/${this.state.topic._id}`)
       .then(response => {
         this.setState({ comments: response.data });
       })
@@ -69,12 +69,11 @@ class TopicView extends Component {
       })
       .then(response => {
         this.setState({ user: response.data });
+        this.getAllComments(this.comments);
       })
       .catch(function(error) {
         console.log(error);
       });
-
-    this.getAllComments(this.comments);
   }
 
   commentsList() {
