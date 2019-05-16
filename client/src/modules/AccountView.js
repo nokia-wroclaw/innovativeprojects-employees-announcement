@@ -8,6 +8,7 @@ import {
   Grid,
   GridRow,
   Segment,
+  Icon,
   GridColumn
 } from "semantic-ui-react";
 
@@ -39,9 +40,7 @@ class AccountView extends Component {
           <GridRow>
             <Form noValidate onSubmit={this.onSubmit}>
               <Segment style={{ height: "200px", width: "600px" }}>
-                <Header as="h1" color="blue">
-                  User info
-                </Header>
+                <Header as="h1">User info</Header>
                 <Grid columns="3">
                   <GridColumn width="1">
                     <List size="massive">
