@@ -25,8 +25,11 @@ class HomePage extends Component {
       announcements: [],
       announcementAddVisible: false,
       noFilter: true,
-      reverseFilter: false
+      reverseFilter: false,
+      searchFilter: false,
+      value: ""
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   getAllAnnouncements = () => {
@@ -50,12 +53,32 @@ class HomePage extends Component {
     this.getAllAnnouncements(this.announcements);
   }
 
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
   noFilterFun() {
-    this.setState({ noFilter: true, reverseFilter: false });
+    this.setState({
+      noFilter: true,
+      reverseFilter: false,
+      searchFilter: false
+    });
   }
 
   reverseFilterFun() {
-    this.setState({ noFilter: false, reverseFilter: true });
+    this.setState({
+      noFilter: false,
+      reverseFilter: true,
+      searchFilter: false
+    });
+  }
+
+  searchFilterFun() {
+    this.setState({
+      noFilter: false,
+      reverseFilter: false,
+      searchFilter: true
+    });
   }
 
   announcementsList() {
@@ -71,6 +94,15 @@ class HomePage extends Component {
       return this.state.announcements.map(function(currentAnnouncement, i) {
         return <Announcement announcement={currentAnnouncement} key={i} />;
       });
+    }
+
+    if (this.state.searchFilter) {
+      return this.state.announcements
+        .filter(announcement => announcement.title.includes(this.state.value))
+        .map(function(currentAnnouncement, i) {
+          return <Announcement announcement={currentAnnouncement} key={i} />;
+        })
+        .reverse();
     }
   }
 
@@ -93,7 +125,14 @@ class HomePage extends Component {
                 ""
               )}
               <Menu.Item>
-                <Input placeholder="Search..." />
+                <Input
+                  placeholder="Search..."
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </Menu.Item>
+              <Menu.Item onClick={() => this.searchFilterFun()}>
+                Search Mode
               </Menu.Item>
               <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
               <Menu.Item onClick={() => this.reverseFilterFun()}>
