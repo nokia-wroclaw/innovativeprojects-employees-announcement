@@ -26,7 +26,8 @@ class HomePage extends Component {
       announcementAddVisible: false,
       noFilter: true,
       reverseFilter: false,
-      searchFilter: false,
+      searchTitltFilter: false,
+      searchDescriptionFilter: false,
       value: ""
     };
     this.handleChange = this.handleChange.bind(this);
@@ -61,7 +62,8 @@ class HomePage extends Component {
     this.setState({
       noFilter: true,
       reverseFilter: false,
-      searchFilter: false
+      searchTitleFilter: false,
+      searchDescriptionFilter: false
     });
   }
 
@@ -69,15 +71,26 @@ class HomePage extends Component {
     this.setState({
       noFilter: false,
       reverseFilter: true,
-      searchFilter: false
+      searchTitleFilter: false,
+      searchDescriptionFilter: false
     });
   }
 
-  searchFilterFun() {
+  searchTitleFilterFun() {
     this.setState({
       noFilter: false,
       reverseFilter: false,
-      searchFilter: true
+      searchTitleFilter: true,
+      searchDescriptionFilter: false
+    });
+  }
+
+  searchDescriptionFilterFun() {
+    this.setState({
+      noFilter: false,
+      reverseFilter: false,
+      searchTitleFilter: false,
+      searchDescriptionFilter: true
     });
   }
 
@@ -96,9 +109,19 @@ class HomePage extends Component {
       });
     }
 
-    if (this.state.searchFilter) {
+    if (this.state.searchTitleFilter) {
       return this.state.announcements
         .filter(announcement => announcement.title.includes(this.state.value))
+        .map(function(currentAnnouncement, i) {
+          return <Announcement announcement={currentAnnouncement} key={i} />;
+        })
+        .reverse();
+    }
+    if (this.state.searchDescriptionFilter) {
+      return this.state.announcements
+        .filter(announcement =>
+          announcement.description.includes(this.state.value)
+        )
         .map(function(currentAnnouncement, i) {
           return <Announcement announcement={currentAnnouncement} key={i} />;
         })
@@ -131,8 +154,11 @@ class HomePage extends Component {
                   onChange={this.handleChange}
                 />
               </Menu.Item>
-              <Menu.Item onClick={() => this.searchFilterFun()}>
-                Search Mode
+              <Menu.Item onClick={() => this.searchTitleFilterFun()}>
+                Search Title Mode
+              </Menu.Item>
+              <Menu.Item onClick={() => this.searchDescriptionFilterFun()}>
+                Search Description Mode
               </Menu.Item>
               <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
               <Menu.Item onClick={() => this.reverseFilterFun()}>
