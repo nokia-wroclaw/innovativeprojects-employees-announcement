@@ -77,27 +77,31 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        <Menu vertical style={{ marginRight: "110em" }}>
-          {this.props.auth.isAuthenticated ? (
-            <Menu.Item onClick={() => this.buttonAnnouncementAdd()}>
-              {this.state.announcementAddVisible
-                ? "Hide Adding Announcement"
-                : "Add Announcement"}
-            </Menu.Item>
-          ) : (
-            ""
-          )}
-          <Menu.Item>
-            <Input placeholder="Search..." />
-          </Menu.Item>
-          <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
-          <Menu.Item onClick={() => this.reverseFilterFun()}>
-            From the Oldest
-          </Menu.Item>
-        </Menu>
-
         <Grid padded="vertically" columns={3}>
-          <GridColumn width="3" />
+          <GridColumn width="3">
+            <Menu
+              vertical
+              style={({ marginTop: "5em" }, { marginLeft: "5em" })}
+            >
+              {this.props.auth.isAuthenticated ? (
+                <Menu.Item onClick={() => this.buttonAnnouncementAdd()}>
+                  {this.state.announcementAddVisible
+                    ? "Hide Adding Announcement"
+                    : "Add Announcement"}
+                </Menu.Item>
+              ) : (
+                ""
+              )}
+              <Menu.Item>
+                <Input placeholder="Search..." />
+              </Menu.Item>
+              <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
+              <Menu.Item onClick={() => this.reverseFilterFun()}>
+                From the Oldest
+              </Menu.Item>
+            </Menu>
+          </GridColumn>
+
           <GridColumn width="10">
             <Header inverted as="h3" dividing>
               Announcements
