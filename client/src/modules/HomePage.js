@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
-import { Grid, GridColumn, Button, Header } from "semantic-ui-react";
+import {
+  Grid,
+  GridColumn,
+  Button,
+  Header,
+  Input,
+  Menu,
+  Sticky
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
@@ -42,7 +50,11 @@ class HomePage extends Component {
     this.getAllAnnouncements(this.announcements);
   }
 
-  tryIt() {
+  noFilterFun() {
+    this.setState({ noFilter: true, reverseFilter: false });
+  }
+
+  reverseFilterFun() {
     this.setState({ noFilter: false, reverseFilter: true });
   }
 
@@ -65,20 +77,25 @@ class HomePage extends Component {
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        {this.props.auth.isAuthenticated ? (
-          <Button
-            style={{ marginRight: "110em" }}
-            color="linkedin"
-            onClick={() => this.buttonAnnouncementAdd()}
-          >
-            {this.state.announcementAddVisible
-              ? "Hide Adding Announcement"
-              : "Add Announcement"}
-          </Button>
-        ) : (
-          ""
-        )}
-        <Button onClick={() => this.tryIt()}>Tu</Button>
+        <Menu vertical style={{ marginRight: "110em" }}>
+          {this.props.auth.isAuthenticated ? (
+            <Menu.Item onClick={() => this.buttonAnnouncementAdd()}>
+              {this.state.announcementAddVisible
+                ? "Hide Adding Announcement"
+                : "Add Announcement"}
+            </Menu.Item>
+          ) : (
+            ""
+          )}
+          <Menu.Item>
+            <Input placeholder="Search..." />
+          </Menu.Item>
+          <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
+          <Menu.Item onClick={() => this.reverseFilterFun()}>
+            From the Oldest
+          </Menu.Item>
+        </Menu>
+
         <Grid padded="vertically" columns={3}>
           <GridColumn width="3" />
           <GridColumn width="10">
