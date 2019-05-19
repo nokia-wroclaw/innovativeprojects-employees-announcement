@@ -13,7 +13,12 @@ import { logoutUser } from "../actions/authActions";
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { announcements: [], announcementAddVisible: false };
+    this.state = {
+      announcements: [],
+      announcementAddVisible: false,
+      noFilter: true,
+      reverseFilter: false
+    };
   }
 
   getAllAnnouncements = () => {
@@ -37,14 +42,26 @@ class HomePage extends Component {
     this.getAllAnnouncements(this.announcements);
   }
 
-  announcementsList() {
-    return this.state.announcements
-
-      .map(function(currentAnnouncement, i) {
-        return <Announcement announcement={currentAnnouncement} key={i} />;
-      })
-      .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
+  tryIt() {
+    this.setState({ noFilter: false, reverseFilter: true });
   }
+
+  announcementsList() {
+    if (this.state.noFilter) {
+      return this.state.announcements
+
+        .map(function(currentAnnouncement, i) {
+          return <Announcement announcement={currentAnnouncement} key={i} />;
+        })
+        .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
+    }
+    if (this.state.reverseFilter) {
+      return this.state.announcements.map(function(currentAnnouncement, i) {
+        return <Announcement announcement={currentAnnouncement} key={i} />;
+      });
+    }
+  }
+
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
@@ -61,6 +78,7 @@ class HomePage extends Component {
         ) : (
           ""
         )}
+        <Button onClick={() => this.tryIt()}>Tu</Button>
         <Grid padded="vertically" columns={3}>
           <GridColumn width="3" />
           <GridColumn width="10">
