@@ -5,6 +5,7 @@ import {
   Button,
   GridRow,
   Header,
+  Input,
   Menu,
   Sticky,
   Segment,
@@ -24,7 +25,16 @@ import { logoutUser } from "../actions/authActions";
 class TopicPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { topics: [], topicAddVisible: false };
+    this.state = {
+      topics: [],
+      topicAddVisible: false,
+      noFilter: true,
+      reverseFilter: false,
+      searchTitltFilter: false,
+      searchDescriptionFilter: false,
+      value: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   getAllTopics = () => {
@@ -46,30 +56,115 @@ class TopicPage extends Component {
     this.getAllTopics(this.topics);
   }
 
-  topicsList() {
-    return this.state.topics
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
 
-      .map(function(currentTopic, i) {
+  noFilterFun() {
+    this.setState({
+      noFilter: true,
+      reverseFilter: false,
+      searchTitleFilter: false,
+      searchDescriptionFilter: false
+    });
+  }
+
+  reverseFilterFun() {
+    this.setState({
+      noFilter: false,
+      reverseFilter: true,
+      searchTitleFilter: false,
+      searchDescriptionFilter: false
+    });
+  }
+
+  searchTitleFilterFun() {
+    this.setState({
+      noFilter: false,
+      reverseFilter: false,
+      searchTitleFilter: true,
+      searchDescriptionFilter: false
+    });
+  }
+
+  searchDescriptionFilterFun() {
+    this.setState({
+      noFilter: false,
+      reverseFilter: false,
+      searchTitleFilter: false,
+      searchDescriptionFilter: true
+    });
+  }
+
+  topicsList() {
+    if (this.state.noFilter) {
+      return this.state.topics
+
+        .map(function(currentTopic, i) {
+          return <Topic topic={currentTopic} key={i} />;
+        })
+        .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
+    }
+    if (this.state.reverseFilter) {
+      return this.state.topics.map(function(currentTopic, i) {
         return <Topic topic={currentTopic} key={i} />;
-      })
-      .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
+      });
+    }
+
+    if (this.state.searchTitleFilter) {
+      return this.state.topics
+        .filter(topic => topic.title.includes(this.state.value))
+        .map(function(currentTopic, i) {
+          return <Topic topic={currentTopic} key={i} />;
+        })
+        .reverse();
+    }
+    if (this.state.searchDescriptionFilter) {
+      return this.state.topics
+        .filter(topic => topic.description.includes(this.state.value))
+        .map(function(currentTopic, i) {
+          return <Topic topic={currentTopic} key={i} />;
+        })
+        .reverse();
+    }
   }
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
-        {this.props.auth.isAuthenticated ? (
-          <Button
-            style={{ marginRight: "110em" }}
-            color="linkedin"
-            onClick={() => this.buttonTopicAdd()}
-          >
-            {this.state.topicAddVisible ? "Hide Adding Topic" : "Add Topic"}
-          </Button>
-        ) : (
-          ""
-        )}
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3" />
+          <Grid.Column width="3">
+            <Menu
+              vertical
+              style={({ marginTop: "5em" }, { marginLeft: "5em" })}
+            >
+              {this.props.auth.isAuthenticated ? (
+                <Menu.Item onClick={() => this.buttonTopicAdd()}>
+                  {this.state.announcementAddVisible
+                    ? "Hide Adding Topic"
+                    : "Add Topic"}
+                </Menu.Item>
+              ) : (
+                ""
+              )}
+              <Menu.Item>
+                <Input
+                  placeholder="Search..."
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+              </Menu.Item>
+              <Menu.Item onClick={() => this.searchTitleFilterFun()}>
+                Search Title Mode
+              </Menu.Item>
+              <Menu.Item onClick={() => this.searchDescriptionFilterFun()}>
+                Search Description Mode
+              </Menu.Item>
+              <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
+              <Menu.Item onClick={() => this.reverseFilterFun()}>
+                From the Oldest
+              </Menu.Item>
+            </Menu>
+          </Grid.Column>
           <Grid.Column width="10">
             <Header inverted as="h3" dividing>
               Topics

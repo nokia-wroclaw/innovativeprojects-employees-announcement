@@ -6,8 +6,7 @@ import {
   Button,
   Header,
   Input,
-  Menu,
-  Sticky
+  Menu
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
