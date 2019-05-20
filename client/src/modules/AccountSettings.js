@@ -106,6 +106,7 @@ class NameSettings extends Component {
           <Header as="h4" color="blue" textAlign="center">
             Change your first and last name
           </Header>
+
           <div>
             <span className="errorsColor">
               {this.state.firstNameErrorEmpty}
