@@ -51,7 +51,7 @@ class AccountView extends Component {
         alert("Image has been successfully uploaded ");
       })
       .catch(err => {
-        alert("Error while uploading image using base64 format");
+        alert("Error while uploading image, size is too big");
       });
   }
 
@@ -59,35 +59,38 @@ class AccountView extends Component {
     return (
       <div>
         <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
+          <img
+            src={this.state.user.image}
+            style={({ marginTop: "15.5em" }, { maxHeight: "200px" })}
+          />
+
           <GridRow>
-            <Form noValidate onSubmit={this.onSubmit}>
-              <Segment style={{ height: "200px", width: "600px" }}>
-                <Header as="h1">User info</Header>
-                <Grid columns="3">
-                  <GridColumn width="1">
-                    <List size="massive">
-                      <List.Item icon="user" />
-                      <List.Item icon="user" />
-                      <List.Item icon="mail" />
-                    </List>
-                  </GridColumn>
-                  <GridColumn textAlign="left">
-                    <List size="massive">
-                      <List.Item content={"First Name: "} />
-                      <List.Item content={"Last Name: "} />
-                      <List.Item content={"Email: "} />
-                    </List>
-                  </GridColumn>
-                  <GridColumn textAlign="left">
-                    <List size="massive">
-                      <List.Item content={this.state.user.firstName} />
-                      <List.Item content={this.state.user.lastName} />
-                      <List.Item content={this.state.user.email} />
-                    </List>
-                  </GridColumn>
-                </Grid>
-              </Segment>
-            </Form>
+            <Segment style={{ height: "200px", width: "600px" }}>
+              <Header as="h1">User info</Header>
+              <Grid columns="3">
+                <GridColumn width="1">
+                  <List size="massive">
+                    <List.Item icon="user" />
+                    <List.Item icon="user" />
+                    <List.Item icon="mail" />
+                  </List>
+                </GridColumn>
+                <GridColumn textAlign="left">
+                  <List size="massive">
+                    <List.Item content={"First Name: "} />
+                    <List.Item content={"Last Name: "} />
+                    <List.Item content={"Email: "} />
+                  </List>
+                </GridColumn>
+                <GridColumn textAlign="left">
+                  <List size="massive">
+                    <List.Item content={this.state.user.firstName} />
+                    <List.Item content={this.state.user.lastName} />
+                    <List.Item content={this.state.user.email} />
+                  </List>
+                </GridColumn>
+              </Grid>
+            </Segment>
           </GridRow>
 
           {/* <GridRow>
@@ -96,19 +99,22 @@ class AccountView extends Component {
             </Form>
           </GridRow> */}
         </Grid>
-        <div className="process">
-          <div className="process__upload-btn">
+        <div style style={{ marginTop: "5em" }}>
+          <div>
             <FileBase
               type="file"
               multiple={false}
               onDone={this.getBaseFile.bind(this)}
             />
           </div>
-          <img
-            src={this.state.baseImage}
-            alt="upload-image"
-            className="process__image"
-          />
+          <div style={{ marginTop: "5em" }}>
+            <img
+              src={this.state.baseImage}
+              alt="upload-image"
+              className="process__image"
+              style={({ maxHeight: "20em" }, { maxWidth: "20em" })}
+            />
+          </div>
         </div>
       </div>
     );
