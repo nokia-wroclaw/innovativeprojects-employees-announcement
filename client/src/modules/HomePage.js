@@ -18,18 +18,15 @@ import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
 class HomePage extends Component {
+  state = {
+    search: ""
+  };
   constructor(props) {
     super(props);
     this.state = {
       announcements: [],
-      announcementAddVisible: false,
-      noFilter: true,
-      reverseFilter: false,
-      searchTitltFilter: false,
-      searchDescriptionFilter: false,
-      value: ""
+      announcementAddVisible: false
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   getAllAnnouncements = () => {
@@ -51,82 +48,29 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  noFilterFun() {
-    this.setState({
-      noFilter: true,
-      reverseFilter: false,
-      searchTitleFilter: false,
-      searchDescriptionFilter: false
-    });
-  }
-
-  reverseFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: true,
-      searchTitleFilter: false,
-      searchDescriptionFilter: false
-    });
-  }
-
-  searchTitleFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: false,
-      searchTitleFilter: true,
-      searchDescriptionFilter: false
-    });
-  }
-
-  searchDescriptionFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: false,
-      searchTitleFilter: false,
-      searchDescriptionFilter: true
-    });
+    this.state.search = "";
   }
 
   announcementsList() {
-    if (this.state.noFilter) {
-      return this.state.announcements
-
-        .map(function(currentAnnouncement, i) {
-          return <Announcement announcement={currentAnnouncement} key={i} />;
-        })
-        .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
-    }
-    if (this.state.reverseFilter) {
-      return this.state.announcements.map(function(currentAnnouncement, i) {
-        return <Announcement announcement={currentAnnouncement} key={i} />;
-      });
-    }
-
-    if (this.state.searchTitleFilter) {
-      return this.state.announcements
-        .filter(announcement => announcement.title.includes(this.state.value))
-        .map(function(currentAnnouncement, i) {
-          return <Announcement announcement={currentAnnouncement} key={i} />;
-        })
-        .reverse();
-    }
-    if (this.state.searchDescriptionFilter) {
-      return this.state.announcements
-        .filter(announcement =>
-          announcement.description.includes(this.state.value)
+    const { search } = this.state;
+    return this.state.announcements
+      .map(function(currentAnnouncement, i) {
+        if (
+          currentAnnouncement.title
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentAnnouncement.description
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
         )
-        .map(function(currentAnnouncement, i) {
           return <Announcement announcement={currentAnnouncement} key={i} />;
-        })
-        .reverse();
-    }
+      })
+      .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
+
+  onChange = e => {
+    this.setState({ search: e.target.value });
+  };
 
   render() {
     return (
@@ -135,7 +79,7 @@ class HomePage extends Component {
           <GridColumn width="3">
             <Menu
               vertical
-              style={({ marginTop: "5em" }, { marginLeft: "5em" })}
+              style={({ marginTop: "5em" }, { marginLeft: "4em" })}
             >
               {this.props.auth.isAuthenticated ? (
                 <Menu.Item onClick={() => this.buttonAnnouncementAdd()}>
@@ -146,24 +90,8 @@ class HomePage extends Component {
               ) : (
                 ""
               )}
-              <Menu.Item>
-                <Input
-                  placeholder="Search..."
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                />
-              </Menu.Item>
-              <Menu.Item onClick={() => this.searchTitleFilterFun()}>
-                Search Title Mode
-              </Menu.Item>
-              <Menu.Item onClick={() => this.searchDescriptionFilterFun()}>
-                Search Description Mode
-              </Menu.Item>
-              <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
-              <Menu.Item onClick={() => this.reverseFilterFun()}>
-                From the Oldest
-              </Menu.Item>
             </Menu>
+            <Input label="Search" icon="search" onChange={this.onChange} />
           </GridColumn>
 
           <GridColumn width="10">

@@ -23,18 +23,15 @@ import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
 class TopicPage extends Component {
+  state = {
+    search: ""
+  };
   constructor(props) {
     super(props);
     this.state = {
       topics: [],
-      topicAddVisible: false,
-      noFilter: true,
-      reverseFilter: false,
-      searchTitltFilter: false,
-      searchDescriptionFilter: false,
-      value: ""
+      topicAddVisible: false
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
   getAllTopics = () => {
@@ -54,80 +51,30 @@ class TopicPage extends Component {
 
   componentDidMount() {
     this.getAllTopics(this.topics);
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  noFilterFun() {
-    this.setState({
-      noFilter: true,
-      reverseFilter: false,
-      searchTitleFilter: false,
-      searchDescriptionFilter: false
-    });
-  }
-
-  reverseFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: true,
-      searchTitleFilter: false,
-      searchDescriptionFilter: false
-    });
-  }
-
-  searchTitleFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: false,
-      searchTitleFilter: true,
-      searchDescriptionFilter: false
-    });
-  }
-
-  searchDescriptionFilterFun() {
-    this.setState({
-      noFilter: false,
-      reverseFilter: false,
-      searchTitleFilter: false,
-      searchDescriptionFilter: true
-    });
+    this.state.search = "";
   }
 
   topicsList() {
-    if (this.state.noFilter) {
-      return this.state.topics
-
-        .map(function(currentTopic, i) {
+    const { search } = this.state;
+    return this.state.topics
+      .map(function(currentTopic, i) {
+        if (
+          currentTopic.title
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentTopic.description
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
+        )
           return <Topic topic={currentTopic} key={i} />;
-        })
-        .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
-    }
-    if (this.state.reverseFilter) {
-      return this.state.topics.map(function(currentTopic, i) {
-        return <Topic topic={currentTopic} key={i} />;
-      });
-    }
-
-    if (this.state.searchTitleFilter) {
-      return this.state.topics
-        .filter(topic => topic.title.includes(this.state.value))
-        .map(function(currentTopic, i) {
-          return <Topic topic={currentTopic} key={i} />;
-        })
-        .reverse();
-    }
-    if (this.state.searchDescriptionFilter) {
-      return this.state.topics
-        .filter(topic => topic.description.includes(this.state.value))
-        .map(function(currentTopic, i) {
-          return <Topic topic={currentTopic} key={i} />;
-        })
-        .reverse();
-    }
+      })
+      .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
+
+  onChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
@@ -135,7 +82,7 @@ class TopicPage extends Component {
           <Grid.Column width="3">
             <Menu
               vertical
-              style={({ marginTop: "5em" }, { marginLeft: "5em" })}
+              style={({ marginTop: "5em" }, { marginLeft: "4em" })}
             >
               {this.props.auth.isAuthenticated ? (
                 <Menu.Item onClick={() => this.buttonTopicAdd()}>
@@ -146,24 +93,8 @@ class TopicPage extends Component {
               ) : (
                 ""
               )}
-              <Menu.Item>
-                <Input
-                  placeholder="Search..."
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                />
-              </Menu.Item>
-              <Menu.Item onClick={() => this.searchTitleFilterFun()}>
-                Search Title Mode
-              </Menu.Item>
-              <Menu.Item onClick={() => this.searchDescriptionFilterFun()}>
-                Search Description Mode
-              </Menu.Item>
-              <Menu.Item onClick={() => this.noFilterFun()}>Normal</Menu.Item>
-              <Menu.Item onClick={() => this.reverseFilterFun()}>
-                From the Oldest
-              </Menu.Item>
             </Menu>
+            <Input label="Search" icon="search" onChange={this.onChange} />
           </Grid.Column>
           <Grid.Column width="10">
             <Header inverted as="h3" dividing>
