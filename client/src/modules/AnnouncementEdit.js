@@ -7,22 +7,25 @@ import {
   Header,
   Form,
   Segment,
-  TextArea
+  TextArea,
+  Feed
 } from "semantic-ui-react";
 
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 class EditAnnouncementPage extends Component {
   constructor(props) {
-    //const { user } = props.auth;
     super(props);
+    //const { user } = this.props.auth;
     this.state = {
       title: props.title,
       description: props.description,
       price: props.price,
-      //user_id: user.id,
+      firstName: props.firstName,
+      lastName: props.lastName,
+      email: props.email,
       errors: {},
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
@@ -111,6 +114,12 @@ class EditAnnouncementPage extends Component {
   };
 
   render() {
+    var acc = new String(this.state.email);
+    acc = acc.substring(0, acc.indexOf("@"));
+    var date =
+      new Date(this.props.date_of_add).toLocaleTimeString() +
+      ", " +
+      new Date(this.props.date_of_add).toLocaleDateString();
     const { errors } = this.state;
     return (
       <div>
@@ -126,6 +135,11 @@ class EditAnnouncementPage extends Component {
           <Grid.Column style={{ maxWidth: 1168.12 }}>
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
+              <Feed.Date>
+                        Added by {this.state.firstName} {this.state.lastName}{" "}
+                        <Link to={"/account-view/" + acc}>{this.state.email}</Link>{" "}
+                        at {date}
+              </Feed.Date>
                 <span class="errorsColor">{this.state.titleErrorEmpty}</span>
                 <Form.Input
                   id="title"
@@ -164,7 +178,7 @@ class EditAnnouncementPage extends Component {
                 </span>
                 <Form>
                   <TextArea
-                    style={{ height: "200px", resize: "none" }}
+                    style={{ height: "100px", resize: "none" }}
                     id="description"
                     name="description"
                     fluid
@@ -182,7 +196,7 @@ class EditAnnouncementPage extends Component {
                   fluid
                   size="large"
                 >
-                  Edit Announcement
+                  Apply
                 </Button>
               </Segment>
             </Form>

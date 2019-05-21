@@ -105,7 +105,7 @@ class Announcement extends Component {
         <Segment style={{backgroundColor: "#0d71bb"}}>
           <Header size="small" color="white">Announcement Edition</Header>
         </Segment>
-        <AnnouncementEdit {...this.props.announcement}/>
+        <AnnouncementEdit {...this.props.announcement} {...this.state.user}/>
         </div>
     );
   }
