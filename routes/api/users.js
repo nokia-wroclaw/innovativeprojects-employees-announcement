@@ -126,35 +126,35 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/update/name/:id", (req, res) => {
-   User.findById(req.body.id, (err, user) => {
+  User.findById(req.body.id, (err, user) => {
     if (!user) res.status(404).send("User not found");
     else {
-      user.firstName= req.body.firstName,
-      user.lastName= req.body.lastName
+      (user.firstName = req.body.firstName),
+        (user.lastName = req.body.lastName);
 
       user
-      .save()
-      .then(user => {
-        res.json("User's first and/or last name updated");
-      })
-      .catch(err => {
-        res.status(400).send("User first and/or last name update not possible");
-      });
+        .save()
+        .then(user => {
+          res.json("User's first and/or last name updated");
+        })
+        .catch(err => {
+          res
+            .status(400)
+            .send("User first and/or last name update not possible");
+        });
     }
-})
+  });
 });
 
 router.post("/update/password/:id", (req, res) => {
-
   User.findById(req.body.id, (err, user) => {
-   if (!user) res.status(404).send("User not found");
-   else {
- 
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-                user
+    if (!user) res.status(404).send("User not found");
+    else {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          user
             .save()
             .then(user => {
               res.json("User's password updated");
@@ -162,11 +162,27 @@ router.post("/update/password/:id", (req, res) => {
             .catch(err => {
               res.status(400).send("User password update not possible");
             });
-          });
         });
-
+      });
     }
-})
+  });
+});
+
+router.post("/update/photo/:id", (req, res) => {
+  User.findById(req.params.id, (err, user) => {
+    if (!user) res.status(404).send("User not found");
+    else {
+      (user.image = req.body.image),
+        user
+          .save()
+          .then(user => {
+            res.json("User's image updated");
+          })
+          .catch(err => {
+            res.status(400).send("User's image update not possible");
+          });
+    }
+  });
 });
 
 module.exports = router;

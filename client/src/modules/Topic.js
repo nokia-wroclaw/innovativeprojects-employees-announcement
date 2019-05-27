@@ -18,6 +18,12 @@ import { logoutUser } from "../actions/authActions";
 
 import axios from "axios";
 
+import ReactTimeAgo from "react-time-ago/tooltip";
+
+import "react-time-ago/Tooltip.css";
+
+import "./Topic.css";
+
 class Topic extends Component {
   constructor(props) {
     super(props);
@@ -37,22 +43,25 @@ class Topic extends Component {
 
   render() {
     var acc = new String(this.state.user.email);
-    acc = acc.substring(0, acc.indexOf("@"));
+    //  acc = acc.substring(0, acc.indexOf("@"));
     var top = new String(this.props.topic._id);
-    var date =
-      new Date(this.props.topic.date_of_add).toLocaleTimeString() +
-      ", " +
-      new Date(this.props.topic.date_of_add).toLocaleDateString();
+    //    var date2 =
+    //      new Date(this.props.topic.date_of_add).toLocaleTimeString() +
+    //      ", " +
+    //      new Date(this.props.topic.date_of_add).toLocaleDateString();
+    var date = new Date(this.props.topic.date_of_add);
     return (
       <Segment>
-        <Feed>
+        <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
-            <Feed.Label /*image="./images/nokia.png" */ />
+            <Feed.Label>
+              <img src={this.state.user.image} />
+            </Feed.Label>
             <Feed.Content>
               <Feed.Date>
                 Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                 <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                at {date}
+                <ReactTimeAgo date={date} tooltipClassName="TooltipCssTopic" />
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}

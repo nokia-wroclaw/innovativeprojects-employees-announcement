@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Image, Dropdown } from "semantic-ui-react";
-import logo from "./images/nokia_white.png";
+import logo from "./images/logoNowe.png";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -14,41 +14,41 @@ class NavBar extends Component {
     this.props.logoutUser();
   };
 
-  ChangeToHomePath() {
-    window.location = "/";
-  }
+  //  ChangeToHomePath() {
+  //    window.location = "/";
+  //  }
 
-  ChangeToRegistrationPath() {
-    window.location = "/registration";
-  }
+  //  ChangeToRegistrationPath() {
+  //    window.location = "/registration";
+  //  }
 
-  ChangeToLoginPath() {
-    window.location = "/login";
-  }
+  //  ChangeToLoginPath() {
+  //    window.location = "/login";
+  //  }
 
-  ChangeToTopicsPath() {
-    window.location = "/topics";
-  }
+  //  ChangeToTopicsPath() {
+  //    window.location = "/topics";
+  //  }
 
-  ChangeToProfilePath = userMail => e => {
-    window.location = "/account-view/" + userMail;
-  };
+  //  ChangeToProfilePath = userMail => e => {
+  //    window.location = "/account-view/" + userMail;
+  //  };
 
-  ChangeToAccountPath() {
-    window.location = "/account";
-  }
+  //  ChangeToAccountPath() {
+  //    window.location = "/account";
+  //  }
 
   render() {
     const { user } = this.props.auth;
     var acc = new String(user.email);
-    acc = acc.substring(0, acc.indexOf("@"));
+    //    acc = acc.substring(0, acc.indexOf("@"));
 
     return (
       <div>
         <Menu fixed="top" inverted>
           <Menu.Menu>
             <Menu.Item as={Link} to="/">
-              <Image size="tiny" src={logo} style={{ marginRight: "1.5em" }} />
+              <Image size="small" src={logo} style={{ marginRight: "1.5em" }} />
             </Menu.Item>
             <Dropdown
               text="Employees Announcements"

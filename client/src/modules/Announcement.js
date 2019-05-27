@@ -18,10 +18,16 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
+import ReactTimeAgo from "react-time-ago/tooltip";
+
+import "react-time-ago/Tooltip.css";
+
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
 import AnnouncementEdit from "./AnnouncementEdit";
 
+
+import "./Announcement.css";
 
 class Announcement extends Component {
   constructor(props) {
@@ -50,24 +56,26 @@ class Announcement extends Component {
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
-    var date =
-      new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
-      ", " +
-      new Date(this.props.announcement.date_of_add).toLocaleDateString();
+    var date = new Date(this.props.announcement.date_of_add);
     console.log(this.state.isEdited)
     if(!this.state.isEdited)
     return (
       <Segment>
         <Feed>
             <Feed.Event>
-                <Feed.Label /*image="./images/nokia.png" */ />
+              <Feed.Label>
+                <img src={this.state.user.image} />
+              </Feed.Label>
                 <Feed.Content>
                   <Grid columns="2">
                     <Grid.Column>
-                      <Feed.Date>
+                            <Feed.Date>
                         Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
                         <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                        at {date}
+                        <ReactTimeAgo
+                          date={date}
+                          tooltipClassName="TooltipCssAnnouncement"
+                        />
                       </Feed.Date>
                       <Feed.Summary style={{ fontSize: "20px" }}>
                         {" "}
@@ -77,6 +85,9 @@ class Announcement extends Component {
                         <p>
                           <b>Price: </b> {this.props.announcement.price} [zł]
                         </p>
+                      </Feed.Extra>
+                      <Feed.Extra style={{ width: "90%" }}>
+                        {this.props.announcement.description}
                       </Feed.Extra>
                     </Grid.Column>
                       {this.state.user._id == this.props.auth.user.id ? (
@@ -94,7 +105,6 @@ class Announcement extends Component {
                       <Feed.Extra style={{ width: "90%" }}>
                         {this.props.announcement.description}
                       </Feed.Extra>
-               
                 </Feed.Content>
             </Feed.Event>
         </Feed>

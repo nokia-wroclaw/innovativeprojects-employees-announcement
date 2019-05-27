@@ -14,6 +14,8 @@ import AccountPage from "./modules/AccountPage";
 import AccountView from "./modules/AccountView";
 import TopicView from "./modules/TopicView";
 
+import ScrollToTop from "./modules/ScrollToTop";
+
 import logo1 from "./modules/images/lightMode.jpg";
 import logo2 from "./modules/images/darkMode.jpg";
 
@@ -74,53 +76,55 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div
-            style={{
-              display: "flex",
-              minHeight: "100vh",
-              flexDirection: "column",
-              backgroundImage: this.state.bgImage,
-              height: "100%",
-              width: "100%"
-            }}
-          >
-            <NavBar
-              ChangeToDarkMode={this.ChangeToDarkMode}
-              ChangeToLightMode={this.ChangeToLightMode}
-            />
-            <div className="App" style={{ flex: 1 }}>
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route exact path="/topics" component={TopicsPage} />
-                <PrivateRoute
-                  exact
-                  path="/account-view/:UserEmail"
-                  component={AccountView}
-                />
+          <ScrollToTop>
+            <div
+              style={{
+                display: "flex",
+                minHeight: "100vh",
+                flexDirection: "column",
+                backgroundImage: this.state.bgImage,
+                height: "100%",
+                width: "100%"
+              }}
+            >
+              <NavBar
+                ChangeToDarkMode={this.ChangeToDarkMode}
+                ChangeToLightMode={this.ChangeToLightMode}
+              />
+              <div className="App" style={{ flex: 1 }}>
+                <Switch>
+                  <Route exact path="/" component={HomePage} />
+                  <Route exact path="/topics" component={TopicsPage} />
+                  <PrivateRoute
+                    exact
+                    path="/account-view/:UserEmail"
+                    component={AccountView}
+                  />
 
-                <Route exact path="/topics/:TopicId" component={TopicView} />
-                <PrivateRoute exact path="/authors" component={Authors} />
-                <Route
-                  exact
-                  path="/registration"
-                  component={RegistrationPage}
-                />
+                  <Route exact path="/topics/:TopicId" component={TopicView} />
+                  <PrivateRoute exact path="/authors" component={Authors} />
+                  <Route
+                    exact
+                    path="/registration"
+                    component={RegistrationPage}
+                  />
 
-                <Route exact path="/authors" component={Authors} />
-                <Route
-                  exact
-                  path="/registration"
-                  component={RegistrationPage}
-                />
+                  <Route exact path="/authors" component={Authors} />
+                  <Route
+                    exact
+                    path="/registration"
+                    component={RegistrationPage}
+                  />
 
-                <Route exact path="/login" component={LoginPage} />
-                <PrivateRoute exact path="/account" component={AccountPage} />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <Route path="*" component={Page404} />
-              </Switch>
+                  <Route exact path="/login" component={LoginPage} />
+                  <PrivateRoute exact path="/account" component={AccountPage} />
+                  <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                  <Route path="*" component={Page404} />
+                </Switch>
+              </div>
             </div>
-          </div>
-          <Footer />
+            <Footer />
+          </ScrollToTop>
         </Router>
       </Provider>
     );
