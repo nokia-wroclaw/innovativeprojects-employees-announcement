@@ -86,7 +86,7 @@ class TopicPage extends Component {
             >
               {this.props.auth.isAuthenticated ? (
                 <Menu.Item onClick={() => this.buttonTopicAdd()}>
-                  {this.state.announcementAddVisible
+                  {this.state.topicAddVisible
                     ? "Hide Adding Topic"
                     : "Add Topic"}
                 </Menu.Item>

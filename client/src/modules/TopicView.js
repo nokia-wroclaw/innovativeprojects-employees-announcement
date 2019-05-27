@@ -77,12 +77,9 @@ class TopicView extends Component {
   }
 
   commentsList() {
-    return this.state.comments
-
-      .map(function(currentComment, i) {
-        return <Comment comment={currentComment} key={i} />;
-      })
-      .reverse();
+    return this.state.comments.map(function(currentComment, i) {
+      return <Comment comment={currentComment} key={i} />;
+    });
   }
   render() {
     var acc = new String(this.state.user.email);
