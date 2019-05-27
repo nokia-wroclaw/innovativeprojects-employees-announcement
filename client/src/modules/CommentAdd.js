@@ -97,7 +97,8 @@ class CommentAdd extends Component {
             <Form size="large" noValidate onSubmit={this.onSubmit}>
               <Segment stacked>
                 <span class="errorsColor">{this.state.messageErrorEmpty}</span>
-                <Form.Input
+                <TextArea
+                  style={{ resize: "none" }}
                   id="message"
                   name="message"
                   fluid

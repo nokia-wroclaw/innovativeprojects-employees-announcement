@@ -126,14 +126,6 @@ class TopicView extends Component {
               </Feed>
             </Segment>
 
-            {this.props.auth.isAuthenticated ? (
-              <CommentAdd
-                getAllComments={this.getAllComments}
-                topic_id={this.state.topic._id}
-              />
-            ) : (
-              ""
-            )}
             <Header
               inverted
               as="h3"
@@ -144,9 +136,19 @@ class TopicView extends Component {
               Comments
             </Header>
             {this.commentsList()}
+            <Grid.Column style={{ marginTop: "5.5em" }}>
+              {this.props.auth.isAuthenticated ? (
+                <CommentAdd
+                  s
+                  getAllComments={this.getAllComments}
+                  topic_id={this.state.topic._id}
+                />
+              ) : (
+                ""
+              )}
+            </Grid.Column>
           </Grid.Column>
         </Grid>
-        <Grid style={{ marginTop: "5.5em" }} />
       </div>
     );
   }
