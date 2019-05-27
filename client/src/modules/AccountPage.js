@@ -88,25 +88,31 @@ class AccountPage extends Component {
               id={this.state.id}
               changePassword={changePassword}
             />
+            <Segment>
+              <Header as="h4" color="blue" textAlign="center">
+                Change your avatar
+              </Header>
+              <div>
+                <div>
+                  <FileBase
+                    type="file"
+                    multiple={false}
+                    onDone={this.getBaseFile.bind(this)}
+                  />
+                </div>
+                <div style={{ marginTop: "1em" }}>
+                  <img
+                    src={this.state.user.image}
+                    alt="upload-image"
+                    className="process__image"
+                    style={({ maxHeight: "20em" }, { maxWidth: "20em" })}
+                  />
+                </div>
+              </div>
+            </Segment>
           </Grid.Column>
         </Grid>
-        <div style style={{ marginTop: "5em" }}>
-          <div>
-            <FileBase
-              type="file"
-              multiple={false}
-              onDone={this.getBaseFile.bind(this)}
-            />
-          </div>
-          <div style={({ marginTop: "5em" }, { marginBottom: "5em" })}>
-            <img
-              src={this.state.user.image}
-              alt="upload-image"
-              className="process__image"
-              style={({ maxHeight: "20em" }, { maxWidth: "20em" })}
-            />
-          </div>
-        </div>
+        <Grid style={{ marginTop: "5em" }} />
       </div>
     );
   }
