@@ -11,13 +11,11 @@ import {
   Icon,
   GridColumn
 } from "semantic-ui-react";
-import FileBase from "react-file-base64";
-import DefaultImg from "./images/default-img.jpg";
 
 class AccountView extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {}, baseImage: DefaultImg };
+    this.state = { user: {} };
   }
 
   componentDidMount() {
@@ -32,26 +30,6 @@ class AccountView extends Component {
       })
       .catch(function(error) {
         console.log(error);
-      });
-  }
-
-  getBaseFile(files) {
-    // create a local readable base64 instance of an image
-    this.setState({
-      baseImage: files.base64
-    });
-
-    let imageObj = {
-      image: files.base64.toString()
-    };
-
-    axios
-      .post(`/api/users/update/photo/${this.state.user._id}`, imageObj)
-      .then(data => {
-        alert("Image has been successfully uploaded ");
-      })
-      .catch(err => {
-        alert("Error while uploading image, size is too big");
       });
   }
 
@@ -99,23 +77,6 @@ class AccountView extends Component {
             </Form>
           </GridRow> */}
         </Grid>
-        <div style style={{ marginTop: "5em" }}>
-          <div>
-            <FileBase
-              type="file"
-              multiple={false}
-              onDone={this.getBaseFile.bind(this)}
-            />
-          </div>
-          <div style={{ marginTop: "5em" }}>
-            <img
-              src={this.state.baseImage}
-              alt="upload-image"
-              className="process__image"
-              style={({ maxHeight: "20em" }, { maxWidth: "20em" })}
-            />
-          </div>
-        </div>
       </div>
     );
   }
