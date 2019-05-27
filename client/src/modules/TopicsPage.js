@@ -2,11 +2,15 @@ import React, { Component } from "react";
 
 import {
   Grid,
+  Button,
   GridRow,
+  Header,
+  Input,
   Menu,
   Sticky,
   Segment,
   Rail,
+  Icon,
   GridColumn,
   Feed
 } from "semantic-ui-react";
@@ -20,9 +24,15 @@ import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
 class TopicPage extends Component {
+  state = {
+    search: ""
+  };
   constructor(props) {
     super(props);
-    this.state = { topics: [] };
+    this.state = {
+      topics: [],
+      topicAddVisible: false
+    };
   }
 
   getAllTopics = () => {
@@ -36,26 +46,67 @@ class TopicPage extends Component {
       });
   };
 
+  buttonTopicAdd() {
+    this.setState({ topicAddVisible: !this.state.topicAddVisible });
+  }
+
   componentDidMount() {
     this.getAllTopics(this.topics);
+    this.state.search = "";
   }
 
   topicsList() {
+    const { search } = this.state;
     return this.state.topics
-
       .map(function(currentTopic, i) {
-        return <Topic topic={currentTopic} key={i} />;
+        if (
+          currentTopic.title
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentTopic.description
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
+        )
+          return <Topic topic={currentTopic} key={i} />;
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
+
+  onChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3" />
+          <Grid.Column width="3">
+            <Input label="Search" icon="search" onChange={this.onChange} />
+          </Grid.Column>
           <Grid.Column width="10">
+            <Header inverted as="h3" dividing>
+              Topics
+            </Header>
             {this.props.auth.isAuthenticated ? (
-              <TopicAdd getAllTopics={this.getAllTopics} />
+              <Button
+                icon
+                size="tiny"
+                floated="left"
+                onClick={() => this.buttonTopicAdd()}
+              >
+                {this.state.topicAddVisible ? (
+                  <Icon name="minus" />
+                ) : (
+                  <Icon name="plus" />
+                )}
+              </Button>
+            ) : (
+              ""
+            )}
+            {this.props.auth.isAuthenticated ? (
+              this.state.topicAddVisible ? (
+                <TopicAdd getAllTopics={this.getAllTopics} />
+              ) : null
             ) : (
               ""
             )}

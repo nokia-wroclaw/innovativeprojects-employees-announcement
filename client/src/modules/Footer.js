@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image, List, Segment, Container } from "semantic-ui-react";
-import logo from "./images/nokia_white.png";
+import logo from "./images/logoNowe.png";
 
 class Footer extends Component {
   render() {
@@ -8,7 +8,7 @@ class Footer extends Component {
       <div>
         <Segment inverted attached>
           <Container textAlign="center">
-            <Image centered size="mini" src={logo} />
+            <Image centered size="small" src={logo} />
             <List horizontal inverted divided link size="small">
               <List.Item as="a" href="#">
                 Placeholder

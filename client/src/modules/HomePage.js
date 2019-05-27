@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
-import { Grid, GridColumn } from "semantic-ui-react";
+import {
+  Grid,
+  GridColumn,
+  Button,
+  Header,
+  Input,
+  Menu,
+  Icon
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
@@ -11,9 +19,15 @@ import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
 class HomePage extends Component {
+  state = {
+    search: ""
+  };
   constructor(props) {
     super(props);
-    this.state = { announcements: [] };
+    this.state = {
+      announcements: [],
+      announcementAddVisible: false
+    };
   }
 
   getAllAnnouncements = () => {
@@ -27,26 +41,72 @@ class HomePage extends Component {
       });
   };
 
+  buttonAnnouncementAdd() {
+    this.setState({
+      announcementAddVisible: !this.state.announcementAddVisible
+    });
+  }
+
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
+    this.state.search = "";
   }
 
   announcementsList() {
+    const { search } = this.state;
     return this.state.announcements
-
       .map(function(currentAnnouncement, i) {
-        return <Announcement announcement={currentAnnouncement} key={i} />;
+        if (
+          currentAnnouncement.title
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentAnnouncement.description
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase())
+        )
+          return <Announcement announcement={currentAnnouncement} key={i} />;
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
+
+  onChange = e => {
+    this.setState({ search: e.target.value });
+  };
+
   render() {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <GridColumn width="3" />
+          <GridColumn width="3">
+            <Input label="Search" icon="search" onChange={this.onChange} />
+          </GridColumn>
+
           <GridColumn width="10">
+            <Header inverted as="h3" dividing>
+              Announcements
+            </Header>
             {this.props.auth.isAuthenticated ? (
-              <AnnouncementAdd getAllAnnouncements={this.getAllAnnouncements} />
+              <Button
+                icon
+                size="tiny"
+                floated="left"
+                onClick={() => this.buttonAnnouncementAdd()}
+              >
+                {this.state.announcementAddVisible ? (
+                  <Icon name="minus" />
+                ) : (
+                  <Icon name="plus" />
+                )}
+              </Button>
+            ) : (
+              ""
+            )}
+            {this.props.auth.isAuthenticated ? (
+              this.state.announcementAddVisible ? (
+                <AnnouncementAdd
+                  getAllAnnouncements={this.getAllAnnouncements}
+                />
+              ) : null
             ) : (
               ""
             )}

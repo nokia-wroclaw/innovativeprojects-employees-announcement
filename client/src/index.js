@@ -6,6 +6,14 @@ import * as serviceWorker from "./serviceWorker";
 import "semantic-ui/dist/semantic.min.css";
 // import logo1 from "./modules/images/lightMode.jpg";
 
+import JavascriptTimeAgo from "javascript-time-ago";
+
+// The desired locales.
+import en from "javascript-time-ago/locale/en";
+
+// Initialize the desired locales.
+JavascriptTimeAgo.locale(en);
+
 ReactDOM.render(
   <App bgImage={localStorage.logoImage2} />,
   document.getElementById("root")
