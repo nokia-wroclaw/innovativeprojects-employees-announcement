@@ -10,6 +10,7 @@ import {
   Sticky,
   Segment,
   Rail,
+  Icon,
   GridColumn,
   Feed
 } from "semantic-ui-react";
@@ -80,26 +81,28 @@ class TopicPage extends Component {
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="3">
-            <Menu
-              vertical
-              style={({ marginTop: "5em" }, { marginLeft: "4em" })}
-            >
-              {this.props.auth.isAuthenticated ? (
-                <Menu.Item onClick={() => this.buttonTopicAdd()}>
-                  {this.state.topicAddVisible
-                    ? "Hide Adding Topic"
-                    : "Add Topic"}
-                </Menu.Item>
-              ) : (
-                ""
-              )}
-            </Menu>
             <Input label="Search" icon="search" onChange={this.onChange} />
           </Grid.Column>
           <Grid.Column width="10">
             <Header inverted as="h3" dividing>
               Topics
             </Header>
+            {this.props.auth.isAuthenticated ? (
+              <Button
+                icon
+                size="tiny"
+                floated="left"
+                onClick={() => this.buttonTopicAdd()}
+              >
+                {this.state.topicAddVisible ? (
+                  <Icon name="minus" />
+                ) : (
+                  <Icon name="plus" />
+                )}
+              </Button>
+            ) : (
+              ""
+            )}
             {this.props.auth.isAuthenticated ? (
               this.state.topicAddVisible ? (
                 <TopicAdd getAllTopics={this.getAllTopics} />

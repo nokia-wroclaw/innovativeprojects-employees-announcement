@@ -91,8 +91,10 @@ class RegistrationPage extends Component {
       emailErrorWhitespaces: /\s/.test(email)
         ? "Email cannot contain whitespaces"
         : "",
-      emailErrorDomain: !/^[a-zA-Z0-9_.+-]+@nokia\.com$/.test(email)
-        ? "Email needs to be from nokia domain, eg. example@nokia.com"
+      emailErrorDomain: !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+        email
+      )
+        ? "Email needs to be valid"
         : ""
     };
   };

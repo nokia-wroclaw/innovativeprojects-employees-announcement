@@ -6,7 +6,8 @@ import {
   Button,
   Header,
   Input,
-  Menu
+  Menu,
+  Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -77,20 +78,6 @@ class HomePage extends Component {
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
           <GridColumn width="3">
-            <Menu
-              vertical
-              style={({ marginTop: "5em" }, { marginLeft: "4em" })}
-            >
-              {this.props.auth.isAuthenticated ? (
-                <Menu.Item onClick={() => this.buttonAnnouncementAdd()}>
-                  {this.state.announcementAddVisible
-                    ? "Hide Adding Announcement"
-                    : "Add Announcement"}
-                </Menu.Item>
-              ) : (
-                ""
-              )}
-            </Menu>
             <Input label="Search" icon="search" onChange={this.onChange} />
           </GridColumn>
 
@@ -98,6 +85,22 @@ class HomePage extends Component {
             <Header inverted as="h3" dividing>
               Announcements
             </Header>
+            {this.props.auth.isAuthenticated ? (
+              <Button
+                icon
+                size="tiny"
+                floated="left"
+                onClick={() => this.buttonAnnouncementAdd()}
+              >
+                {this.state.announcementAddVisible ? (
+                  <Icon name="minus" />
+                ) : (
+                  <Icon name="plus" />
+                )}
+              </Button>
+            ) : (
+              ""
+            )}
             {this.props.auth.isAuthenticated ? (
               this.state.announcementAddVisible ? (
                 <AnnouncementAdd
