@@ -14,34 +14,34 @@ class NavBar extends Component {
     this.props.logoutUser();
   };
 
-  ChangeToHomePath() {
-    window.location = "/";
-  }
+  //  ChangeToHomePath() {
+  //    window.location = "/";
+  //  }
 
-  ChangeToRegistrationPath() {
-    window.location = "/registration";
-  }
+  //  ChangeToRegistrationPath() {
+  //    window.location = "/registration";
+  //  }
 
-  ChangeToLoginPath() {
-    window.location = "/login";
-  }
+  //  ChangeToLoginPath() {
+  //    window.location = "/login";
+  //  }
 
-  ChangeToTopicsPath() {
-    window.location = "/topics";
-  }
+  //  ChangeToTopicsPath() {
+  //    window.location = "/topics";
+  //  }
 
-  ChangeToProfilePath = userMail => e => {
-    window.location = "/account-view/" + userMail;
-  };
+  //  ChangeToProfilePath = userMail => e => {
+  //    window.location = "/account-view/" + userMail;
+  //  };
 
-  ChangeToAccountPath() {
-    window.location = "/account";
-  }
+  //  ChangeToAccountPath() {
+  //    window.location = "/account";
+  //  }
 
   render() {
     const { user } = this.props.auth;
     var acc = new String(user.email);
-    acc = acc.substring(0, acc.indexOf("@"));
+    //    acc = acc.substring(0, acc.indexOf("@"));
 
     return (
       <div>

@@ -43,7 +43,7 @@ class Comment extends Component {
 
   render() {
     var acc = new String(this.state.user.email);
-    acc = acc.substring(0, acc.indexOf("@"));
+    //  acc = acc.substring(0, acc.indexOf("@"));
     //    var date =
     //    new Date(this.props.announcement.date_of_add).toLocaleTimeString() +
     //      ", " +

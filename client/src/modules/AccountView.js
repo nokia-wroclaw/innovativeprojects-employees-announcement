@@ -26,7 +26,7 @@ class AccountView extends Component {
     } = this.props;
 
     axios
-      .get(`/api/users/acc/${params.UserEmail}@nokia.com`)
+      .get(`/api/users/acc/${params.UserEmail}`)
       .then(response => {
         this.setState({ user: response.data });
       })

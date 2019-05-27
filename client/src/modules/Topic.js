@@ -43,7 +43,7 @@ class Topic extends Component {
 
   render() {
     var acc = new String(this.state.user.email);
-    acc = acc.substring(0, acc.indexOf("@"));
+    //  acc = acc.substring(0, acc.indexOf("@"));
     var top = new String(this.props.topic._id);
     //    var date2 =
     //      new Date(this.props.topic.date_of_add).toLocaleTimeString() +
