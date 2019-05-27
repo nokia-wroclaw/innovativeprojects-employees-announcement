@@ -64,7 +64,7 @@ class HomePage extends Component {
             .toLocaleLowerCase()
             .includes(search.toLocaleLowerCase())
         )
-          return <Announcement announcement={currentAnnouncement} key={i} />;
+        return <Announcement announcement={currentAnnouncement} key={i} id={currentAnnouncement.id}/>;
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }

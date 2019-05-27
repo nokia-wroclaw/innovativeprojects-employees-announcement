@@ -16,3 +16,13 @@ export const addAnnouncement = (announcementData, history) => dispatch => {
       })
     );
 };
+
+// Update Announcement
+export const updateAnnouncement = (announcementData) => {
+  axios
+    .post("/api/announcements/update/${announcementData.id}", announcementData)
+    .then()
+    .catch(err => {
+      console.log(err);
+    });
+};

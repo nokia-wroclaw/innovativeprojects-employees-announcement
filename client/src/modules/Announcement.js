@@ -33,7 +33,7 @@ class Announcement extends Component {
   constructor(props) {
  
     super(props);
-
+    console.log(props.announcement._id)
     this.state = { 
       user: {},
       auth: this.props.auth,

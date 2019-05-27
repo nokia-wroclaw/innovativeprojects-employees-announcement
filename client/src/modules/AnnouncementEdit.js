@@ -1,4 +1,4 @@
-import { addAnnouncement } from "../actions/addAnn";
+import { updateAnnouncement } from "../actions/addAnn";
 import React, { Component } from "react";
 
 import {
@@ -20,6 +20,7 @@ class EditAnnouncementPage extends Component {
     super(props);
     //const { user } = this.props.auth;
     this.state = {
+      id: props._id,
       title: props.title,
       description: props.description,
       price: props.price,
@@ -102,15 +103,16 @@ class EditAnnouncementPage extends Component {
       });
 
       const newAnnouncement = {
+        id: this.state.id,
         title: this.state.title,
         description: this.state.description,
         price: this.state.price,
         user_id: user.id
       };
 
-      this.props.addAnnouncement(newAnnouncement, this.props.history);
+      this.props.updateAnnouncement(newAnnouncement, this.props.history);
     }
-    this.props.getAllAnnouncements();
+    //this.props.getAllAnnouncements();
   };
 
   render() {
@@ -208,7 +210,7 @@ class EditAnnouncementPage extends Component {
 }
 
 EditAnnouncementPage.propTypes = {
-  addAnnouncement: PropTypes.func.isRequired,
+  updateAnnouncement: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -218,4 +220,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default EditAnnouncementPage
+export default connect(
+    mapStateToProps,
+    { updateAnnouncement }
+  )(withRouter(EditAnnouncementPage));
