@@ -102,9 +102,6 @@ class Announcement extends Component {
                       ""
                     )}
                        </Grid>
-                      <Feed.Extra style={{ width: "90%" }}>
-                        {this.props.announcement.description}
-                      </Feed.Extra>
                 </Feed.Content>
             </Feed.Event>
         </Feed>
