@@ -83,7 +83,6 @@ class Topic extends Component {
         ) : (
           ""
         )}
-
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
             <Feed.Label>

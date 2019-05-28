@@ -38,8 +38,6 @@ commentRoutes.route("/update/:id").post(function(req, res) {
     if (!comment) res.status(404).send("data is not found");
     else comment.message = req.body.message;
 
-    comment.topic_id = req.body.topic_id;
-
     comment
       .save()
       .then(comment => {

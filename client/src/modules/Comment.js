@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, Segment, Feed } from "semantic-ui-react";
+import { Grid, Segment, Feed, Button, TextArea } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -18,7 +18,11 @@ import "./Comment.css";
 class Comment extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {} };
+    this.state = {
+      user: {},
+      isEditClicked: false,
+      message: this.props.comment.message
+    };
   }
 
   componentDidMount() {
@@ -32,7 +36,33 @@ class Comment extends Component {
       });
   }
 
+  EditIsClicked() {
+    this.setState({ isEditClicked: true });
+  }
+
+  EditIsSend() {
+    this.setState({ isEditClicked: false });
+
+    let updObj = {
+      message: this.state.message
+    };
+
+    axios
+      .post(`/api/comments/update/${this.props.comment._id}`, updObj)
+      .then(data => {
+        alert("Comment has been successfully updated ");
+      })
+      .catch(err => {
+        alert("Error while updating comment");
+      });
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
+
   render() {
+    const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
     //  acc = acc.substring(0, acc.indexOf("@"));
     //    var date =
@@ -50,6 +80,14 @@ class Comment extends Component {
       >
         <Grid.Column style={{ maxWidth: 850 }}>
           <Segment>
+            {user.id === this.state.user._id ? (
+              <Button floated="right" onClick={() => this.EditIsClicked()}>
+                {" "}
+                Edit{" "}
+              </Button>
+            ) : (
+              ""
+            )}
             <Feed style={{ marginTop: "1.5em" }}>
               <Feed.Event>
                 <Feed.Label>
@@ -69,11 +107,27 @@ class Comment extends Component {
                   </Feed.Date>
 
                   <Feed.Extra style={{ width: "90%" }}>
-                    {this.props.comment.message}
+                    {this.state.isEditClicked ? (
+                      <TextArea
+                        id="message"
+                        name="message"
+                        style={{ resize: "none" }}
+                        defaultValue={this.state.message}
+                        value={this.state.message}
+                        onChange={this.onChange}
+                      />
+                    ) : (
+                      <div>{this.state.message}</div>
+                    )}
                   </Feed.Extra>
                 </Feed.Content>
               </Feed.Event>
             </Feed>
+            {this.state.isEditClicked ? (
+              <Button onClick={() => this.EditIsSend()}>Apply </Button>
+            ) : (
+              ""
+            )}
           </Segment>
         </Grid.Column>
       </Grid>
