@@ -38,7 +38,7 @@ class Topic extends Component {
   }
 
   EditIsClicked() {
-    this.setState({ isEditClicked: true });
+    this.setState({ isEditClicked: !this.state.isEditClicked });
   }
 
   EditIsSend() {
@@ -103,6 +103,7 @@ class Topic extends Component {
                     defaultValue={this.props.topic.title}
                     value={this.state.title}
                     onChange={this.onChange}
+                    style={{ width: "1000 px" }}
                   />
                 ) : (
                   <Link to={"/topics/" + top}>{this.state.title}</Link>
@@ -113,7 +114,7 @@ class Topic extends Component {
                   <TextArea
                     id="description"
                     name="description"
-                    style={{ resize: "none" }}
+                    style={{ width: "1000px", resize: "none" }}
                     defaultValue={this.state.description}
                     value={this.state.description}
                     onChange={this.onChange}

@@ -39,7 +39,7 @@ class Announcement extends Component {
   }
 
   EditIsClicked() {
-    this.setState({ isEditClicked: true });
+    this.setState({ isEditClicked: !this.state.isEditClicked });
   }
 
   EditIsSend() {
@@ -109,6 +109,7 @@ class Announcement extends Component {
                     defaultValue={this.props.announcement.title}
                     value={this.state.title}
                     onChange={this.onChange}
+                    style={{ width: "1000px" }}
                   />
                 ) : (
                   <div>{this.state.title}</div>
@@ -123,6 +124,7 @@ class Announcement extends Component {
                       defaultValue={this.props.announcement.price}
                       value={this.state.price}
                       onChange={this.onChange}
+                      style={{ width: "1000 px" }}
                     />
                   ) : (
                     <div>
@@ -135,9 +137,10 @@ class Announcement extends Component {
               <Feed.Extra style={{ width: "90%" }}>
                 {this.state.isEditClicked ? (
                   <TextArea
+                    rows={3}
                     id="description"
                     name="description"
-                    style={{ resize: "none" }}
+                    style={{ width: "1000px", resize: "none" }}
                     defaultValue={this.state.description}
                     value={this.state.description}
                     onChange={this.onChange}

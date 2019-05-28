@@ -37,7 +37,7 @@ class Comment extends Component {
   }
 
   EditIsClicked() {
-    this.setState({ isEditClicked: true });
+    this.setState({ isEditClicked: !this.state.isEditClicked });
   }
 
   EditIsSend() {
@@ -111,7 +111,7 @@ class Comment extends Component {
                       <TextArea
                         id="message"
                         name="message"
-                        style={{ resize: "none" }}
+                        style={{ width: "500px", resize: "none" }}
                         defaultValue={this.state.message}
                         value={this.state.message}
                         onChange={this.onChange}
