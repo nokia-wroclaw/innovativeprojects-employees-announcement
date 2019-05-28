@@ -9,6 +9,8 @@ import {
   Segment,
   Rail,
   GridColumn,
+  Input,
+  TextArea,
   Icon,
   Feed
 } from "semantic-ui-react";
@@ -29,7 +31,7 @@ import "./Announcement.css";
 class Announcement extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {} };
+    this.state = { user: {}, isEditClicked: false };
   }
 
   componentDidMount() {
@@ -41,6 +43,14 @@ class Announcement extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  EditIsClicked() {
+    this.setState({ isEditClicked: true });
+  }
+
+  EditIsSend() {
+    this.setState({ isEditClicked: false });
   }
 
   render() {
@@ -57,7 +67,10 @@ class Announcement extends Component {
     return (
       <Segment>
         {user.id === this.state.user._id ? (
-          <Button floated="right"> Edit </Button>
+          <Button floated="right" onClick={() => this.EditIsClicked()}>
+            {" "}
+            Edit{" "}
+          </Button>
         ) : (
           ""
         )}
@@ -77,19 +90,41 @@ class Announcement extends Component {
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}
-                {this.props.announcement.title}
+                {this.state.isEditClicked ? (
+                  <Input defaultValue={this.props.announcement.title} />
+                ) : (
+                  <div>{this.props.announcement.title}</div>
+                )}
               </Feed.Summary>
               <Feed.Extra text>
                 <p>
-                  <b>Price: </b> {this.props.announcement.price} [zł]
+                  {this.state.isEditClicked ? (
+                    <Input defaultValue={this.props.announcement.price} />
+                  ) : (
+                    <div>
+                      <b>Price: </b> {this.props.announcement.price} [zł]
+                    </div>
+                  )}
                 </p>
               </Feed.Extra>
               <Feed.Extra style={{ width: "90%" }}>
-                {this.props.announcement.description}
+                {this.state.isEditClicked ? (
+                  <TextArea
+                    style={({ resize: "none" }, { width: "900px" })}
+                    defaultValue={this.props.announcement.description}
+                  />
+                ) : (
+                  <div>{this.props.announcement.description}</div>
+                )}
               </Feed.Extra>
             </Feed.Content>
           </Feed.Event>
         </Feed>
+        {this.state.isEditClicked ? (
+          <Button onClick={() => this.EditIsSend()}>Apply </Button>
+        ) : (
+          ""
+        )}
       </Segment>
     );
   }

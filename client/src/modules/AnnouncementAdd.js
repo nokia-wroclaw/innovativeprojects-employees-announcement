@@ -103,10 +103,13 @@ class AnnouncementAdd extends Component {
         price: this.state.price,
         user_id: user.id
       };
-
-      this.props.addAnnouncement(newAnnouncement, this.props.history);
+      let self = this;
+      this.props
+        .addAnnouncement(newAnnouncement, this.props.history)
+        .then(function() {
+          return self.props.getAllAnnouncements();
+        });
     }
-    this.props.getAllAnnouncements();
   };
 
   render() {
