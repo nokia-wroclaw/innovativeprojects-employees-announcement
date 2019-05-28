@@ -179,6 +179,7 @@ class PasswordSettings extends Component {
     super();
     this.state = {
       id: props.id,
+      oldPassword: "",
       newPassword: "",
       newPasswordConfirmation: "",
       changePassword: props.changePassword,
@@ -194,18 +195,26 @@ class PasswordSettings extends Component {
     });
   };
 
-  getNewPasswordErrorMessages = newPassword => {
-    return {
-      newPasswordErrorEmpty:
-        newPassword.trim() === "" ? "New Password cannot be empty" : "",
-      newPasswordErrorWhitespaces: /\s/.test(newPassword)
-        ? "New Password cannot contain whitespaces"
-        : "",
-      newPasswordErrorLength:
-        newPassword.length < 6
-          ? "New Password must have at least 6 characters "
-          : ""
-    };
+getOldPasswordErrorMessages = oldPassword => {
+  return "";
+};
+
+getNewPasswordErrorMessages = newPassword => {
+  return {
+    newPasswordErrorEmpty:
+      newPassword.trim() === "" ? "New Password cannot be empty" 
+      : "",
+    newPasswordErrorWhitespaces: /\s/.test(newPassword)
+      ? "New Password cannot contain whitespaces"
+      : "",
+    newPasswordErrorLength:
+      newPassword.length < 6 ? "New Password must have at least 6 characters " 
+      : "",
+    newPasswordErrorOldPasswordSame:
+      this.state.oldPassword == newPassword
+      ? "New Password cannot be the same as the Old Password"
+      : ""
+  }
   };
 
   getNewPasswordConfirmationErrorMessages = newPasswordConfirmation => {
@@ -229,22 +238,24 @@ class PasswordSettings extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const errors = {
-      ...this.getNewPasswordErrorMessages(this.state.newPassword),
-      ...this.getNewPasswordConfirmationErrorMessages(
-        this.state.newPasswordConfirmation
-      )
-    };
+  const errors = {
+    ...this.getOldPasswordErrorMessages(this.state.oldPassword),
+    ...this.getNewPasswordErrorMessages(this.state.newPassword),
+    ...this.getNewPasswordConfirmationErrorMessages(this.state.newPasswordConfirmation)
+  }; 
 
     const hasErrors = Object.values(errors).some(message => message !== "");
 
-    if (!hasErrors) {
+    if(!hasErrors)
+    {
       const newUser = {
         id: this.state.id,
+        oldPassword: this.state.oldPassword,
         newPassword: this.state.newPassword,
         newPasswordConfirmation: this.state.newPasswordConfirmation
       };
-      this.props.changePassword(newUser);
+      this.props.changePassword(newUser)
+      alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
       this.setState({
         formSuccess: true,
         newPassword: "",
@@ -272,10 +283,18 @@ class PasswordSettings extends Component {
         <Segment className="changepassword-form" stacked textAlign="center">
           <Header as="h4" color="blue" textAlign="center">
             Change your password
-          </Header>
-
-          <div>
-            <span className="errorsColor">
+         </Header>
+       
+        <Form.Input id="oldPassword" name="oldPassword"
+                placeholder = "Old Password"
+                value={this.state.oldPassword}
+                onChange={e =>
+                  this.updateInput(e, this.getOldPasswordErrorMessages)
+                }
+                style={{ maxWidth: 250 }} 
+        />
+        <div>
+          <span className="errorsColor">
               {this.state.newPasswordErrorEmpty}
             </span>
           </div>
@@ -288,24 +307,26 @@ class PasswordSettings extends Component {
             <span className="errorsColor">
               {this.state.newPasswordErrorWhitespaces}
             </span>
-          </div>
-          <Form.Input
-            type="password"
-            id="newPassword"
-            name="newPassword"
-            placeholder="New Password"
-            disabled={this.state.formSuccess}
-            error={
-              this.state.newPasswordErrorEmpty ||
-              this.state.newPasswordErrorLength ||
-              this.state.newPasswordErrorWhitespaces
-            }
-            value={this.state.newPassword}
-            onChange={e =>
-              this.updateInput(e, this.getNewPasswordErrorMessages)
-            }
-            style={{ maxWidth: 250 }}
-          />
+        </div>
+        <div>
+            <span className="errorsColor">
+              {this.state.newPasswordErrorOldPasswordSame}
+            </span>
+        </div>
+        <Form.Input  id="newPassword" name="newPassword"
+                placeholder = "New Password"
+                error={
+                  this.state.newPasswordErrorEmpty ||
+                  this.state.newPasswordErrorLength ||
+                  this.state.newPasswordErrorWhitespaces ||
+                  this.state.newPasswordErrorOldPasswordSame
+                }
+                value={this.state.newPassword}
+                onChange={e =>
+                  this.updateInput(e, this.getNewPasswordErrorMessages)
+                }
+                style={{ maxWidth: 250 }} 
+        />
 
           <div>
             <span className="errorsColor">
