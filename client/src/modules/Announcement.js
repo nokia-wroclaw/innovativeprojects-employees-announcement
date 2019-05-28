@@ -97,7 +97,7 @@ class Announcement extends Component {
               <Feed.Extra style={{ width: "90%" }}>
                 {this.state.isEditClicked ? (
                   <TextArea
-                    style={({ resize: "none" }, { width: "900px" })}
+                    style={{ resize: "none" }}
                     defaultValue={this.props.announcement.description}
                   />
                 ) : (

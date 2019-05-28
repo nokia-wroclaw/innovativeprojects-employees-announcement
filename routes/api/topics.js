@@ -1,12 +1,8 @@
 const express = require("express");
 const topicRoutes = express.Router();
 
-
-
 // Load Topic model
 const Topic = require("../../models/Topic");
-
-
 
 topicRoutes.route("/").get(function(req, res) {
   Topic.find(function(err, topics) {
@@ -30,7 +26,7 @@ topicRoutes.route("/add").post(function(req, res) {
   topic
     .save()
     .then(topic => {
-      res.status(200).json({ 'topic': "Topic added successfully" });
+      res.status(200).json({ topic: "Topic added successfully" });
     })
     .catch(err => {
       res.status(400).send("adding new Topic failed");
@@ -42,9 +38,9 @@ topicRoutes.route("/update/:id").post(function(req, res) {
     if (!topic) res.status(404).send("data is not found");
     else topic.title = req.body.title;
     topic.description = req.body.description;
-    topic.user_id = req.body.user_id;
 
-    topic.save()
+    topic
+      .save()
       .then(topic => {
         res.json("Topic updated");
       })
@@ -58,14 +54,14 @@ topicRoutes.route("/delete/:id").post(function(req, res) {
   Topic.findById(req.params.id, function(err, topic) {
     if (!topic) res.status(404).send("data is not found");
     else
-    topic
-      .delete()
-      .then(topic => {
-        res.json("Topic deleted");
-      })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
-      });
+      topic
+        .delete()
+        .then(topic => {
+          res.json("Topic deleted");
+        })
+        .catch(err => {
+          res.status(400).send("Delete not possible");
+        });
   });
 });
 

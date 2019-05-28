@@ -39,7 +39,6 @@ announcementRoutes.route("/update/:id").post(function(req, res) {
     else announcement.title = req.body.title;
     announcement.description = req.body.description;
     announcement.price = req.body.price;
-    announcement.user_id = req.body.user_id;
 
     announcement
       .save()
@@ -56,14 +55,14 @@ announcementRoutes.route("/delete/:id").post(function(req, res) {
   Announcement.findById(req.params.id, function(err, announcement) {
     if (!announcement) res.status(404).send("data is not found");
     else
-    announcement
-      .delete()
-      .then(announcement => {
-        res.json("Announcement deleted");
-      })
-      .catch(err => {
-        res.status(400).send("Delete not possible");
-      });
+      announcement
+        .delete()
+        .then(announcement => {
+          res.json("Announcement deleted");
+        })
+        .catch(err => {
+          res.status(400).send("Delete not possible");
+        });
   });
 });
 

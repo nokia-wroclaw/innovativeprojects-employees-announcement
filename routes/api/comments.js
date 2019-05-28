@@ -37,7 +37,7 @@ commentRoutes.route("/update/:id").post(function(req, res) {
   Comment.findById(req.params.id, function(err, comment) {
     if (!comment) res.status(404).send("data is not found");
     else comment.message = req.body.message;
-    comment.user_id = req.body.user_id;
+
     comment.topic_id = req.body.topic_id;
 
     comment
