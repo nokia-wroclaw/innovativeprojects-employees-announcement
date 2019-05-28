@@ -12,6 +12,8 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
+import AccountPage from "./AccountPage";
+import { changePassword } from "../actions/authActions";
 
 class NameSettings extends Component {
   constructor(props) {
@@ -45,6 +47,14 @@ class NameSettings extends Component {
       );
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   getFirstNameErrorMessages = firstName => {
     return {
       firstNameErrorEmpty:
@@ -67,10 +77,13 @@ class NameSettings extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
+    
     const errors = {
       ...this.getFirstNameErrorMessages(this.state.firstName),
-      ...this.getLastNameErrorMessages(this.state.lastName)
+      ...this.getLastNameErrorMessages(this.state.lastName),
+      ...this.getOldPasswordErrorMessages(this.state.oldPassword),
+      ...this.getNewPasswordErrorMessages(this.state.newPassword),
+      ...this.getNewPasswordConfirmationErrorMessages(this.state.newPasswordConfirmation)
     };
 
     const hasErrors = Object.values(errors).some(message => message !== "");
@@ -100,6 +113,7 @@ class NameSettings extends Component {
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
         <Segment className="changename-form" stacked textAlign="center">
@@ -132,7 +146,8 @@ class NameSettings extends Component {
             style={{ maxWidth: 250 }}
           />
           <div>
-            <span className="errorsColor">{this.state.lastNameErrorEmpty}</span>
+            <span className="errorsColor">
+            {this.state.lastNameErrorEmpty}</span>
           </div>
           <div>
             <span className="errorsColor">
@@ -255,29 +270,32 @@ getNewPasswordErrorMessages = newPassword => {
         newPasswordConfirmation: this.state.newPasswordConfirmation
       };
       this.props.changePassword(newUser)
-      alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword)
-      this.setState({
-        formSuccess: true,
-        newPassword: "",
-        newPasswordConfirmation: "",
-        newPasswordErrorEmpty: "",
-        newPasswordErrorLengt: "",
-        newPasswordErrorWhitespaces: "",
-        newPasswordConfirmationErrorEmpty: "",
-        newPasswordConfirmationErrorWhitespaces: "",
-        newPasswordConfirmationErrorMatch: "",
-        errors: {}
-      });
+      alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword + errors.passwordIncorrect)
+      // this.setState({
+      //   formSuccess: true,
+      //   oldPassword: "",
+      //   newPassword: "",
+      //   newPasswordConfirmation: "",
+      //   newPasswordErrorEmpty: "",
+      //   newPasswordErrorLengt: "",
+      //   newPasswordErrorWhitespaces: "",
+      //   newPasswordConfirmationErrorEmpty: "",
+      //   newPasswordConfirmationErrorWhitespaces: "",
+      //   newPasswordConfirmationErrorMatch: "",
+      //   errors: {}
+      // });
       setTimeout(
         (() => this.setState({ formSuccess: false })).bind(this),
         4500
       );
+      alert(errors.passwordIncorrect)
     } else {
       this.setState(errors);
     }
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
         <Segment className="changepassword-form" stacked textAlign="center">
@@ -285,8 +303,19 @@ getNewPasswordErrorMessages = newPassword => {
             Change your password
          </Header>
        
-        <Form.Input id="oldPassword" name="oldPassword"
+         <div>
+          <span className="errorsColor">
+              {errors.passwordIncorrect}
+            </span>
+          </div>
+        <Form.Input type="password"
+                id="oldPassword" 
+                name="oldPassword"
                 placeholder = "Old Password"
+                disabled = {this.state.formSuccess}
+                error={
+                  errors.passwordIncorrect
+                }
                 value={this.state.oldPassword}
                 onChange={e =>
                   this.updateInput(e, this.getOldPasswordErrorMessages)
@@ -313,8 +342,9 @@ getNewPasswordErrorMessages = newPassword => {
               {this.state.newPasswordErrorOldPasswordSame}
             </span>
         </div>
-        <Form.Input  id="newPassword" name="newPassword"
-                placeholder = "New Password"
+        <Form.Input type="password" id="newPassword" name="newPassword"
+                placeholder = "New Password"  
+                disabled = {this.state.formSuccess}
                 error={
                   this.state.newPasswordErrorEmpty ||
                   this.state.newPasswordErrorLength ||
@@ -404,6 +434,13 @@ class ContactSettings extends Component {
   }
 }
 
+PasswordSettings.propTypes = 
+{
+  changePassword: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
@@ -413,3 +450,8 @@ const mapStateToProps = state => ({
 });
 
 export { NameSettings, PasswordSettings, ContactSettings };
+
+export default connect(
+  mapStateToProps,
+  { changePassword }
+)(withRouter(PasswordSettings))
