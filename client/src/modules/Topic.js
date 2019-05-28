@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Segment, Feed } from "semantic-ui-react";
+import { Segment, Feed, Button, Input, TextArea } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -18,7 +18,12 @@ import "./Topic.css";
 class Topic extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {}, topic: {} };
+    this.state = {
+      user: {},
+      isEditClicked: false,
+      description: this.props.topic.description,
+      title: this.props.topic.title
+    };
   }
 
   componentDidMount() {
@@ -32,7 +37,34 @@ class Topic extends Component {
       });
   }
 
+  EditIsClicked() {
+    this.setState({ isEditClicked: true });
+  }
+
+  EditIsSend() {
+    this.setState({ isEditClicked: false });
+
+    let updObj = {
+      description: this.state.description,
+      title: this.state.title
+    };
+
+    axios
+      .post(`/api/topics/update/${this.props.topic._id}`, updObj)
+      .then(data => {
+        alert("Topic has been successfully updated ");
+      })
+      .catch(err => {
+        alert("Error while updating topic");
+      });
+  }
+
+  onChange = e => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
+
   render() {
+    const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
     //  acc = acc.substring(0, acc.indexOf("@"));
     var top = new String(this.props.topic._id);
@@ -43,6 +75,15 @@ class Topic extends Component {
     var date = new Date(this.props.topic.date_of_add);
     return (
       <Segment>
+        {user.id === this.state.user._id ? (
+          <Button floated="right" onClick={() => this.EditIsClicked()}>
+            {" "}
+            Edit{" "}
+          </Button>
+        ) : (
+          ""
+        )}
+
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
             <Feed.Label>
@@ -56,15 +97,40 @@ class Topic extends Component {
               </Feed.Date>
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}
-                <Link to={"/topics/" + top}>{this.props.topic.title}</Link>{" "}
+                {this.state.isEditClicked ? (
+                  <Input
+                    id="title"
+                    name="title"
+                    defaultValue={this.props.topic.title}
+                    value={this.state.title}
+                    onChange={this.onChange}
+                  />
+                ) : (
+                  <Link to={"/topics/" + top}>{this.state.title}</Link>
+                )}
               </Feed.Summary>
-
               <Feed.Extra style={{ width: "90%" }}>
-                {this.props.topic.description}
+                {this.state.isEditClicked ? (
+                  <TextArea
+                    id="description"
+                    name="description"
+                    style={{ resize: "none" }}
+                    defaultValue={this.state.description}
+                    value={this.state.description}
+                    onChange={this.onChange}
+                  />
+                ) : (
+                  <div>{this.state.description}</div>
+                )}
               </Feed.Extra>
             </Feed.Content>
           </Feed.Event>
         </Feed>
+        {this.state.isEditClicked ? (
+          <Button onClick={() => this.EditIsSend()}>Apply </Button>
+        ) : (
+          ""
+        )}
       </Segment>
     );
   }

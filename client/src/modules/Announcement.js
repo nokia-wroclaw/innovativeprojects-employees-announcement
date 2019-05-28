@@ -57,7 +57,7 @@ class Announcement extends Component {
         alert("Announcement has been successfully updated ");
       })
       .catch(err => {
-        alert("Error while uploading image, size is too big");
+        alert("Error while updating announcement");
       });
   }
 
