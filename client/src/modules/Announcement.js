@@ -18,7 +18,13 @@ import "./Announcement.css";
 class Announcement extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {}, isEditClicked: false };
+    this.state = {
+      user: {},
+      isEditClicked: false,
+      description: this.props.announcement.description,
+      price: this.props.announcement.price,
+      title: this.props.announcement.title
+    };
   }
 
   componentDidMount() {
@@ -38,7 +44,26 @@ class Announcement extends Component {
 
   EditIsSend() {
     this.setState({ isEditClicked: false });
+
+    let updObj = {
+      description: this.state.description,
+      title: this.state.title,
+      price: this.state.price
+    };
+
+    axios
+      .post(`/api/announcements/update/${this.props.announcement._id}`, updObj)
+      .then(data => {
+        alert("Announcement has been successfully updated ");
+      })
+      .catch(err => {
+        alert("Error while uploading image, size is too big");
+      });
   }
+
+  onChange = e => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
 
   render() {
     const { user } = this.props.auth;
@@ -78,18 +103,31 @@ class Announcement extends Component {
               <Feed.Summary style={{ fontSize: "20px" }}>
                 {" "}
                 {this.state.isEditClicked ? (
-                  <Input defaultValue={this.props.announcement.title} />
+                  <Input
+                    id="title"
+                    name="title"
+                    defaultValue={this.props.announcement.title}
+                    value={this.state.title}
+                    onChange={this.onChange}
+                  />
                 ) : (
-                  <div>{this.props.announcement.title}</div>
+                  <div>{this.state.title}</div>
                 )}
               </Feed.Summary>
               <Feed.Extra text>
                 <p>
                   {this.state.isEditClicked ? (
-                    <Input defaultValue={this.props.announcement.price} />
+                    <Input
+                      id="price"
+                      name="price"
+                      defaultValue={this.props.announcement.price}
+                      value={this.state.price}
+                      onChange={this.onChange}
+                    />
                   ) : (
                     <div>
-                      <b>Price: </b> {this.props.announcement.price} [zł]
+                      <b>Price: </b> {this.state.price}
+                      [zł]
                     </div>
                   )}
                 </p>
@@ -97,11 +135,15 @@ class Announcement extends Component {
               <Feed.Extra style={{ width: "90%" }}>
                 {this.state.isEditClicked ? (
                   <TextArea
+                    id="description"
+                    name="description"
                     style={{ resize: "none" }}
-                    defaultValue={this.props.announcement.description}
+                    defaultValue={this.state.description}
+                    value={this.state.description}
+                    onChange={this.onChange}
                   />
                 ) : (
-                  <div>{this.props.announcement.description}</div>
+                  <div>{this.state.description}</div>
                 )}
               </Feed.Extra>
             </Feed.Content>
