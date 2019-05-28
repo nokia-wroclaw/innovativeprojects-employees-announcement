@@ -77,10 +77,11 @@ class AddTopicPage extends Component {
         description: this.state.description,
         user_id: user.id
       };
-
-      this.props.addTopic(newTopic, this.props.history);
+      let self = this;
+      this.props.addTopic(newTopic, this.props.history).then(function() {
+        return self.props.getAllTopics();
+      });
     }
-    this.props.getAllTopics();
   };
 
   render() {

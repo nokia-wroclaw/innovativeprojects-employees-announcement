@@ -67,10 +67,11 @@ class CommentAdd extends Component {
         topic_id: this.props.topic_id,
         user_id: user.id
       };
-
-      this.props.addComment(newComment, this.props.history);
+      let self = this;
+      this.props.addComment(newComment, this.props.history).then(function() {
+        return self.props.getAllComments();
+      });
     }
-    this.props.getAllComments();
   };
 
   render() {
