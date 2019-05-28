@@ -1,20 +1,7 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  GridRow,
-  Header,
-  Input,
-  Menu,
-  Sticky,
-  Segment,
-  Rail,
-  Icon,
-  GridColumn,
-  Feed
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Grid, Button, Header, Input, Icon } from "semantic-ui-react";
+
 import axios from "axios";
 import TopicAdd from "./TopicAdd";
 import Topic from "./Topic";
@@ -52,7 +39,7 @@ class TopicPage extends Component {
 
   componentDidMount() {
     this.getAllTopics(this.topics);
-    this.state.search = "";
+    this.setState({ search: "" });
   }
 
   topicsList() {

@@ -1,14 +1,7 @@
 import { addComment } from "../actions/addComment";
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  Header,
-  Form,
-  Segment,
-  TextArea
-} from "semantic-ui-react";
+import { Grid, Button, Form, Segment, TextArea } from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -81,7 +74,6 @@ class CommentAdd extends Component {
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Grid

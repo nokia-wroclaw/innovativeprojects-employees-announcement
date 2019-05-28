@@ -6,10 +6,9 @@ import {
   Button,
   Header,
   Input,
-  Menu,
   Icon
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
 import Announcement from "./Announcement";
@@ -49,7 +48,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
-    this.state.search = "";
+    this.setState({ search: "" });
   }
 
   announcementsList() {

@@ -1,21 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import {
-  List,
-  Message,
-  Button,
-  Form,
-  Header,
-  Grid,
-  GridRow,
-  Menu,
-  Sticky,
-  Segment,
-  Rail,
-  GridColumn,
-  Feed
-} from "semantic-ui-react";
+import { Header, Grid, Segment, Feed } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import ReactTimeAgo from "react-time-ago/tooltip";
@@ -84,10 +70,10 @@ class TopicView extends Component {
   render() {
     var acc = new String(this.state.user.email);
     acc = acc.substring(0, acc.indexOf("@"));
-    var date2 =
-      new Date(this.state.topic.date_of_add).toLocaleTimeString() +
-      ", " +
-      new Date(this.state.topic.date_of_add).toLocaleDateString();
+    //  var date2 =
+    //    new Date(this.state.topic.date_of_add).toLocaleTimeString() +
+    //    ", " +
+    //    new Date(this.state.topic.date_of_add).toLocaleDateString();
     //console.log(this.state.topic);
     //var date = new Date(this.state.topic.date_of_add);
     //var date = new Date();
@@ -103,7 +89,7 @@ class TopicView extends Component {
               <Feed style={{ marginTop: "1.5em" }}>
                 <Feed.Event>
                   <Feed.Label>
-                    <img src={this.state.user.image} />
+                    <img src={this.state.user.image} alt="avatar" />
                   </Feed.Label>
                   <Feed.Content>
                     <Feed.Date>

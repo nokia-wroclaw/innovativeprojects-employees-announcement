@@ -1,15 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  GridRow,
-  Menu,
-  Sticky,
-  Segment,
-  Rail,
-  GridColumn,
-  Feed
-} from "semantic-ui-react";
+import { Grid, Segment, Feed } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -62,7 +53,7 @@ class Comment extends Component {
             <Feed style={{ marginTop: "1.5em" }}>
               <Feed.Event>
                 <Feed.Label>
-                  <img src={this.state.user.image} />
+                  <img src={this.state.user.image} alt="avatar" />
                 </Feed.Label>
                 <Feed.Content>
                   <Feed.Date>

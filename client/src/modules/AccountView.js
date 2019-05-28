@@ -3,12 +3,10 @@ import axios from "axios";
 
 import {
   List,
-  Form,
   Header,
   Grid,
   GridRow,
   Segment,
-  Icon,
   GridColumn
 } from "semantic-ui-react";
 
@@ -38,6 +36,7 @@ class AccountView extends Component {
       <div>
         <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
           <img
+            alt="avatar"
             src={this.state.user.image}
             style={({ marginTop: "15.5em" }, { maxHeight: "200px" })}
           />

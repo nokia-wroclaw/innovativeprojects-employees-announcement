@@ -1,14 +1,7 @@
 import { addTopic } from "../actions/addTopic";
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  Header,
-  Form,
-  Segment,
-  TextArea
-} from "semantic-ui-react";
+import { Grid, Button, Form, Segment, TextArea } from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -55,8 +48,6 @@ class AddTopicPage extends Component {
       errors.descriptionErrorEmpty = "Description cannot be empty";
     }
 
-    
-
     if (isError) {
       this.setState(errors);
     }
@@ -93,7 +84,6 @@ class AddTopicPage extends Component {
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Grid
@@ -120,8 +110,6 @@ class AddTopicPage extends Component {
                   value={this.state.title}
                   onChange={this.onChange}
                 />
-
-              
 
                 <span class="errorsColor">
                   {this.state.descriptionErrorEmpty}

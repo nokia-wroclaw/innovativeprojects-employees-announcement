@@ -1,19 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  GridRow,
-  Menu,
-  Button,
-  Sticky,
-  Segment,
-  Rail,
-  GridColumn,
-  Input,
-  TextArea,
-  Icon,
-  Feed
-} from "semantic-ui-react";
+import { Button, Segment, Input, TextArea, Feed } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -77,7 +64,7 @@ class Announcement extends Component {
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
             <Feed.Label>
-              <img src={this.state.user.image} />
+              <img src={this.state.user.image} alt="avatar" />
             </Feed.Label>
             <Feed.Content>
               <Feed.Date>
