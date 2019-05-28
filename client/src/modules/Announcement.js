@@ -4,10 +4,12 @@ import {
   Grid,
   GridRow,
   Menu,
+  Button,
   Sticky,
   Segment,
   Rail,
   GridColumn,
+  Icon,
   Feed
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
@@ -42,6 +44,7 @@ class Announcement extends Component {
   }
 
   render() {
+    const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
     //  acc = acc.substring(0, acc.indexOf("@"));
     //    var date =
@@ -53,6 +56,11 @@ class Announcement extends Component {
 
     return (
       <Segment>
+        {user.id === this.state.user._id ? (
+          <Button floated="right"> Edit </Button>
+        ) : (
+          ""
+        )}
         <Feed style={{ marginTop: "1.5em" }}>
           <Feed.Event>
             <Feed.Label>
