@@ -21,9 +21,9 @@ class Announcement extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      description: this.props.announcement.description,
+      title: this.props.announcement.title,
       price: this.props.announcement.price,
-      title: this.props.announcement.title
+      description: this.props.announcement.description
     };
   }
 
@@ -57,13 +57,24 @@ class Announcement extends Component {
         alert("Announcement has been successfully updated ");
       })
       .catch(err => {
-        alert("Error while updating announcement");
+        this.backWhenErr();
+        alert(
+          "Error while updating announcement - blank fields or wrong format"
+        );
       });
   }
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
+
+  backWhenErr() {
+    this.setState({
+      title: this.props.announcement.title,
+      price: this.props.announcement.price,
+      description: this.props.announcement.description
+    });
+  }
 
   render() {
     const { user } = this.props.auth;

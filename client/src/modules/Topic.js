@@ -21,8 +21,8 @@ class Topic extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      description: this.props.topic.description,
-      title: this.props.topic.title
+      title: this.props.topic.title,
+      description: this.props.topic.description
     };
   }
 
@@ -55,13 +55,21 @@ class Topic extends Component {
         alert("Topic has been successfully updated ");
       })
       .catch(err => {
-        alert("Error while updating topic");
+        this.backWhenErr();
+        alert("Error while updating topic - blank fields or wrong format");
       });
   }
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
+
+  backWhenErr() {
+    this.setState({
+      title: this.props.topic.title,
+      description: this.props.topic.description
+    });
+  }
 
   render() {
     const { user } = this.props.auth;

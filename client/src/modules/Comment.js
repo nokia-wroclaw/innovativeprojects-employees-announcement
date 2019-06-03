@@ -53,13 +53,20 @@ class Comment extends Component {
         alert("Comment has been successfully updated ");
       })
       .catch(err => {
-        alert("Error while updating comment");
+        this.backWhenErr();
+        alert("Error while updating comment - blank field");
       });
   }
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
+
+  backWhenErr() {
+    this.setState({
+      message: this.props.comment.message
+    });
+  }
 
   render() {
     const { user } = this.props.auth;
