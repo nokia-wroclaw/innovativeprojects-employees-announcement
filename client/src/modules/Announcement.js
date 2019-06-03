@@ -88,7 +88,7 @@ class Announcement extends Component {
     var date = new Date(this.props.announcement.date_of_add);
 
     return (
-      <Segment>
+      <Segment style={{ width: "100%" }}>
         {user.id === this.state.user._id ? (
           <Button floated="right" onClick={() => this.EditIsClicked()}>
             {" "}

@@ -86,7 +86,7 @@ class Comment extends Component {
         verticalAlign="middle"
       >
         <Grid.Column style={{ maxWidth: 850 }}>
-          <Segment>
+          <Segment style={{ width: "100%" }}>
             {user.id === this.state.user._id ? (
               <Button floated="right" onClick={() => this.EditIsClicked()}>
                 {" "}
