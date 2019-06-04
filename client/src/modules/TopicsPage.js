@@ -40,6 +40,11 @@ class TopicPage extends Component {
   componentDidMount() {
     this.getAllTopics(this.topics);
     this.setState({ search: "" });
+    this.props.onRef(this);
+  }
+
+  componentWillUnmount() {
+    this.props.onRef(undefined);
   }
 
   topicsList() {

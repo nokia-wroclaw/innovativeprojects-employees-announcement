@@ -105,7 +105,16 @@ class App extends Component {
                       <HomePage {...props} onRef={ref => (this.child = ref)} />
                     )}
                   />
-                  <Route exact path="/topics" component={TopicsPage} />
+                  <Route
+                    exact
+                    path="/topics"
+                    render={props => (
+                      <TopicsPage
+                        {...props}
+                        onRef={ref => (this.child = ref)}
+                      />
+                    )}
+                  />
                   <PrivateRoute
                     exact
                     path="/account-view/:UserEmail"
