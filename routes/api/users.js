@@ -4,12 +4,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
+var nodemailer = require("nodemailer");
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
 // Load User model
 const User = require("../../models/User");
+const Token = require("../../models/MailToken");
 
 router.route("/:id").get(function(req, res) {
   let id = req.params.id;
@@ -63,6 +66,75 @@ router.post("/register", (req, res) => {
             .catch(err => console.log(err));
         });
       });
+
+      // Create a verification token for this user
+      /*      var token = new Token({
+        _userId: user.email,
+        token: "saasssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+        //crypto.randomBytes(16).toString("hex")
+      });
+
+      // Save the verification token
+      token.save(function(err) {
+        if (err) {
+          return res.status(500).send({ msg: err.message });
+        }
+
+        // Send the email
+        var transporter = nodemailer.createTransport({
+          service: "Sendgrid",
+          auth: {
+            user: process.env.SENDGRID_USERNAME,
+            pass: process.env.SENDGRID_PASSWORD
+          }
+        });
+        var mailOptions = {
+          from: "no-reply@yourwebapplication.com",
+          to: "y636542@nwytg.net", //user.email,
+          subject: "Account Verification Token",
+          text:
+            "Hello,\n\n" +
+            "Please verify your account by clicking the link: \nhttp://" +
+            req.headers.host +
+            "/confirmation/" +
+            token.token +
+            ".\n"
+        };
+        transporter.sendMail(mailOptions, function(error) {
+          if (error) {
+            if (error) return console.error(error);
+            return console.log(mailOptions);
+            //  return res.status(500).send({ msg: err.message });
+          }
+          res
+            .status(200)
+            .send("A verification email has been sent to " + user.email + ".");
+        });
+      });
+      */
+      async function main() {
+        let testAccount = await nodemailer.createTestAccount();
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+          host: "smtp.ethereal.email",
+          port: 587,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: testAccount.user, // generated ethereal user
+            pass: testAccount.pass // generated ethereal password
+          }
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from: '"Fred Foo 👻" <foo@example.com>', // sender address
+          to: "y637010@nwytg.net, y637010@nwytg.net", // list of receivers
+          subject: "Hello ✔", // Subject line
+          text: "Hello world?", // plain text body
+          html: "<b>Hello world?</b>" // html body
+        });
+      }
     }
   });
 });
@@ -89,6 +161,12 @@ router.post("/login", (req, res) => {
     if (!user) {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
+
+    // Make sure the user has been verified
+    if (!user.isVerified)
+      return res.status(404).json({
+        notverified: "Your account has not been verified."
+      });
 
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {

@@ -133,6 +133,10 @@ class LoginPage extends Component {
                   <span className="errorsColor">{errors.emailnotfound}</span>
                 </div>
 
+                <div>
+                  <span className="errorsColor">{errors.notverified}</span>
+                </div>
+
                 <Form.Input
                   error={
                     this.state.emailErrorEmpty ||
