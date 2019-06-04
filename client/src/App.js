@@ -58,6 +58,10 @@ class App extends Component {
     };
   }
 
+  onChange = event => {
+    this.child.onChange(event);
+  };
+
   ChangeToLightMode = e => {
     this.setState({
       bgImage: `url(${logo1})`
@@ -90,10 +94,17 @@ class App extends Component {
               <NavBar
                 ChangeToDarkMode={this.ChangeToDarkMode}
                 ChangeToLightMode={this.ChangeToLightMode}
+                onChange={this.onChange}
               />
               <div className="App" style={{ flex: 1 }}>
                 <Switch>
-                  <Route exact path="/" component={HomePage} />
+                  <Route
+                    exact
+                    path="/"
+                    render={props => (
+                      <HomePage {...props} onRef={ref => (this.child = ref)} />
+                    )}
+                  />
                   <Route exact path="/topics" component={TopicsPage} />
                   <PrivateRoute
                     exact

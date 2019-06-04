@@ -49,6 +49,11 @@ class HomePage extends Component {
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
     this.setState({ search: "" });
+    this.props.onRef(this);
+  }
+
+  componentWillUnmount() {
+    this.props.onRef(undefined);
   }
 
   announcementsList() {
@@ -76,9 +81,7 @@ class HomePage extends Component {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <GridColumn width="3">
-            <Input label="Search" icon="search" onChange={this.onChange} />
-          </GridColumn>
+          <GridColumn width="3" />
 
           <GridColumn width="10">
             <Header inverted as="h3" dividing>

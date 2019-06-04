@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Image, Dropdown } from "semantic-ui-react";
+import { Menu, Image, Dropdown, Input } from "semantic-ui-react";
 import logo from "./images/logoNowe.png";
 
 import PropTypes from "prop-types";
@@ -64,6 +64,11 @@ class NavBar extends Component {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+            <Input
+              label="Search"
+              icon="search"
+              onChange={this.props.onChange}
+            />
           </Menu.Menu>
           <Menu.Menu position="right">
             <Dropdown text="Mode" pointing className="link item">
