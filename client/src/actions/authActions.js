@@ -88,8 +88,8 @@ export const changeName = (userData) => {
     });
 }
 
-//w tej wersji request przechodzi z kodem 400 ale blad sie nie pojawia
-//Modify user's password
+// w tej wersji request przechodzi z kodem 400 ale blad sie nie pojawia
+// Modify user's password
 // export const changePassword = (userData) => {
 //   axios
 //     .post('api/users/update/password/${userData.id}', userData)
@@ -102,13 +102,13 @@ export const changeName = (userData) => {
 //w tej wersji request w ogole nie wychodzi
 //Modify user's password
 export const changePassword = (userData) => dispatch => {
-  axios
+  return axios
     .post('api/users/update/password/${userData.id}', userData)
-    .then()
-    .catch(err =>
+    .catch(err => {
+      console.log(err)
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
+      })}
     );
 };

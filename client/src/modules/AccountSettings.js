@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import AccountPage from "./AccountPage";
 import { changePassword } from "../actions/authActions";
+import store from "../store";
 
 class NameSettings extends Component {
   constructor(props) {
@@ -80,10 +81,7 @@ class NameSettings extends Component {
     
     const errors = {
       ...this.getFirstNameErrorMessages(this.state.firstName),
-      ...this.getLastNameErrorMessages(this.state.lastName),
-      ...this.getOldPasswordErrorMessages(this.state.oldPassword),
-      ...this.getNewPasswordErrorMessages(this.state.newPassword),
-      ...this.getNewPasswordConfirmationErrorMessages(this.state.newPasswordConfirmation)
+      ...this.getLastNameErrorMessages(this.state.lastName)
     };
 
     const hasErrors = Object.values(errors).some(message => message !== "");
@@ -203,6 +201,15 @@ class PasswordSettings extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+    if (nextProps.err) {
+      this.setState({
+        errors: nextProps.err
+      });
+    }
+  }
+
   updateInput = (e, getErrorMessages) => {
     this.setState({
       ...getErrorMessages(e.target.value),
@@ -211,7 +218,13 @@ class PasswordSettings extends Component {
   };
 
 getOldPasswordErrorMessages = oldPassword => {
-  return "";
+  return {
+    oldPasswordErrorEmpty:
+      oldPassword.trim() === "" ? "Password cannot be empty" : "",
+    oldPasswordErrorWhitespaces: /\s/.test(oldPassword)
+      ? "Password cannot contain whitespaces"
+      : ""
+  };
 };
 
 getNewPasswordErrorMessages = newPassword => {
@@ -263,32 +276,30 @@ getNewPasswordErrorMessages = newPassword => {
 
     if(!hasErrors)
     {
+      this.setState({
+        formSuccess: true,
+        newPasswordErrorEmpty: "",
+        newPasswordErrorLength: "",
+        newPasswordErrorWhitespaces: "",
+        newPasswordConfirmationErrorEmpty: "",
+        newPasswordConfirmationErrorWhitespaces: "",
+        newPasswordConfirmationErrorMatch: "",
+      });
       const newUser = {
         id: this.state.id,
         oldPassword: this.state.oldPassword,
         newPassword: this.state.newPassword,
         newPasswordConfirmation: this.state.newPasswordConfirmation
       };
-      this.props.changePassword(newUser)
+      store.dispatch(this.props.changePassword(newUser));
+      //this.props.changePassword(newUser)
       alert(newUser.id + " " + newUser.oldPassword + " " + newUser.newPassword +" " + newUser.newPasswordConfirmation + "\n" + this.props.changePassword + errors.passwordIncorrect)
-      // this.setState({
-      //   formSuccess: true,
-      //   oldPassword: "",
-      //   newPassword: "",
-      //   newPasswordConfirmation: "",
-      //   newPasswordErrorEmpty: "",
-      //   newPasswordErrorLengt: "",
-      //   newPasswordErrorWhitespaces: "",
-      //   newPasswordConfirmationErrorEmpty: "",
-      //   newPasswordConfirmationErrorWhitespaces: "",
-      //   newPasswordConfirmationErrorMatch: "",
-      //   errors: {}
-      // });
+  
       setTimeout(
         (() => this.setState({ formSuccess: false })).bind(this),
         4500
       );
-      alert(errors.passwordIncorrect)
+      alert(this.state.errors.passwordIncorrect)
     } else {
       this.setState(errors);
     }
@@ -304,16 +315,28 @@ getNewPasswordErrorMessages = newPassword => {
          </Header>
        
          <div>
-          <span className="errorsColor">
-              {errors.passwordIncorrect}
+            <span className="errorsColor">
+              {this.state.oldPasswordErrorWhitespaces}
             </span>
           </div>
+          <div>
+            <span className="errorsColor">
+              {this.state.oldPasswordErrorEmpty}
+            </span>
+          </div>
+          <div>
+          <span className="errorsColor">
+              {errors.passwordIncorrect}
+          </span>
+         </div>
         <Form.Input type="password"
                 id="oldPassword" 
                 name="oldPassword"
                 placeholder = "Old Password"
                 disabled = {this.state.formSuccess}
                 error={
+                  this.state.oldPasswordErrorWhitespaces ||
+                  this.state.oldPasswordErrorEmpty ||
                   errors.passwordIncorrect
                 }
                 value={this.state.oldPassword}
@@ -454,4 +477,4 @@ export { NameSettings, PasswordSettings, ContactSettings };
 export default connect(
   mapStateToProps,
   { changePassword }
-)(withRouter(PasswordSettings))
+)(PasswordSettings)
