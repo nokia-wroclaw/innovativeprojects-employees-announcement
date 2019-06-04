@@ -66,6 +66,9 @@ class HomePage extends Component {
             .includes(search.toLocaleLowerCase()) ||
           currentAnnouncement.description
             .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentAnnouncement.price
+            .toString()
             .includes(search.toLocaleLowerCase())
         )
           return <Announcement announcement={currentAnnouncement} key={i} />;
