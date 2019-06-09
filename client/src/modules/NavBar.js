@@ -64,11 +64,15 @@ class NavBar extends Component {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Input
-              label="Search"
-              icon="search"
-              onChange={this.props.onChange}
-            />
+            {this.props.showNavFieldsAnn || this.props.showNavFieldsTop ? (
+              <Input
+                label="Search"
+                icon="search"
+                onChange={this.props.onChange}
+              />
+            ) : (
+              ""
+            )}
           </Menu.Menu>
           <Menu.Menu position="right">
             <Dropdown text="Mode" pointing className="link item">

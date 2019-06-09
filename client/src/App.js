@@ -91,10 +91,20 @@ class App extends Component {
                 width: "100%"
               }}
             >
-              <NavBar
-                ChangeToDarkMode={this.ChangeToDarkMode}
-                ChangeToLightMode={this.ChangeToLightMode}
-                onChange={this.onChange}
+              <Route
+                render={({ match, location, history }) => {
+                  const showNavFieldsAnn = location.pathname === "/";
+                  const showNavFieldsTop = location.pathname === "/topics";
+                  return (
+                    <NavBar
+                      ChangeToDarkMode={this.ChangeToDarkMode}
+                      ChangeToLightMode={this.ChangeToLightMode}
+                      onChange={this.onChange}
+                      showNavFieldsAnn={showNavFieldsAnn}
+                      showNavFieldsTop={showNavFieldsTop}
+                    />
+                  );
+                }}
               />
 
               <div className="App" style={{ flex: 1 }}>

@@ -72,9 +72,7 @@ class TopicPage extends Component {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3">
-            <Input label="Search" icon="search" onChange={this.onChange} />
-          </Grid.Column>
+          <Grid.Column width="3" />
           <Grid.Column width="10">
             <Header inverted as="h3" dividing>
               Topics
