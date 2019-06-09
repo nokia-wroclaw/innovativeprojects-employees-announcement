@@ -96,6 +96,7 @@ class App extends Component {
                 ChangeToLightMode={this.ChangeToLightMode}
                 onChange={this.onChange}
               />
+
               <div className="App" style={{ flex: 1 }}>
                 <Switch>
                   <Route
