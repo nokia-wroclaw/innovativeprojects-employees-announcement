@@ -87,14 +87,25 @@ class Announcement extends Component {
 
   EditIsClicked() {
     this.setState({ isEditClicked: !this.state.isEditClicked });
+
+    axios
+      .get(`/api/announcements/${this.props.announcement._id}`)
+      .then(response => {
+        this.setState({
+          description: response.data.description,
+          title: response.data.title,
+          price: response.data.price
+        });
+      })
+      .catch(err => {
+        alert("Error while getting announcement");
+      });
   }
 
   EditIsSend = e => {
     const err = this.validate();
 
     if (!err) {
-      this.setState({ isEditClicked: false });
-
       let updObj = {
         description: this.state.description,
         title: this.state.title,

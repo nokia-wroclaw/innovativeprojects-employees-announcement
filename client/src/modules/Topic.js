@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 
-import { Segment, Feed, Button, Input, TextArea } from "semantic-ui-react";
+import {
+  Segment,
+  Feed,
+  Button,
+  Input,
+  TextArea,
+  Form
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -22,7 +29,10 @@ class Topic extends Component {
       user: {},
       isEditClicked: false,
       title: this.props.topic.title,
-      description: this.props.topic.description
+      description: this.props.topic.description,
+      errors: {},
+      titleErrorEmpty: "",
+      descriptionErrorEmpty: ""
     };
   }
 
@@ -37,39 +47,70 @@ class Topic extends Component {
       });
   }
 
-  EditIsClicked() {
-    this.setState({ isEditClicked: !this.state.isEditClicked });
-  }
-
-  EditIsSend() {
-    this.setState({ isEditClicked: false });
-
-    let updObj = {
-      description: this.state.description,
-      title: this.state.title
+  validate = () => {
+    let isError = false;
+    const errors = {
+      titleErrorEmpty: "",
+      descriptionErrorEmpty: ""
     };
+    if (this.state.title.trim() === "") {
+      isError = true;
+      errors.titleErrorEmpty = "Title cannot be empty";
+    }
 
+    if (this.state.description.trim() === "") {
+      isError = true;
+      errors.descriptionErrorEmpty = "Description cannot be empty";
+    }
+
+    if (isError) {
+      this.setState(errors);
+    }
+
+    return isError;
+  };
+
+  EditIsClicked() {
+    this.setState({
+      isEditClicked: !this.state.isEditClicked
+    });
     axios
-      .post(`/api/topics/update/${this.props.topic._id}`, updObj)
-      .then(data => {
-        alert("Topic has been successfully updated ");
+      .get(`/api/topics/${this.props.topic._id}`)
+      .then(response => {
+        this.setState({
+          description: response.data.description,
+          title: response.data.title
+        });
       })
       .catch(err => {
-        this.backWhenErr();
-        alert("Error while updating topic - blank fields or wrong format");
+        alert("Error while getting topic");
       });
   }
+
+  EditIsSend = e => {
+    const err = this.validate();
+
+    if (!err) {
+      let updObj = {
+        description: this.state.description,
+        title: this.state.title
+      };
+
+      axios
+        .post(`/api/topics/update/${this.props.topic._id}`, updObj)
+        .then(data => {
+          alert("Topic has been successfully updated ");
+          this.setState({ isEditClicked: false });
+        })
+        .catch(err => {
+          alert("Error while updating topic - blank fields or wrong format");
+        });
+    }
+  };
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
-
-  backWhenErr() {
-    this.setState({
-      title: this.props.topic.title,
-      description: this.props.topic.description
-    });
-  }
 
   render() {
     const { user } = this.props.auth;
@@ -91,53 +132,83 @@ class Topic extends Component {
         ) : (
           ""
         )}
-        <Feed style={{ marginTop: "1.5em" }}>
-          <Feed.Event>
-            <Feed.Label>
-              <img src={this.state.user.image} alt="avatar" />
-            </Feed.Label>
-            <Feed.Content>
-              <Feed.Date>
-                Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                <ReactTimeAgo date={date} tooltipClassName="TooltipCssTopic" />
-              </Feed.Date>
-              <Feed.Summary style={{ fontSize: "20px" }}>
-                {" "}
-                {this.state.isEditClicked ? (
-                  <Input
-                    id="title"
-                    name="title"
-                    defaultValue={this.props.topic.title}
-                    value={this.state.title}
-                    onChange={this.onChange}
-                    style={{ width: "1000 px" }}
-                  />
-                ) : (
-                  <Link to={"/topics/" + top}>{this.state.title}</Link>
-                )}
-              </Feed.Summary>
-              <Feed.Extra style={{ width: "90%" }}>
-                {this.state.isEditClicked ? (
-                  <TextArea
-                    id="description"
-                    name="description"
-                    style={{ width: "1000px", resize: "none" }}
-                    defaultValue={this.state.description}
-                    value={this.state.description}
-                    onChange={this.onChange}
-                  />
-                ) : (
-                  <div>{this.state.description}</div>
-                )}
-              </Feed.Extra>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
+
         {this.state.isEditClicked ? (
-          <Button onClick={() => this.EditIsSend()}>Apply </Button>
+          <>
+            <Form size="large" noValidate onSubmit={this.EditIsSend}>
+              <Feed style={{ marginTop: "1.5em" }}>
+                <Feed.Event>
+                  <Feed.Label>
+                    <img src={this.state.user.image} alt="avatar" />
+                  </Feed.Label>
+                  <Feed.Content>
+                    <Feed.Date>
+                      Added by {this.state.user.firstName}{" "}
+                      {this.state.user.lastName}{" "}
+                      <Link to={"/account-view/" + acc}>
+                        {this.state.user.email}
+                      </Link>{" "}
+                      <ReactTimeAgo
+                        date={date}
+                        tooltipClassName="TooltipCssTopic"
+                      />
+                    </Feed.Date>
+                    <div class="errorsColor">{this.state.titleErrorEmpty}</div>
+                    <Input
+                      id="title"
+                      name="title"
+                      defaultValue={this.props.topic.title}
+                      value={this.state.title}
+                      onChange={this.onChange}
+                      style={{ width: "50vh" }}
+                    />
+
+                    <div class="errorsColor">
+                      {this.state.descriptionErrorEmpty}
+                    </div>
+                    <TextArea
+                      id="description"
+                      name="description"
+                      style={{ width: "50vh", resize: "none" }}
+                      defaultValue={this.state.description}
+                      value={this.state.description}
+                      onChange={this.onChange}
+                    />
+                  </Feed.Content>
+                </Feed.Event>
+              </Feed>
+
+              <Button>Apply </Button>
+            </Form>
+          </>
         ) : (
-          ""
+          <Feed style={{ marginTop: "1.5em" }}>
+            <Feed.Event>
+              <Feed.Label>
+                <img src={this.state.user.image} alt="avatar" />
+              </Feed.Label>
+              <Feed.Content>
+                <Feed.Date>
+                  Added by {this.state.user.firstName}{" "}
+                  {this.state.user.lastName}{" "}
+                  <Link to={"/account-view/" + acc}>
+                    {this.state.user.email}
+                  </Link>{" "}
+                  <ReactTimeAgo
+                    date={date}
+                    tooltipClassName="TooltipCssTopic"
+                  />
+                </Feed.Date>
+                <Feed.Summary style={{ fontSize: "20px" }}>
+                  {" "}
+                  <Link to={"/topics/" + top}>{this.state.title}</Link>
+                </Feed.Summary>
+                <Feed.Extra style={{ width: "90%" }}>
+                  <div>{this.state.description}</div>
+                </Feed.Extra>
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
         )}
       </Segment>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, Segment, Feed, Button, TextArea } from "semantic-ui-react";
+import { Grid, Segment, Feed, Button, TextArea, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -21,7 +21,9 @@ class Comment extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      message: this.props.comment.message
+      message: this.props.comment.message,
+      errors: {},
+      messageErrorEmpty: ""
     };
   }
 
@@ -36,37 +38,60 @@ class Comment extends Component {
       });
   }
 
+  validate = () => {
+    let isError = false;
+    const errors = {
+      messageErrorEmpty: ""
+    };
+    if (this.state.message.trim() === "") {
+      isError = true;
+      errors.messageErrorEmpty = "Message cannot be empty";
+    }
+
+    if (isError) {
+      this.setState(errors);
+    }
+
+    return isError;
+  };
+
   EditIsClicked() {
     this.setState({ isEditClicked: !this.state.isEditClicked });
-  }
-
-  EditIsSend() {
-    this.setState({ isEditClicked: false });
-
-    let updObj = {
-      message: this.state.message
-    };
-
     axios
-      .post(`/api/comments/update/${this.props.comment._id}`, updObj)
-      .then(data => {
-        alert("Comment has been successfully updated ");
+      .get(`/api/comments/${this.props.comment._id}`)
+      .then(response => {
+        this.setState({
+          message: response.data.message
+        });
       })
       .catch(err => {
-        this.backWhenErr();
-        alert("Error while updating comment - blank field");
+        alert("Error while getting comment");
       });
   }
+
+  EditIsSend = e => {
+    const err = this.validate();
+
+    if (!err) {
+      let updObj = {
+        message: this.state.message
+      };
+
+      axios
+        .post(`/api/comments/update/${this.props.comment._id}`, updObj)
+        .then(data => {
+          alert("Comment has been successfully updated ");
+          this.setState({ isEditClicked: false });
+        })
+        .catch(err => {
+          alert("Error while updating comment - blank field");
+        });
+    }
+  };
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
-
-  backWhenErr() {
-    this.setState({
-      message: this.props.comment.message
-    });
-  }
 
   render() {
     const { user } = this.props.auth;
@@ -95,26 +120,29 @@ class Comment extends Component {
             ) : (
               ""
             )}
-            <Feed style={{ marginTop: "1.5em" }}>
-              <Feed.Event>
-                <Feed.Label>
-                  <img src={this.state.user.image} alt="avatar" />
-                </Feed.Label>
-                <Feed.Content>
-                  <Feed.Date>
-                    Added by {this.state.user.firstName}{" "}
-                    {this.state.user.lastName}{" "}
-                    <Link to={"/account-view/" + acc}>
-                      {this.state.user.email}
-                    </Link>{" "}
-                    <ReactTimeAgo
-                      date={date}
-                      tooltipClassName="TooltipCssComment"
-                    />
-                  </Feed.Date>
 
-                  <Feed.Extra style={{ width: "90%" }}>
-                    {this.state.isEditClicked ? (
+            {this.state.isEditClicked ? (
+              <Form size="large" noValidate onSubmit={this.EditIsSend}>
+                <Feed style={{ marginTop: "1.5em" }}>
+                  <Feed.Event>
+                    <Feed.Label>
+                      <img src={this.state.user.image} alt="avatar" />
+                    </Feed.Label>
+                    <Feed.Content>
+                      <Feed.Date>
+                        Added by {this.state.user.firstName}{" "}
+                        {this.state.user.lastName}{" "}
+                        <Link to={"/account-view/" + acc}>
+                          {this.state.user.email}
+                        </Link>{" "}
+                        <ReactTimeAgo
+                          date={date}
+                          tooltipClassName="TooltipCssComment"
+                        />
+                      </Feed.Date>
+                      <div class="errorsColor">
+                        {this.state.messageErrorEmpty}
+                      </div>
                       <TextArea
                         id="message"
                         name="message"
@@ -123,17 +151,37 @@ class Comment extends Component {
                         value={this.state.message}
                         onChange={this.onChange}
                       />
-                    ) : (
-                      <div>{this.state.message}</div>
-                    )}
-                  </Feed.Extra>
-                </Feed.Content>
-              </Feed.Event>
-            </Feed>
-            {this.state.isEditClicked ? (
-              <Button onClick={() => this.EditIsSend()}>Apply </Button>
+                    </Feed.Content>
+                  </Feed.Event>
+                </Feed>
+
+                <Button>Apply </Button>
+              </Form>
             ) : (
-              ""
+              <Feed style={{ marginTop: "1.5em" }}>
+                <Feed.Event>
+                  <Feed.Label>
+                    <img src={this.state.user.image} alt="avatar" />
+                  </Feed.Label>
+                  <Feed.Content>
+                    <Feed.Date>
+                      Added by {this.state.user.firstName}{" "}
+                      {this.state.user.lastName}{" "}
+                      <Link to={"/account-view/" + acc}>
+                        {this.state.user.email}
+                      </Link>{" "}
+                      <ReactTimeAgo
+                        date={date}
+                        tooltipClassName="TooltipCssComment"
+                      />
+                    </Feed.Date>
+
+                    <Feed.Extra style={{ width: "90%" }}>
+                      <div>{this.state.message}</div>
+                    </Feed.Extra>
+                  </Feed.Content>
+                </Feed.Event>
+              </Feed>
             )}
           </Segment>
         </Grid.Column>

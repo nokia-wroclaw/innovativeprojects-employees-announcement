@@ -14,6 +14,13 @@ commentRoutes.route("/").get(function(req, res) {
   });
 });
 
+commentRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  Comment.findById(id, function(err, topic) {
+    res.json(topic);
+  });
+});
+
 commentRoutes.route("/topicId/:id").get(function(req, res) {
   let id = req.params.id;
   Comment.find({ topic_id: id }, function(err, comment) {
