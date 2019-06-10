@@ -111,7 +111,7 @@ class Announcement extends Component {
                   tooltipClassName="TooltipCssAnnouncement"
                 />
               </Feed.Date>
-              <Feed.Summary style={{ fontSize: "20px" }}>
+              <Feed.Summary style={{ fontSize: "2vh" }}>
                 {" "}
                 {this.state.isEditClicked ? (
                   <Input
@@ -120,7 +120,7 @@ class Announcement extends Component {
                     defaultValue={this.props.announcement.title}
                     value={this.state.title}
                     onChange={this.onChange}
-                    style={{ width: "1000px" }}
+                    style={{ width: "100vh" }}
                   />
                 ) : (
                   <div>{this.state.title}</div>

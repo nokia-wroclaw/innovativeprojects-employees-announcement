@@ -35,16 +35,17 @@ class AccountView extends Component {
     return (
       <div>
         <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
-          <img
-            alt="avatar"
-            src={this.state.user.image}
-            style={({ marginTop: "15.5em" }, { maxHeight: "200px" })}
-          />
-
           <GridRow>
-            <Segment style={{ height: "200px", width: "600px" }}>
+            <Segment style={{ height: "300px", width: "800px" }}>
               <Header as="h1">User info</Header>
-              <Grid columns="3">
+              <Grid columns="4">
+                <GridColumn width="6">
+                  <img
+                    alt="avatar"
+                    src={this.state.user.image}
+                    style={{ maxHeight: "200px" }}
+                  />
+                </GridColumn>
                 <GridColumn width="1">
                   <List size="massive">
                     <List.Item icon="user" />
@@ -52,7 +53,7 @@ class AccountView extends Component {
                     <List.Item icon="mail" />
                   </List>
                 </GridColumn>
-                <GridColumn textAlign="left">
+                <GridColumn width="4" textAlign="left">
                   <List size="massive">
                     <List.Item content={"First Name: "} />
                     <List.Item content={"Last Name: "} />
