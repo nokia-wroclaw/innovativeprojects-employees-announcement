@@ -72,8 +72,8 @@ class TopicPage extends Component {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3" />
-          <Grid.Column width="10">
+          <Grid.Column width="1" />
+          <Grid.Column width="7">
             <Header inverted as="h3" dividing>
               Topics
             </Header>
