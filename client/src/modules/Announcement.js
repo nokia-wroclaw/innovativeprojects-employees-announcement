@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 
-import { Button, Segment, Input, TextArea, Feed } from "semantic-ui-react";
+import {
+  Button,
+  Segment,
+  Input,
+  TextArea,
+  Feed,
+  Form
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -23,7 +30,12 @@ class Announcement extends Component {
       isEditClicked: false,
       title: this.props.announcement.title,
       price: this.props.announcement.price,
-      description: this.props.announcement.description
+      description: this.props.announcement.description,
+      errors: {},
+      titleErrorEmpty: "",
+      descriptionErrorEmpty: "",
+      priceErrorEmpty: "",
+      priceErrorIsNumber: ""
     };
   }
 
@@ -38,43 +50,77 @@ class Announcement extends Component {
       });
   }
 
+  validate = () => {
+    let isError = false;
+    const errors = {
+      titleErrorEmpty: "",
+      descriptionErrorEmpty: "",
+      priceErrorEmpty: "",
+      priceErrorIsNumber: ""
+    };
+    if (this.state.title.trim() === "") {
+      isError = true;
+      errors.titleErrorEmpty = "Title cannot be empty";
+    }
+
+    if (this.state.description.trim() === "") {
+      isError = true;
+      errors.descriptionErrorEmpty = "Description cannot be empty";
+    }
+
+    if (this.state.price.toString().trim() === "") {
+      isError = true;
+      errors.priceErrorEmpty = "Price cannot be empty";
+    }
+
+    if (isNaN(this.state.price)) {
+      isError = true;
+      errors.priceErrorIsNumber = "Price needs to be a number";
+    }
+
+    if (isError) {
+      this.setState(errors);
+    }
+
+    return isError;
+  };
+
   EditIsClicked() {
     this.setState({ isEditClicked: !this.state.isEditClicked });
   }
 
-  EditIsSend() {
-    this.setState({ isEditClicked: false });
+  EditIsSend = e => {
+    const err = this.validate();
 
-    let updObj = {
-      description: this.state.description,
-      title: this.state.title,
-      price: this.state.price
-    };
+    if (!err) {
+      this.setState({ isEditClicked: false });
 
-    axios
-      .post(`/api/announcements/update/${this.props.announcement._id}`, updObj)
-      .then(data => {
-        alert("Announcement has been successfully updated ");
-      })
-      .catch(err => {
-        this.backWhenErr();
-        alert(
-          "Error while updating announcement - blank fields or wrong format"
-        );
-      });
-  }
+      let updObj = {
+        description: this.state.description,
+        title: this.state.title,
+        price: this.state.price
+      };
+
+      axios
+        .post(
+          `/api/announcements/update/${this.props.announcement._id}`,
+          updObj
+        )
+        .then(data => {
+          alert("Announcement has been successfully updated ");
+          this.setState({ isEditClicked: false });
+        })
+        .catch(err => {
+          alert(
+            "Error while updating announcement - blank fields or wrong format"
+          );
+        });
+    }
+  };
 
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
-
-  backWhenErr() {
-    this.setState({
-      title: this.props.announcement.title,
-      price: this.props.announcement.price,
-      description: this.props.announcement.description
-    });
-  }
 
   render() {
     const { user } = this.props.auth;
@@ -97,76 +143,112 @@ class Announcement extends Component {
         ) : (
           ""
         )}
-        <Feed style={{ marginTop: "1.5em" }}>
-          <Feed.Event>
-            <Feed.Label>
-              <img src={this.state.user.image} alt="avatar" />
-            </Feed.Label>
-            <Feed.Content>
-              <Feed.Date>
-                Added by {this.state.user.firstName} {this.state.user.lastName}{" "}
-                <Link to={"/account-view/" + acc}>{this.state.user.email}</Link>{" "}
-                <ReactTimeAgo
-                  date={date}
-                  tooltipClassName="TooltipCssAnnouncement"
-                />
-              </Feed.Date>
-              <Feed.Summary style={{ fontSize: "2vh" }}>
-                {" "}
-                {this.state.isEditClicked ? (
-                  <Input
-                    id="title"
-                    name="title"
-                    defaultValue={this.props.announcement.title}
-                    value={this.state.title}
-                    onChange={this.onChange}
-                    style={{ width: "100vh" }}
-                  />
-                ) : (
-                  <div>{this.state.title}</div>
-                )}
-              </Feed.Summary>
-              <Feed.Extra text>
-                <p>
-                  {this.state.isEditClicked ? (
+
+        {this.state.isEditClicked ? (
+          <>
+            <Form size="large" noValidate onSubmit={this.EditIsSend}>
+              <Feed style={{ marginTop: "1.5em" }}>
+                <Feed.Event>
+                  <Feed.Label>
+                    <img src={this.state.user.image} alt="avatar" />
+                  </Feed.Label>
+                  <Feed.Content>
+                    <Feed.Date>
+                      Added by {this.state.user.firstName}{" "}
+                      {this.state.user.lastName}{" "}
+                      <Link to={"/account-view/" + acc}>
+                        {this.state.user.email}
+                      </Link>{" "}
+                      <ReactTimeAgo
+                        date={date}
+                        tooltipClassName="TooltipCssAnnouncement"
+                      />
+                    </Feed.Date>
+                    <div>
+                      <span class="errorsColor">
+                        {this.state.titleErrorEmpty}
+                      </span>
+                    </div>
+                    <Input
+                      id="title"
+                      name="title"
+                      defaultValue={this.props.announcement.title}
+                      value={this.state.title}
+                      onChange={this.onChange}
+                      style={{ width: "100vh" }}
+                    />
+                    <div>
+                      <span class="errorsColor">
+                        {this.state.priceErrorEmpty}
+                      </span>
+                    </div>
+                    <div>
+                      <span class="errorsColor">
+                        {this.state.priceErrorIsNumber}
+                      </span>
+                    </div>
                     <Input
                       id="price"
                       name="price"
                       defaultValue={this.props.announcement.price}
                       value={this.state.price}
                       onChange={this.onChange}
-                      style={{ width: "1000 px" }}
+                      style={{ width: "100vh" }}
                     />
-                  ) : (
+                    <div>
+                      <span class="errorsColor">
+                        {this.state.descriptionErrorEmpty}
+                      </span>
+                    </div>
+                    <TextArea
+                      id="description"
+                      name="description"
+                      style={{ width: "100vh", resize: "none" }}
+                      defaultValue={this.state.description}
+                      value={this.state.description}
+                      onChange={this.onChange}
+                    />
+                  </Feed.Content>
+                </Feed.Event>
+              </Feed>
+              <Button>Apply </Button>
+            </Form>
+          </>
+        ) : (
+          <Feed style={{ marginTop: "1.5em" }}>
+            <Feed.Event>
+              <Feed.Label>
+                <img src={this.state.user.image} alt="avatar" />
+              </Feed.Label>
+              <Feed.Content>
+                <Feed.Date>
+                  Added by {this.state.user.firstName}{" "}
+                  {this.state.user.lastName}{" "}
+                  <Link to={"/account-view/" + acc}>
+                    {this.state.user.email}
+                  </Link>{" "}
+                  <ReactTimeAgo
+                    date={date}
+                    tooltipClassName="TooltipCssAnnouncement"
+                  />
+                </Feed.Date>
+                <Feed.Summary style={{ fontSize: "2vh" }}>
+                  <div>{this.state.title}</div>
+                </Feed.Summary>
+                <Feed.Extra text>
+                  <p>
                     <div>
                       <b>Price: </b> {this.state.price}
                       [zł]
                     </div>
-                  )}
-                </p>
-              </Feed.Extra>
-              <Feed.Extra style={{ width: "90%" }}>
-                {this.state.isEditClicked ? (
-                  <TextArea
-                    rows={3}
-                    id="description"
-                    name="description"
-                    style={{ width: "1000px", resize: "none" }}
-                    defaultValue={this.state.description}
-                    value={this.state.description}
-                    onChange={this.onChange}
-                  />
-                ) : (
+                  </p>
+                </Feed.Extra>
+                <Feed.Extra style={{ width: "90%" }}>
                   <div>{this.state.description}</div>
-                )}
-              </Feed.Extra>
-            </Feed.Content>
-          </Feed.Event>
-        </Feed>
-        {this.state.isEditClicked ? (
-          <Button onClick={() => this.EditIsSend()}>Apply </Button>
-        ) : (
-          ""
+                </Feed.Extra>
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
         )}
       </Segment>
     );
