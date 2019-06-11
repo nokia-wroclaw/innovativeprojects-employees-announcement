@@ -4,3 +4,34 @@ os: windows
 
 services:
   - docker
+
+#depth of commits to build
+git:
+  depth: 3
+ 
+#disable log files 
+git:
+  quiet: true
+  
+  # blocklist
+#branches:
+  #except:
+  #- legacy
+  #- experimental
+  
+  # safelist
+branches:
+  only:
+  - develop
+  # - feature/docker
+  # - gh-pages
+  
+  
+#Note that for historical reasons .travis.yml needs to be present on all active branches of your project.
+
+
+before_install:
+- phpenv global 7.0
+
+
+#Travis CI uses the Ruby libYAML library, which means that your .travis.yml must be valid YAML 1.1.
