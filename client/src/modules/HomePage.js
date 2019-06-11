@@ -27,6 +27,8 @@ class HomePage extends Component {
       announcements: [],
       announcementAddVisible: false
     };
+    this.getAllAnnouncements = this.getAllAnnouncements.bind(this);
+    this.announcementsList = this.announcementsList.bind(this);
   }
 
   getAllAnnouncements = () => {
@@ -56,7 +58,7 @@ class HomePage extends Component {
     this.props.onRef(undefined);
   }
 
-  announcementsList() {
+  announcementsList = e => {
     const { search } = this.state;
     return this.state.announcements
       .map(function(currentAnnouncement, i) {
@@ -74,7 +76,7 @@ class HomePage extends Component {
           return <Announcement announcement={currentAnnouncement} key={i} />;
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
-  }
+  };
 
   onChange = e => {
     this.setState({ search: e.target.value });

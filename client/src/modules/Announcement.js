@@ -6,7 +6,8 @@ import {
   Input,
   TextArea,
   Feed,
-  Form
+  Form,
+  Confirm
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -35,9 +36,13 @@ class Announcement extends Component {
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
       priceErrorEmpty: "",
-      priceErrorIsNumber: ""
+      priceErrorIsNumber: "",
+      open: false
     };
   }
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   componentDidMount() {
     axios
@@ -133,6 +138,19 @@ class Announcement extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  ButtonDelete = e => {
+    this.close();
+
+    axios
+      .post(`/api/announcements/delete/${this.props.announcement._id}`)
+      .then(data => {
+        alert("Announcement has been successfully deleted");
+      })
+      .catch(err => {
+        alert("Error while deleting announcement");
+      });
+  };
+
   render() {
     const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
@@ -147,10 +165,22 @@ class Announcement extends Component {
     return (
       <Segment style={{ width: "100%" }}>
         {user.id === this.state.user._id ? (
-          <Button floated="right" onClick={() => this.EditIsClicked()}>
-            {" "}
-            Edit{" "}
-          </Button>
+          <>
+            <>
+              <Button floated="right" onClick={this.open}>
+                Delete
+              </Button>
+              <Confirm
+                open={this.state.open}
+                onCancel={this.close}
+                onConfirm={this.ButtonDelete}
+              />
+            </>
+            <Button floated="right" onClick={() => this.EditIsClicked()}>
+              {" "}
+              Edit{" "}
+            </Button>
+          </>
         ) : (
           ""
         )}
