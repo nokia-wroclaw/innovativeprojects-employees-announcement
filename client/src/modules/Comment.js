@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
-import { Grid, Segment, Feed, Button, TextArea, Form } from "semantic-ui-react";
+import {
+  Grid,
+  Segment,
+  Feed,
+  Button,
+  TextArea,
+  Form,
+  Confirm
+} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -23,9 +31,13 @@ class Comment extends Component {
       isEditClicked: false,
       message: this.props.comment.message,
       errors: {},
-      messageErrorEmpty: ""
+      messageErrorEmpty: "",
+      open: false
     };
   }
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   componentDidMount() {
     axios
@@ -93,6 +105,20 @@ class Comment extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  ButtonDelete = e => {
+    this.close();
+
+    axios
+      .post(`/api/comments/delete/${this.props.comment._id}`)
+      .then(data => {
+        alert("Comment has been successfully deleted");
+        this.props.getAllComments();
+      })
+      .catch(err => {
+        alert("Error while deleting comment");
+      });
+  };
+
   render() {
     const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
@@ -113,10 +139,22 @@ class Comment extends Component {
         <Grid.Column style={{ maxWidth: 850 }}>
           <Segment style={{ width: "100%" }}>
             {user.id === this.state.user._id ? (
-              <Button floated="right" onClick={() => this.EditIsClicked()}>
-                {" "}
-                Edit{" "}
-              </Button>
+              <>
+                <>
+                  <Button floated="right" onClick={this.open}>
+                    Delete
+                  </Button>
+                  <Confirm
+                    open={this.state.open}
+                    onCancel={this.close}
+                    onConfirm={this.ButtonDelete}
+                  />
+                </>
+                <Button floated="right" onClick={() => this.EditIsClicked()}>
+                  {" "}
+                  Edit{" "}
+                </Button>
+              </>
             ) : (
               ""
             )}

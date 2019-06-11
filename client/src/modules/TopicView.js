@@ -63,8 +63,15 @@ class TopicView extends Component {
   }
 
   commentsList() {
+    let self = this;
     return this.state.comments.map(function(currentComment, i) {
-      return <Comment comment={currentComment} key={i} />;
+      return (
+        <Comment
+          getAllComments={self.getAllComments}
+          comment={currentComment}
+          key={i}
+        />
+      );
     });
   }
   render() {
