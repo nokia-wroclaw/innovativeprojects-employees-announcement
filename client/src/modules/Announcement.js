@@ -145,6 +145,7 @@ class Announcement extends Component {
       .post(`/api/announcements/delete/${this.props.announcement._id}`)
       .then(data => {
         alert("Announcement has been successfully deleted");
+        this.props.getAllAnnouncements();
       })
       .catch(err => {
         alert("Error while deleting announcement");
