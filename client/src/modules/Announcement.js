@@ -186,7 +186,7 @@ class Announcement extends Component {
                       defaultValue={this.props.announcement.title}
                       value={this.state.title}
                       onChange={this.onChange}
-                      style={{ width: "100vh" }}
+                      style={{ width: "50vw" }}
                     />
                     <div>
                       <span class="errorsColor">
@@ -204,7 +204,7 @@ class Announcement extends Component {
                       defaultValue={this.props.announcement.price}
                       value={this.state.price}
                       onChange={this.onChange}
-                      style={{ width: "100vh" }}
+                      style={{ width: "50vw" }}
                     />
                     <div>
                       <span class="errorsColor">
@@ -214,7 +214,7 @@ class Announcement extends Component {
                     <TextArea
                       id="description"
                       name="description"
-                      style={{ width: "100vh", resize: "none" }}
+                      style={{ width: "50vw", resize: "none" }}
                       defaultValue={this.state.description}
                       value={this.state.description}
                       onChange={this.onChange}

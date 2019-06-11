@@ -160,7 +160,7 @@ class Topic extends Component {
                       defaultValue={this.props.topic.title}
                       value={this.state.title}
                       onChange={this.onChange}
-                      style={{ width: "50vh" }}
+                      style={{ width: "30vw" }}
                     />
 
                     <div class="errorsColor">
@@ -169,7 +169,7 @@ class Topic extends Component {
                     <TextArea
                       id="description"
                       name="description"
-                      style={{ width: "50vh", resize: "none" }}
+                      style={{ width: "30vw", resize: "none" }}
                       defaultValue={this.state.description}
                       value={this.state.description}
                       onChange={this.onChange}
