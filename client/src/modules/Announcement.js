@@ -165,7 +165,7 @@ class Announcement extends Component {
 
     return (
       <Segment style={{ width: "100%" }}>
-        {user.id === this.state.user._id ? (
+        {user.id === this.state.user._id || user.isAdmin ? (
           <>
             <>
               <Button floated="right" onClick={this.open}>

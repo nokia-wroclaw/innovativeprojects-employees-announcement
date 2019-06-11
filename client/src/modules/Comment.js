@@ -138,7 +138,7 @@ class Comment extends Component {
       >
         <Grid.Column style={{ maxWidth: 850 }}>
           <Segment style={{ width: "100%" }}>
-            {user.id === this.state.user._id ? (
+            {user.id === this.state.user._id || user.isAdmin ? (
               <>
                 <>
                   <Button floated="right" onClick={this.open}>

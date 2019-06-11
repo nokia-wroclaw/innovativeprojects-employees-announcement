@@ -23,6 +23,11 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
   image: {
     type: String,
     default:
