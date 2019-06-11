@@ -6,7 +6,8 @@ import {
   Button,
   Input,
   TextArea,
-  Form
+  Form,
+  Confirm
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
@@ -32,9 +33,13 @@ class Topic extends Component {
       description: this.props.topic.description,
       errors: {},
       titleErrorEmpty: "",
-      descriptionErrorEmpty: ""
+      descriptionErrorEmpty: "",
+      open: false
     };
   }
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   componentDidMount() {
     axios
@@ -112,6 +117,20 @@ class Topic extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
+  ButtonDelete = e => {
+    this.close();
+
+    axios
+      .post(`/api/topics/delete/${this.props.topic._id}`)
+      .then(data => {
+        alert("Topic has been successfully deleted");
+        this.props.getAllTopics();
+      })
+      .catch(err => {
+        alert("Error while deleting topic");
+      });
+  };
+
   render() {
     const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
@@ -125,10 +144,22 @@ class Topic extends Component {
     return (
       <Segment style={{ width: "100%" }}>
         {user.id === this.state.user._id ? (
-          <Button floated="right" onClick={() => this.EditIsClicked()}>
-            {" "}
-            Edit{" "}
-          </Button>
+          <>
+            <>
+              <Button floated="right" onClick={this.open}>
+                Delete
+              </Button>
+              <Confirm
+                open={this.state.open}
+                onCancel={this.close}
+                onConfirm={this.ButtonDelete}
+              />
+            </>
+            <Button floated="right" onClick={() => this.EditIsClicked()}>
+              {" "}
+              Edit{" "}
+            </Button>
+          </>
         ) : (
           ""
         )}

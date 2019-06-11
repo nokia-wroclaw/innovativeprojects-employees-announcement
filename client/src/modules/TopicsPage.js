@@ -49,6 +49,7 @@ class TopicPage extends Component {
 
   topicsList() {
     const { search } = this.state;
+    let self = this;
     return this.state.topics
       .map(function(currentTopic, i) {
         if (
@@ -59,7 +60,13 @@ class TopicPage extends Component {
             .toLocaleLowerCase()
             .includes(search.toLocaleLowerCase())
         )
-          return <Topic topic={currentTopic} key={i} />;
+          return (
+            <Topic
+              getAllTopics={self.getAllTopics}
+              topic={currentTopic}
+              key={i}
+            />
+          );
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
