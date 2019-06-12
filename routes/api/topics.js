@@ -3,6 +3,7 @@ const topicRoutes = express.Router();
 
 // Load Topic model
 const Topic = require("../../models/Topic");
+const Comment = require("../../models/Comment");
 
 topicRoutes.route("/").get(function(req, res) {
   Topic.find(function(err, topics) {
@@ -63,6 +64,7 @@ topicRoutes.route("/delete/:id").post(function(req, res) {
           res.status(400).send("Delete not possible");
         });
   });
+  Comment.deleteMany({ topic_id: req.params.id }, function(err) {});
 });
 
 module.exports = topicRoutes;
