@@ -77,7 +77,7 @@ class AccountPage extends Component {
               changePassword={changePassword}
             />
             <Segment>
-              <Header as="h4" color="blue" textAlign="center">
+              <Header as="h4" color="black" textAlign="center">
                 Change your avatar
               </Header>
               <div>

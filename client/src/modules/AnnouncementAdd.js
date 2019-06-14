@@ -172,7 +172,7 @@ class AnnouncementAdd extends Component {
                 </Form>
                 <Button
                   style={{ marginTop: "1em" }}
-                  color="blue"
+                  color="vk"
                   fluid
                   size="large"
                 >

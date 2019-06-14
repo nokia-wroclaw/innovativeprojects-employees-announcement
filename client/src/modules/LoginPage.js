@@ -186,7 +186,7 @@ class LoginPage extends Component {
                   }
                 />
 
-                <Button color="blue" fluid size="large">
+                <Button color="vk" fluid size="large">
                   Login
                 </Button>
               </Segment>

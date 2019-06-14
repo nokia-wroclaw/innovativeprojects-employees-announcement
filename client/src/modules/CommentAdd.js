@@ -105,7 +105,7 @@ class CommentAdd extends Component {
 
                 <Button
                   style={{ marginTop: "1em" }}
-                  color="blue"
+                  color="vk"
                   fluid
                   size="large"
                 >
