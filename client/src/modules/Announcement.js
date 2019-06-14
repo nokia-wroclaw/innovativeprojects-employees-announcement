@@ -168,7 +168,7 @@ class Announcement extends Component {
         {user.id === this.state.user._id || user.isAdmin ? (
           <>
             <>
-              <Button floated="right" onClick={this.open}>
+              <Button color="vk" floated="right" onClick={this.open}>
                 Delete
               </Button>
               <Confirm
@@ -177,7 +177,11 @@ class Announcement extends Component {
                 onConfirm={this.ButtonDelete}
               />
             </>
-            <Button floated="right" onClick={() => this.EditIsClicked()}>
+            <Button
+              color="vk"
+              floated="right"
+              onClick={() => this.EditIsClicked()}
+            >
               {" "}
               Edit{" "}
             </Button>

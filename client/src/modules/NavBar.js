@@ -66,8 +66,14 @@ class NavBar extends Component {
             </Dropdown>
             {this.props.showNavFieldsAnn || this.props.showNavFieldsTop ? (
               <Input
-                label="Search"
-                icon="search"
+                action={{
+                  color: "black",
+                  labelPosition: "left",
+                  icon: "search",
+                  content: "Search"
+                }}
+                placeholder="Search..."
+                actionPosition="left"
                 onChange={this.props.onChange}
               />
             ) : (

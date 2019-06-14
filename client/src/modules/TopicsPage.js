@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 
-import { Grid, Button, Header, Input, Icon } from "semantic-ui-react";
+import { Grid, Button, Header, Input, Icon, Segment } from "semantic-ui-react";
 
 import axios from "axios";
 import TopicAdd from "./TopicAdd";
 import Topic from "./Topic";
+
+import TopicViewOnSide from "./TopicViewOnSide";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -18,7 +20,9 @@ class TopicPage extends Component {
     super(props);
     this.state = {
       topics: [],
-      topicAddVisible: false
+      topicAddVisible: false,
+      renderTopicOnSide: false,
+      choosenTopicId: null
     };
   }
 
@@ -55,6 +59,12 @@ class TopicPage extends Component {
     this.props.onRef(undefined);
   }
 
+  topicChoose = id => {
+    this.setState({ choosenTopicId: id });
+
+    this.setState({ renderTopicOnSide: true });
+  };
+
   topicsList() {
     const { search } = this.state;
     let self = this;
@@ -70,6 +80,7 @@ class TopicPage extends Component {
         )
           return (
             <Topic
+              topicChoose={self.topicChoose}
               topicDelete={self.topicDelete}
               topic={currentTopic}
               key={i}
@@ -117,7 +128,11 @@ class TopicPage extends Component {
             )}
             ,{this.topicsList()}{" "}
           </Grid.Column>
-          <Grid.Column width="2" />
+          <Grid.Column width="7">
+            {this.state.renderTopicOnSide ? (
+              <TopicViewOnSide TopicId={this.state.choosenTopicId} />
+            ) : null}
+          </Grid.Column>
         </Grid>
       </div>
     );

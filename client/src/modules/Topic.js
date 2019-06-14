@@ -131,6 +131,10 @@ class Topic extends Component {
       });
   };
 
+  buttonChoose = () => {
+    this.props.topicChoose(this.props.topic._id);
+  };
+
   render() {
     const { user } = this.props.auth;
     var acc = new String(this.state.user.email);
@@ -143,10 +147,16 @@ class Topic extends Component {
     var date = new Date(this.props.topic.date_of_add);
     return (
       <Segment style={{ width: "100%" }}>
+        <Button
+          color="vk"
+          icon="arrow alternate circle right"
+          floated="right"
+          onClick={this.buttonChoose}
+        />
         {user.id === this.state.user._id || user.isAdmin ? (
           <>
             <>
-              <Button floated="right" onClick={this.open}>
+              <Button color="vk" floated="right" onClick={this.open}>
                 Delete
               </Button>
               <Confirm
@@ -155,7 +165,11 @@ class Topic extends Component {
                 onConfirm={this.ButtonDelete}
               />
             </>
-            <Button floated="right" onClick={() => this.EditIsClicked()}>
+            <Button
+              color="vk"
+              floated="right"
+              onClick={() => this.EditIsClicked()}
+            >
               {" "}
               Edit{" "}
             </Button>
