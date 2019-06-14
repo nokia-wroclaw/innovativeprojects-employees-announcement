@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  GridColumn,
-  Button,
-  Header,
-  Input,
-  Icon
-} from "semantic-ui-react";
+import { Grid, GridColumn, Button, Header, Icon } from "semantic-ui-react";
 
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
