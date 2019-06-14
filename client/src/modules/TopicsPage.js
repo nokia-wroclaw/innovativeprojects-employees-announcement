@@ -37,6 +37,14 @@ class TopicPage extends Component {
     this.setState({ topicAddVisible: !this.state.topicAddVisible });
   }
 
+  topicDelete = id => {
+    this.setState({
+      topics: this.state.topics.filter(function(topic) {
+        return topic._id !== id;
+      })
+    });
+  };
+
   componentDidMount() {
     this.getAllTopics(this.topics);
     this.setState({ search: "" });
@@ -62,7 +70,7 @@ class TopicPage extends Component {
         )
           return (
             <Topic
-              getAllTopics={self.getAllTopics}
+              topicDelete={self.topicDelete}
               topic={currentTopic}
               key={i}
             />

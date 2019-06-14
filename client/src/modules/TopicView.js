@@ -28,10 +28,19 @@ class TopicView extends Component {
       .get(`/api/comments/topicID/${this.state.topic._id}`)
       .then(response => {
         this.setState({ comments: response.data });
+        console.log(this.state.comments);
       })
       .catch(function(error) {
         console.log(error);
       });
+  };
+
+  commentDelete = id => {
+    this.setState({
+      comments: this.state.comments.filter(function(comment) {
+        return comment._id !== id;
+      })
+    });
   };
 
   componentDidMount() {
@@ -67,7 +76,7 @@ class TopicView extends Component {
     return this.state.comments.map(function(currentComment, i) {
       return (
         <Comment
-          getAllComments={self.getAllComments}
+          commentDelete={self.commentDelete}
           comment={currentComment}
           key={i}
         />

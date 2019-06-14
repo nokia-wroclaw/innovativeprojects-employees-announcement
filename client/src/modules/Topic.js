@@ -124,7 +124,7 @@ class Topic extends Component {
       .post(`/api/topics/delete/${this.props.topic._id}`)
       .then(data => {
         alert("Topic has been successfully deleted");
-        this.props.getAllTopics();
+        this.props.topicDelete(this.props.topic._id);
       })
       .catch(err => {
         alert("Error while deleting topic");

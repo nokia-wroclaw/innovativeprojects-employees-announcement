@@ -31,6 +31,14 @@ class HomePage extends Component {
     this.announcementsList = this.announcementsList.bind(this);
   }
 
+  announcementDelete = id => {
+    this.setState({
+      announcements: this.state.announcements.filter(function(announcement) {
+        return announcement._id !== id;
+      })
+    });
+  };
+
   getAllAnnouncements = () => {
     axios
       .get("/api/announcements/")
@@ -76,7 +84,7 @@ class HomePage extends Component {
         )
           return (
             <Announcement
-              getAllAnnouncements={self.getAllAnnouncements}
+              announcementDelete={self.announcementDelete}
               announcement={currentAnnouncement}
               key={i}
             />

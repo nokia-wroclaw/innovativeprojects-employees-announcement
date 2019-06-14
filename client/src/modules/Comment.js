@@ -112,7 +112,9 @@ class Comment extends Component {
       .post(`/api/comments/delete/${this.props.comment._id}`)
       .then(data => {
         alert("Comment has been successfully deleted");
-        this.props.getAllComments();
+        this.props.commentDelete(this.props.comment._id);
+
+        //this.props.getAllComments();
       })
       .catch(err => {
         alert("Error while deleting comment");
