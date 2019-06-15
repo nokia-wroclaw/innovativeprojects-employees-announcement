@@ -65,6 +65,32 @@ class TopicViewOnSide extends Component {
       });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.TopicId !== prevProps.TopicId) {
+      axios
+        .get(`/api/topics/${this.props.TopicId}`)
+        .then(response => {
+          this.setState({
+            topic: response.data,
+            someTime: (
+              <ReactTimeAgo
+                date={new Date(response.data.date_of_add)}
+                tooltipClassName="TooltipCssTopicViewOnSide"
+              />
+            )
+          });
+          return axios.get(`/api/users/${response.data.user_id}`);
+        })
+        .then(response => {
+          this.setState({ user: response.data });
+          this.getAllComments(this.comments);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
+
   commentsList() {
     let self = this;
     return this.state.comments.map(function(currentComment, i) {
