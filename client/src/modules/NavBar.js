@@ -81,7 +81,7 @@ class NavBar extends Component {
             )}
           </Menu.Menu>
           <Menu.Menu position="right">
-            <Dropdown text="Mode" pointing className="link item">
+            <Dropdown text="Change Theme" pointing className="link item">
               <Dropdown.Menu>
                 <Dropdown.Item onClick={this.props.ChangeToLightMode}>
                   LightMode
