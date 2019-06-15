@@ -29,9 +29,9 @@ class Announcement extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      title: this.props.announcement.title,
-      price: this.props.announcement.price,
-      description: this.props.announcement.description,
+      title: "",
+      price: "",
+      description: "",
       errors: {},
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
@@ -45,6 +45,11 @@ class Announcement extends Component {
   close = () => this.setState({ open: false });
 
   componentDidMount() {
+    this.setState({
+      title: this.props.announcement.title,
+      price: this.props.announcement.price,
+      description: this.props.announcement.description
+    });
     axios
       .get(`/api/users/${this.props.announcement.user_id}`)
       .then(response => {
@@ -53,6 +58,24 @@ class Announcement extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.setState({
+        title: this.props.announcement.title,
+        price: this.props.announcement.price,
+        description: this.props.announcement.description
+      });
+      axios
+        .get(`/api/users/${this.props.announcement.user_id}`)
+        .then(response => {
+          this.setState({ user: response.data });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   validate = () => {

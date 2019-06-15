@@ -29,7 +29,7 @@ class Comment extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      message: this.props.comment.message,
+      message: "",
       errors: {},
       messageErrorEmpty: "",
       open: false
@@ -40,6 +40,9 @@ class Comment extends Component {
   close = () => this.setState({ open: false });
 
   componentDidMount() {
+    this.setState({
+      message: this.props.comment.message
+    });
     axios
       .get(`/api/users/${this.props.comment.user_id}`)
       .then(response => {
@@ -48,6 +51,22 @@ class Comment extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.setState({
+        message: this.props.comment.message
+      });
+      axios
+        .get(`/api/users/${this.props.comment.user_id}`)
+        .then(response => {
+          this.setState({ user: response.data });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   validate = () => {

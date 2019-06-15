@@ -29,8 +29,8 @@ class Topic extends Component {
     this.state = {
       user: {},
       isEditClicked: false,
-      title: this.props.topic.title,
-      description: this.props.topic.description,
+      title: "",
+      description: "",
       errors: {},
       titleErrorEmpty: "",
       descriptionErrorEmpty: "",
@@ -42,6 +42,10 @@ class Topic extends Component {
   close = () => this.setState({ open: false });
 
   componentDidMount() {
+    this.setState({
+      title: this.props.topic.title,
+      description: this.props.topic.description
+    });
     axios
       .get(`/api/users/${this.props.topic.user_id}`)
       .then(response => {
@@ -50,6 +54,23 @@ class Topic extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      this.setState({
+        title: this.props.topic.title,
+        description: this.props.topic.description
+      });
+      axios
+        .get(`/api/users/${this.props.topic.user_id}`)
+        .then(response => {
+          this.setState({ user: response.data });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   validate = () => {
