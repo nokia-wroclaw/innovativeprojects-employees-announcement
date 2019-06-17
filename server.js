@@ -7,9 +7,14 @@ const db = require("./config/keys").mongoURI;
 const passport = require("passport");
 const users = require("./routes/api/users");
 
+const path = require("path");
+
 const announcementsRoutes = require("./routes/api/announcements");
 const topicsRoutes = require("./routes/api/topics");
 const commentsRoutes = require("./routes/api/comments");
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
 
 // Bodyparser middleware
 app.use(
@@ -22,7 +27,10 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("MongoDB successfully connected :)"))
   .catch(err => console.log(err));
 
@@ -72,4 +80,10 @@ app.get("/authorsFromDb", async (request, response) => {
   } catch (error) {
     response.status(500).send(error);
   }
+});
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
