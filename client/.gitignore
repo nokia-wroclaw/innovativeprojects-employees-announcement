@@ -5,8 +5,8 @@
 /*/*/node_modules
 /.pnp
 .pnp.js
-!/node_modules/semantic-ui
-!/node_modules/semantic-ui-react
+!*/node_modules/semantic-ui
+!*/node_modules/semantic-ui-react
 
 # testing
 /coverage
