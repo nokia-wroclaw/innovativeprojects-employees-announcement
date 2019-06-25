@@ -116,6 +116,12 @@ router.post("/login", (req, res) => {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
+    if (user.isVerified === false) {
+      return res
+        .status(404)
+        .json({ notverified: "Your email is not verified" });
+    }
+
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {

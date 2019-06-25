@@ -126,7 +126,7 @@ class TopicPage extends Component {
             ) : (
               ""
             )}
-            ,{this.topicsList()}{" "}
+            {this.topicsList()}{" "}
           </Grid.Column>
           <Grid.Column width="7">
             {this.state.renderTopicOnSide ? (

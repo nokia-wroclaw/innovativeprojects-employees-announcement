@@ -125,7 +125,7 @@ class HomePage extends Component {
             ) : (
               ""
             )}
-            ,{this.announcementsList()}
+            {this.announcementsList()}
           </GridColumn>
           <GridColumn width="2" />
         </Grid>
