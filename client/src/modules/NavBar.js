@@ -14,30 +14,6 @@ class NavBar extends Component {
     this.props.logoutUser();
   };
 
-  //  ChangeToHomePath() {
-  //    window.location = "/";
-  //  }
-
-  //  ChangeToRegistrationPath() {
-  //    window.location = "/registration";
-  //  }
-
-  //  ChangeToLoginPath() {
-  //    window.location = "/login";
-  //  }
-
-  //  ChangeToTopicsPath() {
-  //    window.location = "/topics";
-  //  }
-
-  //  ChangeToProfilePath = userMail => e => {
-  //    window.location = "/account-view/" + userMail;
-  //  };
-
-  //  ChangeToAccountPath() {
-  //    window.location = "/account";
-  //  }
-
   render() {
     const { user } = this.props.auth;
     var acc = new String(user.email);
@@ -47,9 +23,6 @@ class NavBar extends Component {
       <div>
         <Menu fixed="top" inverted>
           <Menu.Menu>
-            <Menu.Item as={Link} to="/">
-              <Image size="small" src={logo} style={{ marginRight: "1.5em" }} />
-            </Menu.Item>
             <Dropdown
               text="Employees Announcements"
               pointing
