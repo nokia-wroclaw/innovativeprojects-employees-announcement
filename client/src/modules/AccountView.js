@@ -36,7 +36,7 @@ class AccountView extends Component {
       <div>
         <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
           <GridRow>
-            <Segment style={{ height: "40vh", width: "100vh" }}>
+            <Segment style={{ height: "40vh", width: "120vh" }}>
               <Header as="h1">User info</Header>
               <Grid columns="4">
                 <GridColumn width="6">
@@ -53,7 +53,7 @@ class AccountView extends Component {
                     <List.Item icon="mail" />
                   </List>
                 </GridColumn>
-                <GridColumn width="4" textAlign="left">
+                <GridColumn width="3" textAlign="left">
                   <List size="massive">
                     <List.Item content={"First Name: "} />
                     <List.Item content={"Last Name: "} />
