@@ -73,7 +73,6 @@ router.post("/register", (req, res) => {
           if (error) {
             return console.log(error);
           }
-          console.log("Message sent: %s", info.messageId);
         });
       });
 
