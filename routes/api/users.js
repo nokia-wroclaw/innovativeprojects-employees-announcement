@@ -59,7 +59,7 @@ router.post("/register", (req, res) => {
           }
         });
 
-        const url = `http://localhost:3000/emailconfirmation/${token}`;
+        const url = `https://inno-employees-announcements.herokuapp.com/emailconfirmation/${token}`;
 
         let mailOptions = {
           from: `"noreply" <noreply@employeesannouncements.com>`, // sender address
