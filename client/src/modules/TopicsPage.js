@@ -126,6 +126,10 @@ class TopicPage extends Component {
             ) : (
               ""
             )}
+            <span>
+              {" "}
+              <small>.</small>
+            </span>
             {this.topicsList()}{" "}
           </Grid.Column>
           <Grid.Column width="7">

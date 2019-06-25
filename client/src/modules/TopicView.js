@@ -137,6 +137,7 @@ class TopicView extends Component {
             >
               Comments
             </Header>
+
             {this.commentsList()}
             <Grid.Column style={{ marginTop: "5.5em" }}>
               {this.props.auth.isAuthenticated ? (
