@@ -14,6 +14,8 @@ import AccountPage from "./modules/AccountPage";
 import AccountView from "./modules/AccountView";
 import TopicView from "./modules/TopicView";
 
+import ConfirmPage from "./modules/ConfirmPage";
+
 import ScrollToTop from "./modules/ScrollToTop";
 
 import logo1 from "./modules/images/lightMode.jpg";
@@ -133,18 +135,18 @@ class App extends Component {
                   />
 
                   <Route exact path="/topics/:TopicId" component={TopicView} />
-                  <PrivateRoute exact path="/authors" component={Authors} />
-                  <Route
-                    exact
-                    path="/registration"
-                    component={RegistrationPage}
-                  />
 
                   <Route exact path="/authors" component={Authors} />
                   <Route
                     exact
                     path="/registration"
                     component={RegistrationPage}
+                  />
+
+                  <Route
+                    exact
+                    path="/emailconfirmation/:token"
+                    component={ConfirmPage}
                   />
 
                   <Route exact path="/login" component={LoginPage} />

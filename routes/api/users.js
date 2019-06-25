@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const nodemailer = require("nodemailer");
 
+const crypto = require("crypto");
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -46,21 +48,25 @@ router.post("/register", (req, res) => {
     if (user) {
       return res.status(400).json({ email: "Email already exists" });
     } else {
+      const token = crypto.randomBytes(20).toString("hex");
+
       nodemailer.createTestAccount((err, account) => {
         let transporter = nodemailer.createTransport({
           service: "Gmail",
           auth: {
-            user: "bilbobaggins8888888", // generated ethereal user
-            pass: "baggins888" // generated ethereal password
+            user: "empl.announcements", // generated ethereal user
+            pass: "emplpassword" // generated ethereal password
           }
         });
 
+        const url = `http://localhost:3000/emailconfirmation/${token}`;
+
         let mailOptions = {
-          from: '"Random" <bilbobaggins8888888@gmail.com>', // sender address
+          from: `"noreply" <noreply@employeesannouncements.com>`, // sender address
           to: req.body.email, // list of receivers
-          subject: "Hello ✔", // Subject line
-          text: "czesc", // plain text body
-          html: "<b>Hello world?</b>" // html body
+          subject: "Email confirmation", // Subject line
+          text: `You are receiving this because you or someone else registered on this email. Please click on this link <a href="${url}">${url}</a> If that wasn't you just ignore that email.`, // plain text body
+          html: `<b>You are receiving this because you or someone else registered on this email. Please click on this link <a href="${url}">${url}</a> If that wasn't you just ignore that email.</b>` // html body
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -75,7 +81,8 @@ router.post("/register", (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        token: token
       });
 
       // Hash password before saving in database
@@ -174,6 +181,24 @@ router.post("/update/name/:id", (req, res) => {
           res
             .status(400)
             .send("User first and/or last name update not possible");
+        });
+    }
+  });
+});
+
+router.post("/emailconfirmation/:token", (req, res) => {
+  User.findOne({ token: req.params.token }).then(user => {
+    if (!user) res.status(404).send("User not found");
+    else {
+      user.isVerified = true;
+
+      user
+        .save()
+        .then(user => {
+          res.json("User token done");
+        })
+        .catch(err => {
+          res.status(400).send("User token error");
         });
     }
   });

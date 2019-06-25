@@ -36,7 +36,7 @@ class AccountView extends Component {
       <div>
         <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
           <GridRow>
-            <Segment style={{ height: "300px", width: "800px" }}>
+            <Segment style={{ height: "40vh", width: "100vh" }}>
               <Header as="h1">User info</Header>
               <Grid columns="4">
                 <GridColumn width="6">
