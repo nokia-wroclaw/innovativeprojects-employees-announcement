@@ -26,7 +26,8 @@ class ConfirmPage extends Component {
       <Grid textAlign="center" style={{ marginTop: "5.5em" }}>
         <GridRow>
           <Segment style={{ height: "20vh", width: "100vh" }}>
-            <Header as="h1">Your account has been confirmed!</Header>
+            <Header as="h1">Thank you</Header>
+            <div>Your account has been confirmed. Now you can login.</div>
             <Header as="h2">
               <Link to="/login">Login here</Link>
             </Header>
