@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const nodemailer = require("nodemailer");
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -45,6 +46,31 @@ router.post("/register", (req, res) => {
     if (user) {
       return res.status(400).json({ email: "Email already exists" });
     } else {
+      nodemailer.createTestAccount((err, account) => {
+        let transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: "bilbobaggins8888888", // generated ethereal user
+            pass: "baggins888" // generated ethereal password
+          }
+        });
+
+        let mailOptions = {
+          from: '"Random" <bilbobaggins8888888@gmail.com>', // sender address
+          to: req.body.email, // list of receivers
+          subject: "Hello ✔", // Subject line
+          text: "czesc", // plain text body
+          html: "<b>Hello world?</b>" // html body
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log("Message sent: %s", info.messageId);
+        });
+      });
+
       const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
