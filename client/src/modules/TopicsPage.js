@@ -99,7 +99,7 @@ class TopicPage extends Component {
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="1" />
-          <Grid.Column width="7">
+          <Grid.Column width="9">
             <Header inverted as="h3" dividing>
               Topics
             </Header>
@@ -132,7 +132,7 @@ class TopicPage extends Component {
             </span>
             {this.topicsList()}{" "}
           </Grid.Column>
-          <Grid.Column width="7">
+          <Grid.Column>
             {this.state.renderTopicOnSide ? (
               <TopicViewOnSide TopicId={this.state.choosenTopicId} />
             ) : null}
