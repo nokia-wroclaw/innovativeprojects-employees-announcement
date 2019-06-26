@@ -63,6 +63,7 @@ class AddTopicPage extends Component {
     const err = this.validate();
 
     if (!err) {
+      this.props.buttonTopicAdd();
       this.setState({
         title: "",
         description: "",

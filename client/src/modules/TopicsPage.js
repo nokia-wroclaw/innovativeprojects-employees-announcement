@@ -37,9 +37,9 @@ class TopicPage extends Component {
       });
   };
 
-  buttonTopicAdd() {
+  buttonTopicAdd = () => {
     this.setState({ topicAddVisible: !this.state.topicAddVisible });
-  }
+  };
 
   topicDelete = id => {
     this.setState({
@@ -99,7 +99,7 @@ class TopicPage extends Component {
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
           <Grid.Column width="1" />
-          <Grid.Column width="7">
+          <Grid.Column width="9">
             <Header inverted as="h3" dividing>
               Topics
             </Header>
@@ -121,7 +121,10 @@ class TopicPage extends Component {
             )}
             {this.props.auth.isAuthenticated ? (
               this.state.topicAddVisible ? (
-                <TopicAdd getAllTopics={this.getAllTopics} />
+                <TopicAdd
+                  buttonTopicAdd={this.buttonTopicAdd}
+                  getAllTopics={this.getAllTopics}
+                />
               ) : null
             ) : (
               ""
@@ -132,7 +135,7 @@ class TopicPage extends Component {
             </span>
             {this.topicsList()}{" "}
           </Grid.Column>
-          <Grid.Column width="7">
+          <Grid.Column>
             {this.state.renderTopicOnSide ? (
               <TopicViewOnSide TopicId={this.state.choosenTopicId} />
             ) : null}
