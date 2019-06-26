@@ -8,20 +8,13 @@ class Footer extends Component {
       <div>
         <Segment inverted attached>
           <Container textAlign="center">
-            <Image centered size="small" src={logo} />
+            <div>Employees Announcements</div>
+
             <List horizontal inverted divided link size="small">
-              <List.Item as="a" href="#">
-                Placeholder
-              </List.Item>
-              <List.Item as="a" href="#">
-                Placeholder2
-              </List.Item>
-              <List.Item as="a" href="#">
-                Placeholder
-              </List.Item>
-              <List.Item as="a" href="#">
-                Placeholder
-              </List.Item>
+              <List.Item as="a">Dawid Białek</List.Item>
+              <List.Item as="a">Kamil Śliwa</List.Item>
+              <List.Item as="a">Szymon Bal</List.Item>
+              <List.Item as="a">Łukasz Gil</List.Item>
             </List>
           </Container>
         </Segment>

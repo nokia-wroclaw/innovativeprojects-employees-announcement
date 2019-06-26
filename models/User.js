@@ -15,6 +15,14 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  token: {
+    type: String,
+    default: ""
+  },
   password: {
     type: String,
     required: true
@@ -23,6 +31,11 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
   image: {
     type: String,
     default:

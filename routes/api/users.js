@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const nodemailer = require("nodemailer");
+
+const crypto = require("crypto");
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -45,11 +48,40 @@ router.post("/register", (req, res) => {
     if (user) {
       return res.status(400).json({ email: "Email already exists" });
     } else {
+      const token = crypto.randomBytes(20).toString("hex");
+
+      nodemailer.createTestAccount((err, account) => {
+        let transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: "empl.announcements", // generated ethereal user
+            pass: "emplpassword" // generated ethereal password
+          }
+        });
+
+        const url = `https://inno-employees-announcements.herokuapp.com/emailconfirmation/${token}`;
+
+        let mailOptions = {
+          from: `"noreply" <noreply@employeesannouncements.com>`, // sender address
+          to: req.body.email, // list of receivers
+          subject: "Email confirmation", // Subject line
+          text: `You are receiving this because you or someone else registered on this email. Please click on this link <a href="${url}">${url}</a> If that wasn't you just ignore that email.`, // plain text body
+          html: `<b>You are receiving this because you or someone else registered on this email. Please click on this link <a href="${url}">${url}</a> If that wasn't you just ignore that email.</b>` // html body
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+        });
+      });
+
       const newUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        token: token
       });
 
       // Hash password before saving in database
@@ -90,6 +122,12 @@ router.post("/login", (req, res) => {
       return res.status(404).json({ emailnotfound: "Email not found" });
     }
 
+    if (user.isVerified === false) {
+      return res
+        .status(404)
+        .json({ notverified: "Your email is not verified" });
+    }
+
     // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
@@ -99,7 +137,8 @@ router.post("/login", (req, res) => {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
-          email: user.email
+          email: user.email,
+          isAdmin: user.isAdmin
         };
 
         // Sign token
@@ -141,6 +180,24 @@ router.post("/update/name/:id", (req, res) => {
           res
             .status(400)
             .send("User first and/or last name update not possible");
+        });
+    }
+  });
+});
+
+router.post("/emailconfirmation/:token", (req, res) => {
+  User.findOne({ token: req.params.token }).then(user => {
+    if (!user) res.status(404).send("User not found");
+    else {
+      user.isVerified = true;
+
+      user
+        .save()
+        .then(user => {
+          res.json("User token done");
+        })
+        .catch(err => {
+          res.status(400).send("User token error");
         });
     }
   });

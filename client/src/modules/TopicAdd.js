@@ -1,14 +1,7 @@
 import { addTopic } from "../actions/addTopic";
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  Header,
-  Form,
-  Segment,
-  TextArea
-} from "semantic-ui-react";
+import { Grid, Button, Form, Segment, TextArea } from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -55,8 +48,6 @@ class AddTopicPage extends Component {
       errors.descriptionErrorEmpty = "Description cannot be empty";
     }
 
-    
-
     if (isError) {
       this.setState(errors);
     }
@@ -86,14 +77,14 @@ class AddTopicPage extends Component {
         description: this.state.description,
         user_id: user.id
       };
-
-      this.props.addTopic(newTopic, this.props.history);
+      let self = this;
+      this.props.addTopic(newTopic, this.props.history).then(function() {
+        return self.props.getAllTopics();
+      });
     }
-    this.props.getAllTopics();
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Grid
@@ -121,8 +112,6 @@ class AddTopicPage extends Component {
                   onChange={this.onChange}
                 />
 
-              
-
                 <span class="errorsColor">
                   {this.state.descriptionErrorEmpty}
                 </span>
@@ -142,7 +131,7 @@ class AddTopicPage extends Component {
                 </Form>
                 <Button
                   style={{ marginTop: "1em" }}
-                  color="blue"
+                  color="vk"
                   fluid
                   size="large"
                 >

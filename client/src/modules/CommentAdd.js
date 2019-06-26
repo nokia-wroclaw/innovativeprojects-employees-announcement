@@ -1,14 +1,7 @@
 import { addComment } from "../actions/addComment";
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  Header,
-  Form,
-  Segment,
-  TextArea
-} from "semantic-ui-react";
+import { Grid, Button, Form, Segment, TextArea } from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -74,14 +67,14 @@ class CommentAdd extends Component {
         topic_id: this.props.topic_id,
         user_id: user.id
       };
-
-      this.props.addComment(newComment, this.props.history);
+      let self = this;
+      this.props.addComment(newComment, this.props.history).then(function() {
+        return self.props.getAllComments();
+      });
     }
-    this.props.getAllComments();
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Grid
@@ -112,7 +105,7 @@ class CommentAdd extends Component {
 
                 <Button
                   style={{ marginTop: "1em" }}
-                  color="blue"
+                  color="vk"
                   fluid
                   size="large"
                 >

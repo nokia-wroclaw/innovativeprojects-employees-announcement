@@ -133,6 +133,10 @@ class LoginPage extends Component {
                   <span className="errorsColor">{errors.emailnotfound}</span>
                 </div>
 
+                <div>
+                  <span className="errorsColor">{errors.notverified}</span>
+                </div>
+
                 <Form.Input
                   error={
                     this.state.emailErrorEmpty ||
@@ -186,7 +190,7 @@ class LoginPage extends Component {
                   }
                 />
 
-                <Button color="blue" fluid size="large">
+                <Button color="vk" fluid size="large">
                   Login
                 </Button>
               </Segment>

@@ -14,6 +14,8 @@ import AccountPage from "./modules/AccountPage";
 import AccountView from "./modules/AccountView";
 import TopicView from "./modules/TopicView";
 
+import ConfirmPage from "./modules/ConfirmPage";
+
 import ScrollToTop from "./modules/ScrollToTop";
 
 import logo1 from "./modules/images/lightMode.jpg";
@@ -58,6 +60,10 @@ class App extends Component {
     };
   }
 
+  onChange = event => {
+    this.child.onChange(event);
+  };
+
   ChangeToLightMode = e => {
     this.setState({
       bgImage: `url(${logo1})`
@@ -87,14 +93,41 @@ class App extends Component {
                 width: "100%"
               }}
             >
-              <NavBar
-                ChangeToDarkMode={this.ChangeToDarkMode}
-                ChangeToLightMode={this.ChangeToLightMode}
+              <Route
+                render={({ match, location, history }) => {
+                  const showNavFieldsAnn = location.pathname === "/";
+                  const showNavFieldsTop = location.pathname === "/topics";
+                  return (
+                    <NavBar
+                      ChangeToDarkMode={this.ChangeToDarkMode}
+                      ChangeToLightMode={this.ChangeToLightMode}
+                      onChange={this.onChange}
+                      showNavFieldsAnn={showNavFieldsAnn}
+                      showNavFieldsTop={showNavFieldsTop}
+                    />
+                  );
+                }}
               />
+
               <div className="App" style={{ flex: 1 }}>
                 <Switch>
-                  <Route exact path="/" component={HomePage} />
-                  <Route exact path="/topics" component={TopicsPage} />
+                  <Route
+                    exact
+                    path="/"
+                    render={props => (
+                      <HomePage {...props} onRef={ref => (this.child = ref)} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/topics"
+                    render={props => (
+                      <TopicsPage
+                        {...props}
+                        onRef={ref => (this.child = ref)}
+                      />
+                    )}
+                  />
                   <PrivateRoute
                     exact
                     path="/account-view/:UserEmail"
@@ -102,18 +135,18 @@ class App extends Component {
                   />
 
                   <Route exact path="/topics/:TopicId" component={TopicView} />
-                  <PrivateRoute exact path="/authors" component={Authors} />
-                  <Route
-                    exact
-                    path="/registration"
-                    component={RegistrationPage}
-                  />
 
                   <Route exact path="/authors" component={Authors} />
                   <Route
                     exact
                     path="/registration"
                     component={RegistrationPage}
+                  />
+
+                  <Route
+                    exact
+                    path="/emailconfirmation/:token"
+                    component={ConfirmPage}
                   />
 
                   <Route exact path="/login" component={LoginPage} />

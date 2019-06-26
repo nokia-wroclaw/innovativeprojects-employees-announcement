@@ -1,22 +1,10 @@
-import {
-  NameSettings,
-  PasswordSettings,
-  ContactSettings
-} from "./AccountSettings";
+import { NameSettings, PasswordSettings } from "./AccountSettings";
 import React, { Component } from "react";
-import {
-  Grid,
-  Button,
-  Header,
-  Icon,
-  Form,
-  Segment,
-  Message
-} from "semantic-ui-react";
+import { Grid, Header, Icon, Segment, Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeName, changePassword, getUser } from "../actions/authActions";
-import Page404 from "./Page404";
+import { changeName, changePassword } from "../actions/authActions";
+
 import axios from "axios";
 import FileBase from "react-file-base64";
 import DefaultImg from "./images/default-img.jpg";
@@ -89,7 +77,7 @@ class AccountPage extends Component {
               changePassword={changePassword}
             />
             <Segment>
-              <Header as="h4" color="blue" textAlign="center">
+              <Header as="h4" color="black" textAlign="center">
                 Change your avatar
               </Header>
               <div>
@@ -103,7 +91,7 @@ class AccountPage extends Component {
                 <div style={{ marginTop: "1em" }}>
                   <img
                     src={this.state.user.image}
-                    alt="upload-image"
+                    alt="upload"
                     className="process__image"
                     style={({ maxHeight: "20em" }, { maxWidth: "20em" })}
                   />

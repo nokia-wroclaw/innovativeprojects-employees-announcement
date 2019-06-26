@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Grid,
   Button,
   Header,
   Form,
@@ -103,7 +102,7 @@ class NameSettings extends Component {
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
         <Segment className="changename-form" stacked textAlign="center">
-          <Header as="h4" color="blue" textAlign="center">
+          <Header as="h4" color="black" textAlign="center">
             Change your first and last name
           </Header>
 
@@ -165,7 +164,7 @@ class NameSettings extends Component {
               content="You have successfully changed your name"
             />
           </Transition>
-          <Button color="blue" size="medium" style={{ maxWidth: 250 }}>
+          <Button color="vk" size="medium" style={{ maxWidth: 250 }}>
             Apply
           </Button>
         </Segment>
@@ -270,7 +269,7 @@ class PasswordSettings extends Component {
     return (
       <Form size="large" noValidate onSubmit={this.onSubmit}>
         <Segment className="changepassword-form" stacked textAlign="center">
-          <Header as="h4" color="blue" textAlign="center">
+          <Header as="h4" color="black" textAlign="center">
             Change your password
           </Header>
 
@@ -351,7 +350,7 @@ class PasswordSettings extends Component {
               content="You have successfully changed your password"
             />
           </Transition>
-          <Button color="blue" size="medium" style={{ maxWidth: 250 }}>
+          <Button color="vk" size="medium" style={{ maxWidth: 250 }}>
             Apply
           </Button>
         </Segment>

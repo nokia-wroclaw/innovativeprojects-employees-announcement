@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  GridColumn,
-  Button,
-  Header,
-  Input,
-  Menu,
-  Icon
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Grid, GridColumn, Button, Header, Icon } from "semantic-ui-react";
+
 import axios from "axios";
 import AnnouncementAdd from "./AnnouncementAdd";
 import Announcement from "./Announcement";
@@ -28,7 +20,17 @@ class HomePage extends Component {
       announcements: [],
       announcementAddVisible: false
     };
+    this.getAllAnnouncements = this.getAllAnnouncements.bind(this);
+    this.announcementsList = this.announcementsList.bind(this);
   }
+
+  announcementDelete = id => {
+    this.setState({
+      announcements: this.state.announcements.filter(function(announcement) {
+        return announcement._id !== id;
+      })
+    });
+  };
 
   getAllAnnouncements = () => {
     axios
@@ -49,11 +51,17 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
-    this.state.search = "";
+    this.setState({ search: "" });
+    this.props.onRef(this);
   }
 
-  announcementsList() {
+  componentWillUnmount() {
+    this.props.onRef(undefined);
+  }
+
+  announcementsList = e => {
     const { search } = this.state;
+    let self = this;
     return this.state.announcements
       .map(function(currentAnnouncement, i) {
         if (
@@ -62,12 +70,21 @@ class HomePage extends Component {
             .includes(search.toLocaleLowerCase()) ||
           currentAnnouncement.description
             .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase()) ||
+          currentAnnouncement.price
+            .toString()
             .includes(search.toLocaleLowerCase())
         )
-          return <Announcement announcement={currentAnnouncement} key={i} />;
+          return (
+            <Announcement
+              announcementDelete={self.announcementDelete}
+              announcement={currentAnnouncement}
+              key={i}
+            />
+          );
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
-  }
+  };
 
   onChange = e => {
     this.setState({ search: e.target.value });
@@ -77,9 +94,7 @@ class HomePage extends Component {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <GridColumn width="3">
-            <Input label="Search" icon="search" onChange={this.onChange} />
-          </GridColumn>
+          <GridColumn width="3" />
 
           <GridColumn width="10">
             <Header inverted as="h3" dividing>
@@ -110,7 +125,11 @@ class HomePage extends Component {
             ) : (
               ""
             )}
-            ,{this.announcementsList()}
+            <span>
+              {" "}
+              <small>.</small>
+            </span>
+            {this.announcementsList()}
           </GridColumn>
           <GridColumn width="2" />
         </Grid>

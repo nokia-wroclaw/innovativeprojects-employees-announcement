@@ -1,23 +1,12 @@
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  GridRow,
-  Header,
-  Input,
-  Menu,
-  Sticky,
-  Segment,
-  Rail,
-  Icon,
-  GridColumn,
-  Feed
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Grid, Button, Header, Input, Icon, Segment } from "semantic-ui-react";
+
 import axios from "axios";
 import TopicAdd from "./TopicAdd";
 import Topic from "./Topic";
+
+import TopicViewOnSide from "./TopicViewOnSide";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -31,7 +20,9 @@ class TopicPage extends Component {
     super(props);
     this.state = {
       topics: [],
-      topicAddVisible: false
+      topicAddVisible: false,
+      renderTopicOnSide: false,
+      choosenTopicId: null
     };
   }
 
@@ -50,13 +41,33 @@ class TopicPage extends Component {
     this.setState({ topicAddVisible: !this.state.topicAddVisible });
   }
 
+  topicDelete = id => {
+    this.setState({
+      topics: this.state.topics.filter(function(topic) {
+        return topic._id !== id;
+      })
+    });
+  };
+
   componentDidMount() {
     this.getAllTopics(this.topics);
-    this.state.search = "";
+    this.setState({ search: "" });
+    this.props.onRef(this);
   }
+
+  componentWillUnmount() {
+    this.props.onRef(undefined);
+  }
+
+  topicChoose = id => {
+    this.setState({ choosenTopicId: id });
+
+    this.setState({ renderTopicOnSide: true });
+  };
 
   topicsList() {
     const { search } = this.state;
+    let self = this;
     return this.state.topics
       .map(function(currentTopic, i) {
         if (
@@ -67,7 +78,14 @@ class TopicPage extends Component {
             .toLocaleLowerCase()
             .includes(search.toLocaleLowerCase())
         )
-          return <Topic topic={currentTopic} key={i} />;
+          return (
+            <Topic
+              topicChoose={self.topicChoose}
+              topicDelete={self.topicDelete}
+              topic={currentTopic}
+              key={i}
+            />
+          );
       })
       .reverse(); // ale przy odwrotnej kolejnosci jest skok(opoznienie minimalne), nie wazne, naprawione tym ze reverse() ma byc po funkcji map a nie przed
   }
@@ -80,10 +98,8 @@ class TopicPage extends Component {
     return (
       <div style={{ marginTop: "5em" }}>
         <Grid padded="vertically" columns={3}>
-          <Grid.Column width="3">
-            <Input label="Search" icon="search" onChange={this.onChange} />
-          </Grid.Column>
-          <Grid.Column width="10">
+          <Grid.Column width="1" />
+          <Grid.Column width="7">
             <Header inverted as="h3" dividing>
               Topics
             </Header>
@@ -110,9 +126,17 @@ class TopicPage extends Component {
             ) : (
               ""
             )}
-            ,{this.topicsList()}{" "}
+            <span>
+              {" "}
+              <small>.</small>
+            </span>
+            {this.topicsList()}{" "}
           </Grid.Column>
-          <Grid.Column width="2" />
+          <Grid.Column width="7">
+            {this.state.renderTopicOnSide ? (
+              <TopicViewOnSide TopicId={this.state.choosenTopicId} />
+            ) : null}
+          </Grid.Column>
         </Grid>
       </div>
     );

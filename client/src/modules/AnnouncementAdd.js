@@ -1,14 +1,7 @@
 import { addAnnouncement } from "../actions/addAnn";
 import React, { Component } from "react";
 
-import {
-  Grid,
-  Button,
-  Header,
-  Form,
-  Segment,
-  TextArea
-} from "semantic-ui-react";
+import { Grid, Button, Form, Segment, TextArea } from "semantic-ui-react";
 
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -103,14 +96,16 @@ class AnnouncementAdd extends Component {
         price: this.state.price,
         user_id: user.id
       };
-
-      this.props.addAnnouncement(newAnnouncement, this.props.history);
+      let self = this;
+      this.props
+        .addAnnouncement(newAnnouncement, this.props.history)
+        .then(function() {
+          return self.props.getAllAnnouncements();
+        });
     }
-    this.props.getAllAnnouncements();
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Grid
@@ -177,7 +172,7 @@ class AnnouncementAdd extends Component {
                 </Form>
                 <Button
                   style={{ marginTop: "1em" }}
-                  color="blue"
+                  color="vk"
                   fluid
                   size="large"
                 >

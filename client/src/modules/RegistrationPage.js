@@ -336,7 +336,7 @@ class RegistrationPage extends Component {
                   }
                 />
 
-                <Button color="blue" fluid size="large">
+                <Button color="vk" fluid size="large">
                   Register
                 </Button>
               </Segment>

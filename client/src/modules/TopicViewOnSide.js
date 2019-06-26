@@ -8,8 +8,6 @@ import ReactTimeAgo from "react-time-ago/tooltip";
 
 import "react-time-ago/Tooltip.css";
 
-import "./TopicView.css";
-
 import Comment from "./Comment";
 import CommentAdd from "./CommentAdd";
 
@@ -17,7 +15,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
 
-class TopicView extends Component {
+class TopicViewOnSide extends Component {
   constructor(props) {
     super(props);
     this.state = { topic: {}, user: {}, comments: [] };
@@ -44,19 +42,15 @@ class TopicView extends Component {
   };
 
   componentDidMount() {
-    const {
-      match: { params }
-    } = this.props;
-
     axios
-      .get(`/api/topics/${params.TopicId}`)
+      .get(`/api/topics/${this.props.TopicId}`)
       .then(response => {
         this.setState({
           topic: response.data,
           someTime: (
             <ReactTimeAgo
               date={new Date(response.data.date_of_add)}
-              tooltipClassName="TooltipCssTopicView"
+              tooltipClassName="TooltipCssTopicViewOnSide"
             />
           )
         });
@@ -69,6 +63,32 @@ class TopicView extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.TopicId !== prevProps.TopicId) {
+      axios
+        .get(`/api/topics/${this.props.TopicId}`)
+        .then(response => {
+          this.setState({
+            topic: response.data,
+            someTime: (
+              <ReactTimeAgo
+                date={new Date(response.data.date_of_add)}
+                tooltipClassName="TooltipCssTopicViewOnSide"
+              />
+            )
+          });
+          return axios.get(`/api/users/${response.data.user_id}`);
+        })
+        .then(response => {
+          this.setState({ user: response.data });
+          this.getAllComments(this.comments);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   commentsList() {
@@ -97,10 +117,13 @@ class TopicView extends Component {
       <div className="login-form">
         <Grid
           textAlign="center"
-          style={({ height: "100%" }, { marginTop: "5.5em" })}
+          style={({ height: "100%" }, { marginTop: "1.5em" })}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 850 }}>
+            <Header inverted as="h3" dividing>
+              Topic Info
+            </Header>
             <Segment>
               <Feed style={{ marginTop: "1.5em" }}>
                 <Feed.Event>
@@ -137,7 +160,6 @@ class TopicView extends Component {
             >
               Comments
             </Header>
-
             {this.commentsList()}
             <Grid.Column style={{ marginTop: "5.5em" }}>
               {this.props.auth.isAuthenticated ? (
@@ -157,7 +179,7 @@ class TopicView extends Component {
   }
 }
 
-TopicView.propTypes = {
+TopicViewOnSide.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
@@ -168,4 +190,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(TopicView);
+)(TopicViewOnSide);
