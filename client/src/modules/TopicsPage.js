@@ -37,9 +37,9 @@ class TopicPage extends Component {
       });
   };
 
-  buttonTopicAdd() {
+  buttonTopicAdd = () => {
     this.setState({ topicAddVisible: !this.state.topicAddVisible });
-  }
+  };
 
   topicDelete = id => {
     this.setState({
@@ -121,7 +121,10 @@ class TopicPage extends Component {
             )}
             {this.props.auth.isAuthenticated ? (
               this.state.topicAddVisible ? (
-                <TopicAdd getAllTopics={this.getAllTopics} />
+                <TopicAdd
+                  buttonTopicAdd={this.buttonTopicAdd}
+                  getAllTopics={this.getAllTopics}
+                />
               ) : null
             ) : (
               ""

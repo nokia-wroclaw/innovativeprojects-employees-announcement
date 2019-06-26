@@ -78,6 +78,7 @@ class AnnouncementAdd extends Component {
     const err = this.validate();
 
     if (!err) {
+      this.props.buttonAnnouncementAdd();
       this.setState({
         title: "",
         description: "",

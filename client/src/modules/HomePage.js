@@ -43,11 +43,11 @@ class HomePage extends Component {
       });
   };
 
-  buttonAnnouncementAdd() {
+  buttonAnnouncementAdd = () => {
     this.setState({
       announcementAddVisible: !this.state.announcementAddVisible
     });
-  }
+  };
 
   componentDidMount() {
     this.getAllAnnouncements(this.announcements);
@@ -119,6 +119,7 @@ class HomePage extends Component {
             {this.props.auth.isAuthenticated ? (
               this.state.announcementAddVisible ? (
                 <AnnouncementAdd
+                  buttonAnnouncementAdd={this.buttonAnnouncementAdd}
                   getAllAnnouncements={this.getAllAnnouncements}
                 />
               ) : null
