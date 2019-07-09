@@ -1,10 +1,10 @@
-# Employees announcements
+l# Employees announcements
 
 ## Project information
-Employees announcements is a web application for managing internal employee announcements.  Its purpose is to improve the management of buy/sale messages people send and receive.
+
+Employees announcements is a web application for managing internal employee announcements. Its purpose is to improve the management of buy/sale messages people send and receive.
 
 ## Instalation
-
 
 ```bash
 # Clone this repository
@@ -14,7 +14,7 @@ $ git clone https://github.com/nokia-wroclaw/innovativeprojects-employees-announ
 $ cd /innovativeprojects-employees-announcements
 
 # Install dependencies
-$ npm install 
+$ npm install
 
 # Start the backend server
 $ npm start
@@ -23,7 +23,7 @@ $ npm start
 $ cd client
 
 # Install dependencies
-$ npm install 
+$ npm install
 
 # Start the frontend server
 $ npm start
@@ -32,13 +32,13 @@ $ npm start
 
 Also pass your mongoURI in /config/keys.js .
 
-## Deployment 
+## Deployment
 
-This repository has ``docker-compose.yml`` file so if you have docker-compose installed you use it.
+This repository has `docker-compose.yml` file so if you have docker-compose installed you can use it.
 
 ```bash
 
-# Start application 
+# Start application
 $ docker-compose up
 
 # Stop your services
@@ -49,20 +49,16 @@ $ docker-compose down
 
 ## Technologies
 
-* Backend
-  * [Node.js](https://nodejs.org)
-  * [Express.js](https://expressjs.com/)
-* Frontend
-  * [React.js](https://reactjs.org/)
-  * [Semantic UI React](https://react.semantic-ui.com/)
-* Database
-  * [MongoDB](https://www.mongodb.com/)
-
+- Backend
+  - [Node.js](https://nodejs.org)
+  - [Express.js](https://expressjs.com/)
+- Frontend
+  - [React.js](https://reactjs.org/)
+  - [Semantic UI React](https://react.semantic-ui.com/)
+- Database
+  - [MongoDB](https://www.mongodb.com/)
 
 ## Authors
-
-
-
 
 <table align="center" >
 <tr>
@@ -73,7 +69,7 @@ $ docker-compose down
 <sub><b>Dawid Białek</b></sub>
 </a>
 <br/>
-</td> 
+</td>
 <td align="center">
 <a href="https://github.com/baklarzej">
 <img src="https://avatars1.githubusercontent.com/u/28765790?s=460&v=4" width="100px;" alt="Szymon Bal"/>
@@ -95,5 +91,3 @@ $ docker-compose down
 </td>
 </tr>
 </table>
-
-
